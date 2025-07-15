@@ -1,0 +1,115 @@
+@import url(https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap);
+@import "tailwindcss";
+
+:root {
+}
+
+@theme {
+  /* Fonts */
+  --font-title: "Quicksand", sans-serif;
+  --font-paragraph: "Roboto", sans-serif;
+
+  /* Colours */
+  --color-blue-accent: #5a9dbe;
+  --color-green-accent: #03a003;
+  --color-red-accent: #e70e0e;
+
+  /* Shades */
+  --color-dark: #1d1d1d;
+  --color-light: #fafafa;
+  --color-grey: #4d4d4d;
+
+  /* Dark opacities */
+  --color-dark-eight: #1d1d1d14;
+  --color-dark-sixteen: #1d1d1d29;
+  --color-dark-twentyfour: #1d1d1d3d;
+  --color-dark-eighty: #1d1d1dcc;
+
+  /* Border */
+  --radius-1xl: 6px;
+  --radius-2xl: 12px;
+  --radius-3xl: 24px;
+  --radius-4xl: 48px;
+
+  /* --- HABIT CARD COLORS --- */
+  /* Exercise */
+  --color-exercise-primary: #f46d0d;
+  --color-exercise-border: #f46d0d29;
+  --color-exercise-bg: #fcdcc4;
+  --color-exercise-internal-bg: #fff9f5;
+  --color-exercise-progress-bg: #feede2;
+  /* Sleep hygiene */
+  --color-sleep-primary: #3498db;
+  --color-sleep-border: #3498db29;
+  --color-sleep-bg: #cbe5f6;
+  --color-sleep-internal-bg: #f6fbfd;
+  --color-sleep-progress-bg: #e5f2fa;
+  /* Learning */
+  --color-learning-primary: #9b59b6;
+  --color-learning-border: #9b59b629;
+  --color-learning-bg: #e5d4ec;
+  --color-learning-internal-bg: #fbf8fc;
+  --color-learning-progress-bg: #f2eaf6;
+  /* Reading */
+  --color-reading-primary: #8e44ad;
+  --color-reading-border: #8e44ad29;
+  --color-reading-bg: #e6d3ee;
+  --color-reading-internal-bg: #fbf8fc;
+  --color-reading-progress-bg: #f2e9f6;
+  /* Hydration */
+  --color-hydration-primary: #5dade2;
+  --color-hydration-border: #5dade229;
+  --color-hydration-bg: #cbe5f6;
+  --color-hydration-internal-bg: #f6fbfd;
+  --color-hydration-progress-bg: #e5f2fa;
+  /* Bed hygiene */
+  --color-bed-primary: #95a5a6;
+  --color-bed-border: #95a5a629;
+  --color-bed-bg: #dee3e3;
+  --color-bed-internal-bg: #f9fafa;
+  --color-bed-progress-bg: #eef1f1;
+  /* Eat breakfast */
+  --color-breakfast-primary: #f39c12;
+  --color-breakfast-border: #f39c1229;
+  --color-breakfast-bg: #fce7c5;
+  --color-breakfast-internal-bg: #fffbf5;
+  --color-breakfast-progress-bg: #fef3e2;
+  /* Daily journaling */
+  --color-journaling-primary: #7f8c8d;
+  --color-journaling-border: #7f8c8d29;
+  --color-journaling-bg: #dfe2e2;
+  --color-journaling-internal-bg: #fafafa;
+  --color-journaling-progress-bg: #eff0f1;
+  /* Healthy Diet */
+  --color-diet-primary: #2ecc71;
+  --color-diet-border: #2ecc7129;
+  --color-diet-bg: #cdf4dd;
+  --color-diet-internal-bg: #f7fdf9;
+  --color-diet-progress-bg: #e6f9ee;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* --background: #0a0a0a;
+    --foreground: #ededed; */
+  }
+}
+
+body {
+  color: var(--color-dark);
+  font-family: var(--font-title);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+p {
+  font-family: var(--font-paragraph);
+  letter-spacing: 0.08em;
+}
