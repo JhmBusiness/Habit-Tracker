@@ -1,8 +1,10 @@
 export default function Home() {
   return (
-    <div>
-      <h1 className="font-title text-dark">Habit tracker!!!</h1>
-      <p className="font-paragraph">Welcome to the pond</p>
+    <div className="w-screen">
+      <div className="w-[400px] h-[400px] bg-blue-400 mx-auto shadow-main">
+        <h1 className="">Habit tracker!!!</h1>
+        <p className="">Welcome to the pond</p>
+      </div>
     </div>
   );
 }
