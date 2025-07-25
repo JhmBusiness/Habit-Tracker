@@ -1,97 +1,51 @@
-@import url(https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap);
 @import "tailwindcss";
 
-@theme {
+:root {
+  --background: #8eb7de;
+  --foreground: #1d1d1d;
+}
+
+@theme inline {
   /* Fonts */
   --font-title: "Quicksand", sans-serif;
   --font-paragraph: "Roboto", sans-serif;
 
-  /* Colours */
-  --color-blue-accent: #5a9dbe;
-  --color-green-accent: #03a003;
-  --color-red-accent: #e70e0e;
-
   /* Shades */
-  --color-dark: #1d1d1d;
-  --color-light: #fafafa;
   --color-grey: #4d4d4d;
+  --color-light: #fafafa;
+  --color-dark: #4d4d4d;
 
-  /* Dark opacities */
-  --color-dark-eight: #1d1d1d14;
-  --color-dark-sixteen: #1d1d1d29;
-  --color-dark-twentyfour: #1d1d1d3d;
-  --color-dark-eighty: #1d1d1dcc;
+  /* Colours */
+  --color-primary-accent: #5a9dbe;
+  --color-light-blue: #8eb7de;
+  --color-dark-blue: #4184a5;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
-  /* Border */
-  --radius-1xl: 6px;
-  --radius-2xl: 12px;
-  --radius-3xl: 24px;
-  --radius-4xl: 48px;
+  /* Borders */
+  --radius-xs: 6px;
+  --radius-sm: 12px;
+  --radius-md: 24px;
+  --radius-lg: 36px;
+  --radius-xl: 48px;
 
-  /* Drop shadow */
-  --shadow-main: 0px 4px 24px -1px rgba(0, 0, 0, 0.2);
+  /* Box-shadow */
+  --shadow-primary: 0px 4px 24px -1px rgba(0, 0, 0, 0.2);
+}
 
-  /* --- HABIT CARD COLORS --- */
-  /* Exercise */
-  --color-exercise-primary: #f46d0d;
-  --color-exercise-border: #f46d0d29;
-  --color-exercise-bg: #fcdcc4;
-  --color-exercise-internal-bg: #fff9f5;
-  --color-exercise-progress-bg: #feede2;
-  /* Sleep hygiene */
-  --color-sleep-primary: #3498db;
-  --color-sleep-border: #3498db29;
-  --color-sleep-bg: #cbe5f6;
-  --color-sleep-internal-bg: #f6fbfd;
-  --color-sleep-progress-bg: #e5f2fa;
-  /* Learning */
-  --color-learning-primary: #9b59b6;
-  --color-learning-border: #9b59b629;
-  --color-learning-bg: #e5d4ec;
-  --color-learning-internal-bg: #fbf8fc;
-  --color-learning-progress-bg: #f2eaf6;
-  /* Reading */
-  --color-reading-primary: #8e44ad;
-  --color-reading-border: #8e44ad29;
-  --color-reading-bg: #e6d3ee;
-  --color-reading-internal-bg: #fbf8fc;
-  --color-reading-progress-bg: #f2e9f6;
-  /* Hydration */
-  --color-hydration-primary: #5dade2;
-  --color-hydration-border: #5dade229;
-  --color-hydration-bg: #cbe5f6;
-  --color-hydration-internal-bg: #f6fbfd;
-  --color-hydration-progress-bg: #e5f2fa;
-  /* Bed hygiene */
-  --color-bed-primary: #95a5a6;
-  --color-bed-border: #95a5a629;
-  --color-bed-bg: #dee3e3;
-  --color-bed-internal-bg: #f9fafa;
-  --color-bed-progress-bg: #eef1f1;
-  /* Eat breakfast */
-  --color-breakfast-primary: #f39c12;
-  --color-breakfast-border: #f39c1229;
-  --color-breakfast-bg: #fce7c5;
-  --color-breakfast-internal-bg: #fffbf5;
-  --color-breakfast-progress-bg: #fef3e2;
-  /* Daily journaling */
-  --color-journaling-primary: #7f8c8d;
-  --color-journaling-border: #7f8c8d29;
-  --color-journaling-bg: #dfe2e2;
-  --color-journaling-internal-bg: #fafafa;
-  --color-journaling-progress-bg: #eff0f1;
-  /* Healthy Diet */
-  --color-diet-primary: #2ecc71;
-  --color-diet-border: #2ecc7129;
-  --color-diet-bg: #cdf4dd;
-  --color-diet-internal-bg: #f7fdf9;
-  --color-diet-progress-bg: #e6f9ee;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 @layer base {
   body {
-    color: var(--color-dark);
-    font-family: var(--font-title);
+    color: var(--foreground);
+    @apply font-title;
+    letter-spacing: 0.08em;
   }
 
   h1,
@@ -99,19 +53,63 @@
   h3,
   h4,
   h5 {
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    @apply font-bold;
+  }
+
+  h1 {
+    @apply sm:text-[32px] text-2xl;
   }
 
   p {
-    font-family: var(--font-paragraph);
-    letter-spacing: 0.08em;
+    @apply font-paragraph;
+  }
+
+  button {
+    @apply font-[600];
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* --background: #0a0a0a;
-    --foreground: #ededed; */
+/* @apply h1 { */
+/* text-3xl; */
+/* } */
+
+/* Custom animations */
+.animate-gradient-flow {
+  background: linear-gradient(
+    -45deg,
+    rgba(142, 183, 222, 0.4),
+    rgba(90, 157, 190, 0.4),
+    rgba(255, 255, 255, 0.1),
+    rgba(142, 183, 222, 0.4)
+  );
+  background-size: 5000% 5000%;
+  animation: gradientFlow 8s ease infinite;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
+
+/* .animate-float-up-down {
+  animation: floatUpDown 18s ease-in-out infinite;
+}
+
+@keyframes floatUpDown {
+  0% {
+    transform: translateY(0) rotateX(10deg) rotateY(5deg); 
+  }
+  50% {
+    transform: translateY(-20px) rotateX(12deg) rotateY(7deg);
+  }
+  100% {
+    transform: translateY(0) rotateX(10deg) rotateY(5deg); 
+  }
+} */

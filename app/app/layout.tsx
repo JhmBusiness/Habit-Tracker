@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Toaster } from "react-hot-toast";
-import "./_styles/globals.css";
+import "../_styles/globals.css";
+import ContentContainer from "../_components/ui/ContentContainer";
+import PondBg from "../_components/ui/PondBg";
 
 export const metadata: Metadata = {
   title: "The Pond",
@@ -8,17 +9,15 @@ export const metadata: Metadata = {
     "The Pond is an application by James McEvoy to track habits, with the feature of uploading your milestones to its social media feed.",
 };
 
-export default function RootLayout({
+export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased h-dvh bg-linear-to-b from-light-blue to-primary-accent">
-        {children}
-        <Toaster />
-      </body>
-    </html>
+    <div className="">
+      <ContentContainer>{children}</ContentContainer>
+      <PondBg />
+    </div>
   );
 }
