@@ -12,9 +12,12 @@
   --font-paragraph: "Roboto", sans-serif;
 
   /* Shades */
+  --color-dark: #1d1d1d;
+  --color-dark-eighty: #1d1d1dcc;
+  --color-dark-fourty: #1d1d1d66;
   --color-grey: #4d4d4d;
   --color-light: #fafafa;
-  --color-dark: #4d4d4d;
+  --color-bg-light: #fafafaeb;
 
   /* Colours */
   --color-primary-accent: #5a9dbe;
@@ -32,6 +35,9 @@
 
   /* Box-shadow */
   --shadow-primary: 0px 4px 24px -1px rgba(0, 0, 0, 0.2);
+  --shadow-mobile-nav: 0px 0px 24px -1px rgba(0, 0, 0, 0.2);
+  --shadow-mobile-nav-links: 0px 0px 24px -1px rgba(0, 0, 0, 0.08);
+  --drop-shadow-icon: 2px 2px 4px rgba(0, 0, 11, 0.16);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -52,12 +58,21 @@
   h2,
   h3,
   h4,
-  h5 {
+  h5,
+  h6 {
     @apply font-bold;
   }
 
   h1 {
     @apply sm:text-[32px] text-2xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+
+  h6 {
+    @apply text-[8px];
   }
 
   p {
@@ -69,9 +84,15 @@
   }
 }
 
-/* @apply h1 { */
-/* text-3xl; */
-/* } */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
 
 /* Custom animations */
 .animate-gradient-flow {

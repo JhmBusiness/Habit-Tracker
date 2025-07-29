@@ -24,7 +24,7 @@ function DemoLoginBtn() {
         Math.random().toString(36).substring(2, 15);
 
       // 2). Make a POST request to the demo-login route.
-      const response = await fetch("/auth/demo-login", {
+      const response = await fetch("/api/auth/demo-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

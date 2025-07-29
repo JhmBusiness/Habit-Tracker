@@ -1,10 +1,6 @@
-import { ReactNode } from "react";
+import { reactChildren } from "@/app/_lib/interfaces/reactChildren";
 
-interface ModalProviderProps {
-  children: ReactNode;
-}
-
-function LandingPageBg({ children }: ModalProviderProps) {
+function LandingPageBg({ children }: reactChildren) {
   return (
     <div className="p-4 sm:p-0 w-full h-full flex justify-center items-center">
       {children}

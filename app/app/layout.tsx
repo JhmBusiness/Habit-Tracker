@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import "../_styles/globals.css";
-import ContentContainer from "../_components/ui/ContentContainer";
+import AppLayoutContainer from "../_components/layouts/AppLayoutContainer";
 import PondBg from "../_components/ui/PondBg";
+import "../_styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "The Pond",
-  description:
-    "The Pond is an application by James McEvoy to track habits, with the feature of uploading your milestones to its social media feed.",
+  title: "Your Dashboard",
+  description: "Manage your habits, and track your progress.",
 };
 
 export default function AppLayout({
@@ -15,9 +14,11 @@ export default function AppLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="">
-      <ContentContainer>{children}</ContentContainer>
-      <PondBg />
-    </div>
+    <>
+      <AppLayoutContainer>
+        {children}
+        <PondBg />
+      </AppLayoutContainer>
+    </>
   );
 }
