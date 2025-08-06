@@ -1,6 +1,6 @@
-import { reactChildren } from "@/app/_lib/interfaces/reactChildren";
+import { childrenAndStyles } from "@/app/_lib/interfaces/childrenAndStyles";
 
-function LandingPageBg({ children }: reactChildren) {
+function LandingPageBg({ children }: childrenAndStyles) {
   return (
     <div className="p-4 sm:p-0 w-full h-full flex justify-center items-center">
       {children}

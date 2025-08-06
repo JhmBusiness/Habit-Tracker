@@ -1,7 +1,7 @@
 import { AuthProvider } from "@/app/_context/AuthContext";
+import NavContainer from "../navigation/NavContainer";
 import PageContainer from "../ui/PageContainer";
-import NavAndContentContainer from "./NavAndContentContainer";
-import NavContainer from "./NavContainer";
+import AppContainer from "./AppContainer";
 
 export default function AppLayoutContainer({
   children,
@@ -11,10 +11,10 @@ export default function AppLayoutContainer({
   return (
     <>
       <AuthProvider>
-        <NavAndContentContainer>
+        <AppContainer>
           <NavContainer />
           <PageContainer>{children}</PageContainer>
-        </NavAndContentContainer>
+        </AppContainer>
       </AuthProvider>
     </>
   );

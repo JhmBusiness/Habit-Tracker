@@ -1,13 +1,9 @@
 "use client";
 import { useAuth } from "@/app/_context/AuthContext";
-import { useUserAvatar } from "@/app/_lib/hooks/data-service";
-import MobileNav from "../navigation/mobile/MobileNav";
-import TabletNav from "../navigation/tablet/TabletNav";
-import DesktopNav from "../navigation/desktop/DesktopNav";
-
-// interface navContainerProps {
-//   children: ReactNode;
-// }
+import { useUserAvatar } from "@/app/_lib/_utils/queries";
+import MobileNav from "./mobile/MobileNav";
+import TabletNav from "./tablet/TabletNav";
+import DesktopNav from "./desktop/DesktopNav";
 
 function NavContainer() {
   const { user, loading: authLoading, logout } = useAuth();

@@ -1,19 +1,12 @@
+import { authInterface } from "@/app/_lib/interfaces/authInterface";
 import Link from "next/link";
 import MobileNavLinks from "./FixedNavLinks";
-
-interface MobileNavProps {
-  isLoadingAvatar: boolean;
-  avatarSrc: string;
-  authLoading: boolean;
-  isMenuOpen: boolean;
-}
 
 function FixedNavBar({
   isLoadingAvatar,
   authLoading,
   avatarSrc,
-  isMenuOpen,
-}: MobileNavProps) {
+}: authInterface) {
   return (
     <div className="bg-white py-3 px-6 w-full relative z-50">
       <MobileNavLinks>

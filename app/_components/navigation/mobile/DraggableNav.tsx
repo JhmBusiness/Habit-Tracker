@@ -8,17 +8,11 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-import { User } from "@supabase/supabase-js";
+import { authInterface } from "@/app/_lib/interfaces/authInterface";
 import NavAndUtilLinks from "../common/NavAndUtilLinks";
 import UtilityIcons from "../common/UtilityIcons";
 
-interface DraggableNavProps {
-  user: User | null;
-  logout: () => void;
-  isLoadingAvatar: boolean;
-  avatarSrc: string;
-  authLoading: boolean;
-  isMenuOpen: boolean;
+interface DraggableNavProps extends authInterface {
   toggleMenu: () => void;
   openNavAnimation: () => void;
   closeNavAnimation: () => void;

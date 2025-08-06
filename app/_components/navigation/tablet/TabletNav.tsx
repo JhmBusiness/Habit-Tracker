@@ -14,14 +14,7 @@ import {
   FaBell,
   FaUserPlus,
 } from "react-icons/fa6";
-
-interface navAuthProps {
-  user: User | null;
-  logout: () => void;
-  avatarSrc: string;
-  authLoading: boolean;
-  isLoadingAvatar: boolean;
-}
+import { authInterface } from "@/app/_lib/interfaces/authInterface";
 
 const navLinks = [
   {
@@ -57,7 +50,7 @@ function TabletNav({
   isLoadingAvatar,
   user,
   logout,
-}: navAuthProps) {
+}: authInterface) {
   const utilityLinks = [
     {
       name: "Settings",

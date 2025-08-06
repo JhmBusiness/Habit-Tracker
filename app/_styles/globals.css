@@ -6,6 +6,15 @@
   --foreground: #1d1d1d;
 }
 
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 @theme inline {
   /* Fonts */
   --font-title: "Quicksand", sans-serif;
@@ -15,6 +24,8 @@
   --color-dark: #1d1d1d;
   --color-dark-eighty: #1d1d1dcc;
   --color-dark-fourty: #1d1d1d66;
+  --color-dark-sixteen: #1d1d1d29;
+  --color-dark-eight: #1d1d1d14;
   --color-grey: #4d4d4d;
   --color-light: #fafafa;
   --color-bg-light: #fafafaeb;
@@ -22,6 +33,7 @@
   /* Colours */
   --color-primary-accent: #5a9dbe;
   --color-light-blue: #8eb7de;
+  --color-lightest-blue: #cde4fa;
   --color-dark-blue: #4184a5;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -67,8 +79,16 @@
     @apply sm:text-[32px] text-2xl;
   }
 
+  h2 {
+    @apply sm:text-2xl;
+  }
+
   h3 {
     @apply text-xl;
+  }
+
+  h4 {
+    @apply text-base;
   }
 
   h6 {
@@ -76,7 +96,7 @@
   }
 
   p {
-    @apply font-paragraph;
+    @apply font-paragraph leading-normal;
   }
 
   button {

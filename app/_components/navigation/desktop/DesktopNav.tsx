@@ -24,12 +24,12 @@ function DesktopNav({
 
   return (
     <div className="hidden xl:flex flex-col bg-bg-light h-full w-[420px] rounded-xl overflow-y-scroll no-scrollbar">
-      <div className="relative w-full min-h-[216px] overflow-hidden">
+      <div className="relative w-full min-h-[240px] overflow-hidden">
         {/* Top */}
-        <div className="absolute w-full h-full flex items-center justify-center">
+        <div className="absolute w-full h-full flex justify-center">
           <UtilityIcons type="desktop" />
           {/* Rounded user pic and welcome msg */}
-          <div className="absolute flex flex-col gap-3 items-center justify-center z-10">
+          <div className="absolute bottom-4 flex flex-col gap-3 items-center justify-center z-10">
             {isLoadingAvatar || authLoading ? (
               <div className="animate-pulse w-32 h-32">
                 <div className="rounded-full size-full bg-dark-fourty"></div>
@@ -52,7 +52,7 @@ function DesktopNav({
           </div>
           {/* Bg and dark gradient */}
           {isLoadingAvatar || authLoading ? (
-            <div className="w-full h-full absolute animate-pulse">
+            <div className="w-full h-full animate-pulse">
               <div className="size-full bg-dark-fourty"></div>
             </div>
           ) : (
@@ -60,7 +60,7 @@ function DesktopNav({
               src={avatarSrc}
               referrerPolicy="no-referrer"
               alt="Avatar blurred background."
-              className="w-full blur-[4px] absolute scale-110"
+              className="w-full blur-[4px] scale-110"
             />
           )}
           <div className="w-full h-20 bg-gradient-to-t from-black to-transparent absolute bottom-0 opacity-80"></div>

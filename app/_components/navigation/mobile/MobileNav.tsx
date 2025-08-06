@@ -1,18 +1,10 @@
 "use client";
+import { authInterface } from "@/app/_lib/interfaces/authInterface";
 import { useAnimationControls } from "framer-motion";
 import { useState } from "react";
 import DraggableNav from "./DraggableNav";
 import FixedNavBar from "./FixedNavBar";
 import MobileDarkBg from "./MobileDarkBg";
-import { User } from "@supabase/supabase-js";
-
-interface navAuthProps {
-  user: User | null;
-  logout: () => void;
-  avatarSrc: string;
-  authLoading: boolean;
-  isLoadingAvatar: boolean;
-}
 
 function MobileNav({
   avatarSrc,
@@ -20,7 +12,7 @@ function MobileNav({
   isLoadingAvatar,
   user,
   logout,
-}: navAuthProps) {
+}: authInterface) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const animationControls = useAnimationControls();
@@ -46,6 +38,7 @@ function MobileNav({
           avatarSrc={avatarSrc}
           authLoading={authLoading}
           isMenuOpen={isMenuOpen}
+          logout={logout}
         />
       )}
       {/* 02). Nav & Bg */}

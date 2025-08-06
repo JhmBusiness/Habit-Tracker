@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import "./_styles/globals.css";
+import { TanstackQueryProvider } from "./_context/QueryProvider";
 
 export const metadata: Metadata = {
   title: "The Pond",
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased h-dvh bg-linear-to-b from-light-blue to-primary-accent">
-        {children}
+        <TanstackQueryProvider>{children}</TanstackQueryProvider>
         <Toaster />
       </body>
     </html>

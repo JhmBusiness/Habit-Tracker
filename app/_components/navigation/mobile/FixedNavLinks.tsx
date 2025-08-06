@@ -1,4 +1,4 @@
-import { reactChildren } from "@/app/_lib/interfaces/reactChildren";
+import { reactChildren } from "@/app/_lib/interfaces/childrenAndStyles";
 import { FaEarthEurope, FaListCheck, FaUserGroup } from "react-icons/fa6";
 import { LuLayoutDashboard } from "react-icons/lu";
 import NavLink from "../common/NavLink";

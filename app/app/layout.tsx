@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AppLayoutContainer from "../_components/layouts/AppLayoutContainer";
+import AppContainer from "../_components/layouts/AppLayoutContainer";
 import PondBg from "../_components/ui/PondBg";
 import "../_styles/globals.css";
 
@@ -15,10 +15,10 @@ export default function AppLayout({
 }>) {
   return (
     <>
-      <AppLayoutContainer>
+      <AppContainer>
         {children}
         <PondBg />
-      </AppLayoutContainer>
+      </AppContainer>
     </>
   );
 }
