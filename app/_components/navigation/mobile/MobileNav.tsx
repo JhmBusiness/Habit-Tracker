@@ -30,7 +30,7 @@ function MobileNav({
   }
 
   return (
-    <div className="md:hidden fixed bottom-0 flex flex-col justify-self-center w-full max-w-[408px] shadow-mobile-nav rounded-t-md">
+    <div className="md:hidden fixed bottom-0 flex flex-col justify-self-center w-full max-w-[408px] shadow-mobile-nav rounded-t-md z-50">
       {/* 01). Fixed nav bar */}
       {!isMenuOpen && (
         <FixedNavBar

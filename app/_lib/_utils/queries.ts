@@ -1,19 +1,22 @@
 // This file is for Fns which create and manage queries.
+import { useAuth } from "@/app/_context/AuthContext";
+import { User } from "@supabase/supabase-js";
+import { useQuery } from "@tanstack/react-query";
+import { DEFAULT_AVATAR_URL } from "../constants";
 import {
   useDailyHabitCompletionsCountInterface,
   userStats,
   useUserAvatarResult,
   useUserStatsInterface,
 } from "../interfaces/dataServiceInterfaces";
-import { useQuery } from "@tanstack/react-query";
+import { habit, habitIds } from "../interfaces/habit";
 import {
   getAvatarUrl,
   getDailyHabitCompletionsCount,
+  getDailyHabitCompletionsIds,
+  getUserHabits,
   getUserStats,
 } from "./dataService";
-import { DEFAULT_AVATAR_URL } from "../constants";
-import { User } from "@supabase/supabase-js";
-import { useAuth } from "@/app/_context/AuthContext";
 
 // Returns avatar src, loading state, and any errors.
 export function useUserAvatar(
@@ -107,5 +110,52 @@ export function useDailyHabitCompletionsCount(): useDailyHabitCompletionsCountIn
     isLoading: isQueryLoading || authLoading,
     isError,
     error: isError ? (error as Error) : null,
+  };
+}
+
+// Creates a query for both habit_ids created today and also habits a user has.
+export function useUncompletedHabits() {
+  const { user, loading: authLoading } = useAuth();
+  const userId = user?.id || null;
+
+  // Creat query for habits
+  const {
+    data: habitsData,
+    isLoading: isLoadingAllHabits,
+    isError: isHabitError,
+    error: habitError,
+  } = useQuery<habit[], Error>({
+    queryKey: ["habits", userId],
+    queryFn: () => getUserHabits(userId!),
+    enabled: !!userId && !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  // Create query for habit completion ids Today
+  const {
+    data: todayHabitCompletionIds,
+    isLoading: isLoadingTodayCompletions,
+    isError: isTodayCompletionError,
+    error: todayCompletionError,
+  } = useQuery<habitIds[], Error>({
+    queryKey: ["todayHabitCompletionIds", userId],
+    queryFn: () => getDailyHabitCompletionsIds(userId!),
+    enabled: !!userId && !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const isLoading =
+    isLoadingAllHabits || isLoadingTodayCompletions || authLoading;
+  const isError = isHabitError || isTodayCompletionError;
+  const error = habitError || todayCompletionError;
+
+  return {
+    habitsData: habitsData || [],
+    todayHabitCompletionIds: todayHabitCompletionIds || [],
+    isLoading,
+    isError,
+    error,
   };
 }

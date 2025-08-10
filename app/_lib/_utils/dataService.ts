@@ -1,6 +1,7 @@
 "use client";
 // For handling data fetching from the database or external APIs.
 import { createClient } from "@/app/_lib/supabase/client";
+import toast from "react-hot-toast";
 
 // Fetch avatar URL from supabase.
 export async function getAvatarUrl(userId: string): Promise<string | null> {
@@ -87,7 +88,7 @@ export async function getUserPosts(userId: string) {
 }
 
 // Fetch all habit id's for the habit completions created today.
-export async function getDailyHabitCompletions(userId: string) {
+export async function getDailyHabitCompletionsIds(userId: string) {
   const supabase = createClient();
 
   const today = new Date();
@@ -146,6 +147,27 @@ export async function getDailyHabitCompletionsCount(
   }
 
   return count || 0;
+}
+
+// Mark habit as completed
+export async function markHabitAsComplete(
+  userId: string | undefined,
+  habitId: string
+): Promise<void> {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("habit_completions").insert([
+    {
+      user_id: userId,
+      habit_id: habitId,
+    },
+  ]);
+
+  if (error) {
+    console.log("Error marking habit as complete:", error?.message);
+    throw new Error(`Failed to mark habit as complete: ${error?.message}`);
+  }
+
+  toast.success("Habit completed!");
 }
 
 // Fetch user comments

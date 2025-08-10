@@ -38,6 +38,62 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
+  /* ----- Habit Colours ----- */
+  /* Fitness */
+  --color-fitness-accent: #f46d0d;
+  --color-fitness-bg: #fcdcc4;
+  --color-fitness-light: #fff9f5;
+  --color-fitness-bar-bg: #feede2;
+
+  /* Sleep hygiene */
+  --color-sleepSchedule-accent: #3498db;
+  --color-sleepSchedule-bg: #cbe5f6;
+  --color-sleepSchedule-light: #f5fbff;
+  --color-sleepSchedule-bar-bg: #e5f2fa;
+
+  /* Learning */
+  --color-learning-accent: #9b59b6;
+  --color-learning-bg: #e5d4ec;
+  --color-learning-light: #fbf8fc;
+  --color-learning-bar-bg: #f2eaf6;
+
+  /* Reading */
+  --color-reading-accent: #8e44ad;
+  --color-reading-bg: #e6d3ee;
+  --color-reading-light: #fbf8fc;
+  --color-reading-bar-bg: #f2e9f6;
+
+  /* Hydration */
+  --color-hydration-accent: #5dade2;
+  --color-hydration-bg: #cbe5f6;
+  --color-hydration-light: #f6fbfd;
+  --color-hydration-bar-bg: #e5f2fa;
+
+  /* bedHygiene */
+  --color-bedHygiene-accent: #95a5a6;
+  --color-bedHygiene-bg: #dee3e3;
+  --color-bedHygiene-light: #f9fafa;
+  --color-bedHygiene-bar-bg: #eef1f1;
+
+  /* breakfast */
+  --color-breakfast-accent: #f39c12;
+  --color-breakfast-bg: #fce7c5;
+  --color-breakfast-light: #fffbf5;
+  --color-breakfast-bar-bg: #fef3e2;
+
+  /* writing */
+  --color-writing-accent: #7f8c8d;
+  --color-writing-bg: #dfe2e2;
+  --color-writing-light: #fafafa;
+  --color-writing-bar-bg: #eff0f1;
+
+  /* diet */
+  --color-diet-accent: #2ecc71;
+  --color-diet-bg: #cdf4dd;
+  --color-diet-light: #f7fdf9;
+  --color-diet-bar-bg: #e6f9ee;
+  /* ----- Habit Colours End ----- */
+
   /* Borders */
   --radius-xs: 6px;
   --radius-sm: 12px;

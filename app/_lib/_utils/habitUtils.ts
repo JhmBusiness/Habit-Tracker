@@ -1,3 +1,4 @@
+"use client";
 import { habit } from "../interfaces/habit";
 
 export function getUncompletedHabits(

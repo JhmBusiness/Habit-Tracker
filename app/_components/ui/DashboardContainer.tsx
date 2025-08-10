@@ -1,15 +1,14 @@
 "use client";
+import { useUserStats } from "@/app/_lib/_utils/queries";
 import { FaCirclePlus, FaEye, FaPencil, FaUserPlus } from "react-icons/fa6";
 import Button from "../common/Button";
 import ButtonContainer from "../dashboard/ButtonContainer";
-import HeroCards from "../dashboard/HeroCards";
-import { useUserStats } from "@/app/_lib/_utils/queries";
 import HabitCheckList from "../dashboard/HabitCheckList";
+import HeroCards from "../dashboard/HeroCards";
 
 function DashboardContainer() {
   const { userStats, isLoading } = useUserStats();
   const hasHabits = userStats?.active_habit_count;
-
   const renderNoHabits = !hasHabits && !isLoading;
 
   return (

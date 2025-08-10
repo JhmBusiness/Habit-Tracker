@@ -8,3 +8,7 @@ export interface habit {
   highest_streak: number;
   created_at: string;
 }
+
+export interface habitIds {
+  habit_id: string;
+}
