@@ -12,3 +12,9 @@ export interface habit {
 export interface habitIds {
   habit_id: string;
 }
+
+export interface HabitMilestoneInfo {
+  habit: habit;
+  nextMilestoneStreak: number;
+  daysUntilNextMilestone: number;
+}

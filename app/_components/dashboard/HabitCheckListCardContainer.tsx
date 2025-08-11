@@ -1,5 +1,5 @@
 import { childrenAndStyles } from "@/app/_lib/interfaces/childrenAndStyles";
-import { habit } from "@/app/_lib/interfaces/habit";
+import { habit } from "@/app/_lib/interfaces/habits";
 import { GiPartyPopper } from "react-icons/gi";
 
 interface checkListCardContainer extends childrenAndStyles {

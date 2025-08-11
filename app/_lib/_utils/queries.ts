@@ -9,7 +9,7 @@ import {
   useUserAvatarResult,
   useUserStatsInterface,
 } from "../interfaces/dataServiceInterfaces";
-import { habit, habitIds } from "../interfaces/habit";
+import { habit, habitIds } from "../interfaces/habits";
 import {
   getAvatarUrl,
   getDailyHabitCompletionsCount,
@@ -158,4 +158,28 @@ export function useUncompletedHabits() {
     isError,
     error,
   };
+}
+
+// Creates a query for only the habits that a user has.
+export function useUserHabits() {
+  const { user, loading: authLoading } = useAuth();
+  const userId = user?.id || null;
+
+  // Creat query for habits
+  const {
+    data: habitsData,
+    isLoading: isLoadingAllHabits,
+    isError: isHabitError,
+    error: habitError,
+  } = useQuery<habit[], Error>({
+    queryKey: ["habits", userId],
+    queryFn: () => getUserHabits(userId!),
+    enabled: !!userId && !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const loading = authLoading || isLoadingAllHabits;
+
+  return { habitsData, loading, isHabitError, habitError };
 }

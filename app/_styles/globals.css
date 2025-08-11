@@ -44,54 +44,63 @@
   --color-fitness-bg: #fcdcc4;
   --color-fitness-light: #fff9f5;
   --color-fitness-bar-bg: #feede2;
+  --color-fitness-bar-grad-light: #f79b59;
 
-  /* Sleep hygiene */
+  /* Sleep schedule */
   --color-sleepSchedule-accent: #3498db;
   --color-sleepSchedule-bg: #cbe5f6;
   --color-sleepSchedule-light: #f5fbff;
   --color-sleepSchedule-bar-bg: #e5f2fa;
+  --color-sleepSchedule-bar-grad-light: #79bbe7;
 
   /* Learning */
   --color-learning-accent: #9b59b6;
   --color-learning-bg: #e5d4ec;
   --color-learning-light: #fbf8fc;
   --color-learning-bar-bg: #f2eaf6;
+  --color-learning-bar-grad-light: #bd91cf;
 
   /* Reading */
   --color-reading-accent: #8e44ad;
   --color-reading-bg: #e6d3ee;
   --color-reading-light: #fbf8fc;
   --color-reading-bar-bg: #f2e9f6;
+  --color-reading-bar-grad-light: #be8ed2;
 
   /* Hydration */
   --color-hydration-accent: #5dade2;
   --color-hydration-bg: #cbe5f6;
   --color-hydration-light: #f6fbfd;
   --color-hydration-bar-bg: #e5f2fa;
+  --color-hydration-bar-grad-light: #a4d1ef;
 
   /* bedHygiene */
   --color-bedHygiene-accent: #95a5a6;
   --color-bedHygiene-bg: #dee3e3;
   --color-bedHygiene-light: #f9fafa;
   --color-bedHygiene-bar-bg: #eef1f1;
+  --color-bedHygiene-bar-grad-light: #c2cbcc;
 
   /* breakfast */
   --color-breakfast-accent: #f39c12;
   --color-breakfast-bg: #fce7c5;
   --color-breakfast-light: #fffbf5;
   --color-breakfast-bar-bg: #fef3e2;
+  --color-breakfast-bar-grad-light: #f7bc5f;
 
   /* writing */
   --color-writing-accent: #7f8c8d;
   --color-writing-bg: #dfe2e2;
   --color-writing-light: #fafafa;
   --color-writing-bar-bg: #eff0f1;
+  --color-writing-bar-grad-light: #abb4b5;
 
   /* diet */
   --color-diet-accent: #2ecc71;
   --color-diet-bg: #cdf4dd;
   --color-diet-light: #f7fdf9;
   --color-diet-bar-bg: #e6f9ee;
+  --color-diet-bar-grad-light: #6dde9d;
   /* ----- Habit Colours End ----- */
 
   /* Borders */
@@ -106,6 +115,17 @@
   --shadow-mobile-nav: 0px 0px 24px -1px rgba(0, 0, 0, 0.2);
   --shadow-mobile-nav-links: 0px 0px 24px -1px rgba(0, 0, 0, 0.08);
   --drop-shadow-icon: 2px 2px 4px rgba(0, 0, 11, 0.16);
+
+  /* Milestone bar box-shadows */
+  --drop-shadow-fitness-bar: 0px 0px 4px rgba(244, 110, 13, 1);
+  --drop-shadow-sleepSchedule-bar: 0px 0px 4px rgba(52, 152, 219, 1);
+  --drop-shadow-learning-bar: 0px 0px 4px rgba(155, 89, 182, 1);
+  --drop-shadow-reading-bar: 0px 0px 4px rgba(142, 68, 173, 1);
+  --drop-shadow-hydration-bar: 0px 0px 4px rgba(93, 173, 226, 1);
+  --drop-shadow-bedHygiene-bar: 0px 0px 4px rgba(149, 165, 166, 1);
+  --drop-shadow-breakfast-bar: 0px 0px 4px rgba(243, 156, 18, 1);
+  --drop-shadow-writing-bar: 0px 0px 4px rgba(127, 140, 141, 1);
+  --drop-shadow-diet-bar: 0px 0px 4px rgba(46, 204, 113, 1);
 }
 
 @media (prefers-color-scheme: dark) {

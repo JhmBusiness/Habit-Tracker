@@ -5,6 +5,7 @@ import Button from "../common/Button";
 import ButtonContainer from "../dashboard/ButtonContainer";
 import HabitCheckList from "../dashboard/HabitCheckList";
 import HeroCards from "../dashboard/HeroCards";
+import MilestoneCard from "../dashboard/MilestoneCard";
 
 function DashboardContainer() {
   const { userStats, isLoading } = useUserStats();
@@ -36,6 +37,7 @@ function DashboardContainer() {
         <>
           <HeroCards />
           <HabitCheckList />
+          <MilestoneCard />
         </>
       )}
       {renderNoHabits && (
