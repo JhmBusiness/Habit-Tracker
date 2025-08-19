@@ -1,19 +1,24 @@
 "use client";
-import { useUserStats } from "@/app/_lib/_utils/queries";
+import { useUserMostRecentPost, useUserStats } from "@/app/_lib/_utils/queries";
 import { FaCirclePlus, FaEye, FaPencil, FaUserPlus } from "react-icons/fa6";
 import Button from "../common/Button";
 import ButtonContainer from "../dashboard/ButtonContainer";
+import CurrentVsHighest from "../dashboard/CurrentVsHighest";
 import HabitCheckList from "../dashboard/HabitCheckList";
 import HeroCards from "../dashboard/HeroCards";
 import MilestoneCard from "../dashboard/MilestoneCard";
+import MostRecentPost from "../dashboard/MostRecentPost";
+import NoHabitsAndNoPosts from "../common/NoHabitsAndNoPosts";
 
 function DashboardContainer() {
   const { userStats, isLoading } = useUserStats();
+  const { usersPost, loading: loadingPost } = useUserMostRecentPost();
   const hasHabits = userStats?.active_habit_count;
   const renderNoHabits = !hasHabits && !isLoading;
+  const renderNoPosts = !usersPost && !loadingPost;
 
   return (
-    <div className="p-6 flex flex-col gap-4 h-[2000px]">
+    <div className="p-6 flex flex-col gap-4 bg-light rounded-t-lg md:rounded-t-xl">
       <h2 className="text-center pb-2">Welcome to your dashboard!</h2>
       <ButtonContainer>
         <Button type="dashboard">
@@ -38,13 +43,16 @@ function DashboardContainer() {
           <HeroCards />
           <HabitCheckList />
           <MilestoneCard />
+          <div className="hidden sm:block w-full">
+            <CurrentVsHighest />
+          </div>
         </>
       )}
-      {renderNoHabits && (
-        <div>
-          <h2>No habits found</h2>
-        </div>
+      {usersPost && (
+        <MostRecentPost usersPost={usersPost} loadingPost={loadingPost} />
       )}
+      {renderNoHabits && <NoHabitsAndNoPosts category="habits" />}
+      {renderNoPosts && <NoHabitsAndNoPosts category="posts" />}
     </div>
   );
 }

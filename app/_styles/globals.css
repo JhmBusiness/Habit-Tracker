@@ -35,6 +35,8 @@
   --color-light-blue: #8eb7de;
   --color-lightest-blue: #cde4fa;
   --color-dark-blue: #4184a5;
+  --color-like-red: #e70e0e;
+  --color-add-green: #03a003;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 

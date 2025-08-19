@@ -32,7 +32,7 @@ function HabitCheckList() {
             {uncompletedHabits.map((el) => (
               <HabitCheckListCard
                 key={el.category}
-                type={el.category}
+                category={el.category}
                 streak={el.current_streak}
                 habitId={el.id}
               />
@@ -40,7 +40,11 @@ function HabitCheckList() {
           </HabitCheckListCardContainer>
 
           {/* Time */}
-          {uncompletedHabits.length > 0 && <CountDown />}
+          {uncompletedHabits.length > 0 && (
+            <div className="py-6 w-full">
+              <CountDown />
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex justify-center items-center w-full py-20">

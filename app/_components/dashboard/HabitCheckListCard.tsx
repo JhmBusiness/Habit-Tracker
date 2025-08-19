@@ -1,16 +1,11 @@
 "use client";
 import { useAuth } from "@/app/_context/AuthContext";
 import { markHabitAsComplete } from "@/app/_lib/_utils/dataService";
+import { habitListInterface } from "@/app/_lib/interfaces/habits";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 
-interface habitListInterface {
-  type: string;
-  streak: number;
-  habitId: string;
-}
-
-function HabitCheckListCard({ type, streak, habitId }: habitListInterface) {
+function HabitCheckListCard({ category, streak, habitId }: habitListInterface) {
   const { user, loading: authLoading } = useAuth();
   const queryClient = useQueryClient();
   const [submitting, isSubmitting] = useState(false);
@@ -581,20 +576,20 @@ function HabitCheckListCard({ type, streak, habitId }: habitListInterface) {
 
   return (
     <div
-      className={`${cardBgColour[type]} rounded-sm grid grid-cols-[auto_1fr] w-fit gap-2 p-3`}
+      className={`${cardBgColour[category]} rounded-sm grid grid-cols-[auto_1fr] w-fit gap-2 p-3`}
     >
       <div
-        className={`${cardLightBgColour[type]} h-full w-fit p-3 flex items-center rounded-xs justify-center`}
+        className={`${cardLightBgColour[category]} h-full w-fit p-3 flex items-center rounded-xs justify-center`}
       >
         <div className="w-10 h-10 flex items-center relative justify-center">
-          {svgIcon[type]}
+          {svgIcon[category]}
         </div>
       </div>
       <div className="flex flex-col gap-2 h-fit">
         <div
-          className={`${cardLightBgColour[type]} rounded-xs flex gap-2 items-center justify-center py-2 px-3`}
+          className={`${cardLightBgColour[category]} rounded-xs flex gap-2 items-center justify-center py-2 px-3`}
         >
-          {svgFlameIcon[type]}
+          {svgFlameIcon[category]}
           {streak !== 1 ? (
             <div className="flex gap-[2px] items-center text-xs">
               <span className="font-title font-semibold">{streak}</span>
@@ -610,7 +605,7 @@ function HabitCheckListCard({ type, streak, habitId }: habitListInterface) {
         <button
           onClick={handleCompleteHabit}
           disabled={submitting}
-          className={`${cardAccentColour[type]} min-h-[44px] w-[90px] rounded-xs text-light hover:cursor-pointer hover:brightness-105 active:scale-95 duration-200`}
+          className={`${cardAccentColour[category]}  py-3 px-5 rounded-xs text-light hover:cursor-pointer hover:brightness-105 active:scale-95 duration-200`}
         >
           Finish
         </button>

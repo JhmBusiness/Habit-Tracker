@@ -2,6 +2,7 @@
 // For handling data fetching from the database or external APIs.
 import { createClient } from "@/app/_lib/supabase/client";
 import toast from "react-hot-toast";
+import { HabitCompletionRecord } from "../interfaces/habits";
 
 // Fetch avatar URL from supabase.
 export async function getAvatarUrl(userId: string): Promise<string | null> {
@@ -55,7 +56,7 @@ export async function getUserStats(userId: string) {
   return data;
 }
 
-// Fetch user habits
+// Fetch all user habits
 export async function getUserHabits(userId: string) {
   const supabase = createClient();
 
@@ -72,19 +73,28 @@ export async function getUserHabits(userId: string) {
 }
 
 // Fetch user posts
-export async function getUserPosts(userId: string) {
+export async function getMostRecentPost(userId: string) {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("posts")
     .select("*")
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
 
   if (error) {
+    if (error.code === "PGRST116") {
+      console.log(`No recent posts found for user ID: ${userId}`);
+      return null;
+    }
+
     console.error("Error fetching user posts:", error.message);
     throw new Error(`Failed to fetch user posts: ${error.message}`);
   }
-  return data;
+
+  return data || null;
 }
 
 // Fetch all habit id's for the habit completions created today.
@@ -147,6 +157,45 @@ export async function getDailyHabitCompletionsCount(
   }
 
   return count || 0;
+}
+
+// Fetch all milestone habit completions today
+export async function getDailyMilestoneCompletions(
+  userId: string
+): Promise<HabitCompletionRecord[]> {
+  const supabase = createClient();
+
+  const now = new Date();
+  const todayUtcStart = new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+      0,
+      0,
+      0,
+      0
+    )
+  );
+  const tomorrowUtcStart = new Date(todayUtcStart);
+  tomorrowUtcStart.setUTCDate(todayUtcStart.getUTCDate() + 1);
+
+  const { data, error } = await supabase
+    .from("habit_completions")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("is_milestone", true)
+    .gte("completed_at_timestamp", todayUtcStart.toISOString())
+    .lt("completed_at_timestamp", tomorrowUtcStart.toISOString());
+
+  if (error) {
+    console.error("Error fetching daily milestone completions:", error.message);
+    throw new Error(
+      `Failed to fetch daily milestone completions: ${error.message}`
+    );
+  }
+
+  return data || [];
 }
 
 // Mark habit as completed

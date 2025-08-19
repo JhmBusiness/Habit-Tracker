@@ -46,7 +46,7 @@ function CountDown() {
   const formattedSec = formatTime(timeLeft.seconds);
 
   return (
-    <div className="w-full text-center py-6">
+    <div className="w-full text-center">
       <h4 className="pb-1">
         {formattedHour + ":" + formattedMin + ":" + formattedSec}
       </h4>

@@ -9,11 +9,14 @@ import {
   useUserAvatarResult,
   useUserStatsInterface,
 } from "../interfaces/dataServiceInterfaces";
-import { habit, habitIds } from "../interfaces/habits";
+import { habit, HabitCompletionRecord, habitIds } from "../interfaces/habits";
+import { post } from "../interfaces/posts";
 import {
   getAvatarUrl,
   getDailyHabitCompletionsCount,
   getDailyHabitCompletionsIds,
+  getDailyMilestoneCompletions,
+  getMostRecentPost,
   getUserHabits,
   getUserStats,
 } from "./dataService";
@@ -182,4 +185,77 @@ export function useUserHabits() {
   const loading = authLoading || isLoadingAllHabits;
 
   return { habitsData, loading, isHabitError, habitError };
+}
+
+export function useDailyHabitCompletionIds() {
+  const { user, loading: authLoading } = useAuth();
+  const userId = user?.id || null;
+
+  const {
+    data: todayHabitCompletionIds,
+    isLoading: isLoadingTodayCompletions,
+    isError: isTodayCompletionError,
+    error: todayCompletionError,
+  } = useQuery<habitIds[], Error>({
+    queryKey: ["todayHabitCompletionIds", userId],
+    queryFn: () => getDailyHabitCompletionsIds(userId!),
+    enabled: !!userId && !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const isLoading = isLoadingTodayCompletions || authLoading;
+
+  return {
+    todayHabitCompletionIds,
+    isLoading,
+    isTodayCompletionError,
+    todayCompletionError,
+  };
+}
+
+// Creates query for user posts.
+export function useUserMostRecentPost() {
+  const { user, loading: authLoading } = useAuth();
+  const userId = user?.id || null;
+
+  const {
+    data: usersPost,
+    isLoading: isLoadingAllPosts,
+    isError: isPostsError,
+    error: postsError,
+  } = useQuery<post, Error>({
+    queryKey: ["posts", userId],
+    queryFn: () => getMostRecentPost(userId!),
+    enabled: !!userId && !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const loading = authLoading || isLoadingAllPosts;
+
+  return { usersPost, loading, isPostsError, postsError };
+}
+
+// Creates query for todays habit completions milestones
+export function useUserHabitCompletionMilestonesToday() {
+  const { user, loading: authLoading } = useAuth();
+  const userId = user?.id || null;
+
+  const {
+    data: milestoneCompletionsToday,
+    isLoading: isQueryLoading,
+    isError,
+    error,
+  } = useQuery<HabitCompletionRecord[], Error>({
+    queryKey: ["todaysHabitMilestoneCompletions", userId],
+    queryFn: () => getDailyMilestoneCompletions(userId!),
+    enabled: !!userId && !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const loading = authLoading || isQueryLoading;
+
+  return { milestoneCompletionsToday, loading, isError, error };
 }

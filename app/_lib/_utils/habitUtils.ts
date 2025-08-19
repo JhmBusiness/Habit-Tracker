@@ -1,5 +1,8 @@
 "use client";
+import { User } from "@supabase/supabase-js";
 import { habit, HabitMilestoneInfo } from "../interfaces/habits";
+import { UseMutationResult } from "@tanstack/react-query";
+import { Dispatch, SetStateAction } from "react";
 
 export function getUncompletedHabits(
   allHabits: habit[],
