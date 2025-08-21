@@ -1,24 +1,13 @@
-interface IconsAndStreak {
-  category: string;
-  milestone_streak?: number;
-  streak?: number;
+"use client";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+
+interface postsFilterInterface {
+  uniqueCategories: string[];
 }
 
-function IconsAndStreak({
-  category,
-  milestone_streak,
-  streak,
-}: IconsAndStreak) {
-  if (!category) return;
-
-  let categoryStreak;
-  if (category === "bedHygiene" || category === "sleepSchedule") {
-    if (category === "sleepSchedule") categoryStreak = "Sleep";
-    if (category === "bedHygiene") categoryStreak = "M.Y.B";
-  } else {
-    categoryStreak = category.charAt(0).toUpperCase() + category.slice(1);
-  }
-
+function PostsFilter({ uniqueCategories }: postsFilterInterface) {
   const svgIcon: { [key: string]: React.ReactElement } = {
     fitness: (
       <svg
@@ -264,33 +253,78 @@ function IconsAndStreak({
       </svg>
     ),
   };
+  const filterBorderAccent: { [key: string]: string } = {
+    fitness: "border-fitness-accent bg-fitness-light",
+    sleepSchedule: "border-sleepSchedule-accent bg-sleepSchedule-light",
+    learning: "border-learning-accent bg-learning-light",
+    reading: "border-reading-accent bg-reading-light",
+    hydration: "border-hydration-accent bg-hydration-light",
+    bedHygiene: "border-bedHygiene-accent bg-bedHygiene-light",
+    breakfast: "border-breakfast-accent bg-breakfast-light",
+    writing: "border-writing-accent bg-writing-light",
+    diet: "border-diet-accent bg-diet-light",
+  };
+  const filterHover: { [key: string]: string } = {
+    fitness: "hover:border-fitness-accent hover:bg-fitness-light",
+    sleepSchedule:
+      "hover:border-sleepSchedule-accent hover:bg-sleepSchedule-light",
+    learning: "hover:border-learning-accent hover:bg-learning-light",
+    reading: "hover:border-reading-accent hover:bg-reading-light",
+    hydration: "hover:border-hydration-accent hover:bg-hydration-light",
+    bedHygiene: "hover:border-bedHygiene-accent hover:bg-bedHygiene-light",
+    breakfast: "hover:border-breakfast-accent hover:bg-breakfast-light",
+    writing: "hover:border-writing-accent hover:bg-writing-light",
+    diet: "hover:border-diet-accent hover:bg-diet-light",
+  };
 
-  // For my habits
-  if (!milestone_streak)
-    return (
-      <div className="grid grid-cols-[auto_auto_auto] gap-6 w-full items-center justify-center">
-        <div className="w-12 h-12 flex items-center justify-center">
-          {svgIcon[category]}
-        </div>
-        <div className="h-6 w-[1px] bg-dark-sixteen"></div>
-        <div>
-          {streak !== 1 ? <h4>{streak} Days</h4> : <h4>{streak} Day</h4>}
-          <p className="font-light text-xs">{categoryStreak} streak</p>
-        </div>
-      </div>
-    );
+  const [currentFilter, setCurrentFilter] = useState("all");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
-  // For posts
-  if (milestone_streak)
-    return (
-      <div className="flex flex-col text-center justify-center items-center">
-        <div className="max-w-12 max-h-12 w-12 h-12 flex items-center justify-center">
-          {svgIcon[category]}
-        </div>
-        <h4 className="pt-2">{milestone_streak} Days</h4>
-        <p className="font-light text-xs">{categoryStreak} streak</p>
-      </div>
-    );
+  function updateFilter(filterName: string, value: string) {
+    const currentParams = new URLSearchParams(searchParams.toString());
+
+    if (value) {
+      currentParams.set(filterName, value);
+      setCurrentFilter(value);
+    } else {
+      currentParams.delete(filterName);
+    }
+
+    const newUrl = `${pathname}?${currentParams.toString()}`;
+    router.replace(newUrl, { scroll: false });
+  }
+
+  function handleSetParams(filter: string) {
+    updateFilter("filterPosts", filter);
+  }
+
+  return (
+    <div className="flex gap-2">
+      <button
+        onClick={() => handleSetParams("all")}
+        className={`text-xs py-2 px-3 rounded-sm border border-dark-sixteen max-h-8 h-8 hover:cursor-pointer duration-200 ${
+          currentFilter === "all"
+            ? "text-primary-accent border-primary-accent"
+            : ""
+        }`}
+      >
+        All
+      </button>
+      {uniqueCategories.map((filter) => (
+        <button
+          onClick={() => handleSetParams(filter)}
+          key={filter}
+          className={`text-xs py-2 px-3 rounded-sm border border-dark-sixteen max-h-8 h-8 hover:cursor-pointer duration-200 ${
+            currentFilter === filter ? `${filterBorderAccent[filter]}` : ""
+          } ${filterHover[filter]}`}
+        >
+          {svgIcon[filter]}
+        </button>
+      ))}
+    </div>
+  );
 }
 
-export default IconsAndStreak;
+export default PostsFilter;

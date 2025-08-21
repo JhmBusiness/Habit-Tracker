@@ -72,6 +72,23 @@ export async function getUserHabits(userId: string) {
   return data;
 }
 
+// Fetch all user posts
+export async function getUserPosts(userId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching user posts:", error.message);
+    throw new Error(`Failed to fetch user posts: ${error.message}`);
+  }
+  return data;
+}
+
 // Fetch user posts
 export async function getMostRecentPost(userId: string) {
   const supabase = createClient();

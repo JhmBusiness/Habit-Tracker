@@ -1,7 +1,7 @@
 "use client";
 import { post } from "@/app/_lib/interfaces/posts";
-import { FaCommentDots, FaHeart } from "react-icons/fa6";
 import IconsAndStreak from "../common/IconsAndStreak";
+import LikesAndComments from "../common/LikesAndComments";
 
 interface mostRecentPostContent {
   usersPost: post | undefined;
@@ -26,16 +26,10 @@ function MostRecentPostContent({ usersPost }: mostRecentPostContent) {
       <div className="flex flex-col">
         <h4>{title}</h4>
         <p className="text-xs pt-2 pb-3">{content}</p>
-        <div className="flex gap-4">
-          <span className="flex gap-2 items-center">
-            <FaHeart className="text-like-red w-5 h-5" />
-            {likes_count}
-          </span>
-          <span className="flex gap-2 items-center">
-            <FaCommentDots className="text-grey w-5 h-5" />
-            {comments_count}
-          </span>
-        </div>
+        <LikesAndComments
+          likes_count={likes_count}
+          comments_count={comments_count}
+        />
       </div>
     </div>
   );

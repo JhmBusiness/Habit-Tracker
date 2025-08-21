@@ -5,7 +5,7 @@ import MyPosts from "@/app/_components/my-posts/MyPosts";
 
 function page() {
   return (
-    <div className="bg-bg-light rounded-lg md:rounded-xl h-[3000px]">
+    <div className="bg-bg-light rounded-lg md:rounded-xl h-[5000px]">
       <DashboardContainer />
       <AccountContainer>
         <MyHabits />

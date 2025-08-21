@@ -18,6 +18,7 @@ import {
   getDailyMilestoneCompletions,
   getMostRecentPost,
   getUserHabits,
+  getUserPosts,
   getUserStats,
 } from "./dataService";
 
@@ -225,7 +226,7 @@ export function useUserMostRecentPost() {
     isError: isPostsError,
     error: postsError,
   } = useQuery<post, Error>({
-    queryKey: ["posts", userId],
+    queryKey: ["mostRecentPost", userId],
     queryFn: () => getMostRecentPost(userId!),
     enabled: !!userId && !authLoading,
     staleTime: 1000 * 60 * 5,
@@ -258,4 +259,29 @@ export function useUserHabitCompletionMilestonesToday() {
   const loading = authLoading || isQueryLoading;
 
   return { milestoneCompletionsToday, loading, isError, error };
+}
+
+// Creates query for all of users posts
+export function useUserPosts() {
+  const { user, loading: authLoading } = useAuth();
+  const userId = user?.id || null;
+
+  // Creat query for habits
+  const {
+    data: postsData,
+    isLoading: isLoadingAllposts,
+    isError: isPostsError,
+    error: postsError,
+  } = useQuery<post[], Error>({
+    queryKey: ["posts", userId],
+    queryFn: () => getUserPosts(userId!),
+    enabled: !!userId && !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    placeholderData: [],
+  });
+
+  const loading = authLoading || isLoadingAllposts;
+
+  return { postsData, loading, isPostsError, postsError };
 }
