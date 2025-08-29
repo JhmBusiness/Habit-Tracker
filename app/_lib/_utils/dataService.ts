@@ -23,7 +23,7 @@ export async function getAvatarUrl(userId: string): Promise<string | null> {
 }
 
 // Fetch user profile
-async function getUserProfile(userId: string) {
+export async function getUserProfile(userId: string) {
   const supabase = createClient();
 
   const { data, error } = await supabase

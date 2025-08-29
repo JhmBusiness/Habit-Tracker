@@ -19,8 +19,10 @@ import {
   getMostRecentPost,
   getUserHabits,
   getUserPosts,
+  getUserProfile,
   getUserStats,
 } from "./dataService";
+import { profileData } from "../interfaces/profile";
 
 // Returns avatar src, loading state, and any errors.
 export function useUserAvatar(
@@ -284,4 +286,28 @@ export function useUserPosts() {
   const loading = authLoading || isLoadingAllposts;
 
   return { postsData, loading, isPostsError, postsError };
+}
+
+// Creates query for user profile
+export function useUserProfile() {
+  const { user, loading: authLoading } = useAuth();
+  const userId = user?.id || null;
+
+  // Creat query for habits
+  const {
+    data: profileData,
+    isLoading: isLoadingProfileData,
+    isError: isProfileError,
+    error: profileError,
+  } = useQuery<profileData, Error>({
+    queryKey: ["userProfile", userId],
+    queryFn: () => getUserProfile(userId!),
+    enabled: !!userId && !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const loading = authLoading || isLoadingProfileData;
+
+  return { profileData, loading, isProfileError, profileError };
 }
