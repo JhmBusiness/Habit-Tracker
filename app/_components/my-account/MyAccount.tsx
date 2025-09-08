@@ -1,22 +1,24 @@
 "use client";
-import { useUserProfile } from "@/app/_lib/_utils/queries";
-import { useRef } from "react";
+import {
+  useUpdateUserProfile,
+  useUserProfile,
+} from "@/app/_lib/_utils/queries";
+import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaCopy } from "react-icons/fa6";
 import AccountTitle from "../common/AccountTitle";
+import FormBtns from "../common/FormBtns";
 import FormRow from "../common/FormRow";
 import LoadingSection from "../common/LoadingSection";
 import ChangeAvatar from "./ChangeAvatar";
-import FormBtns from "../common/FormBtns";
 
-type Inputs = {
+export type Inputs = {
   username: string;
   avatarUrl: string;
 };
 
 function MyAccount() {
-  // Copy User Id
   const { profileData, loading } = useUserProfile();
   const userIdRef = useRef<null | HTMLInputElement>(null);
   function handleCopyText() {
@@ -25,18 +27,64 @@ function MyAccount() {
     toast.success("Copied User ID to Clipboard");
   }
 
+  const initialData = {
+    displayName: profileData?.display_name,
+    avatarUrl: profileData?.avatar_url,
+  };
+
   // React Form State
   const {
     register,
     setValue,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<Inputs>();
+    reset,
+    formState: { errors, isSubmitting, isDirty },
+  } = useForm<Inputs>({
+    defaultValues: {
+      username: "",
+      avatarUrl: "",
+    },
+  });
+  const { updateSetting } = useUpdateUserProfile();
+  const onSubmit: SubmitHandler<Inputs> = (data) => updateSetting(data);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const demoPics = ["0", "1", "2", "3"];
+
+  const profileUrl = demoPics.includes(profileData?.avatar_url || "")
+    ? `/profile-pics/${profileData?.avatar_url}.png`
+    : profileData?.avatar_url;
+
+  const [shownAvatar, setShownAvatar] = useState(profileUrl);
+  const [selectedAvatar, setSelectedAvatar] = useState(profileData?.avatar_url);
+  const [showMenu, setShowMenu] = useState(false);
+  const pfpHasChanged = initialData.avatarUrl !== selectedAvatar;
+  function handleShowMenu() {
+    setShowMenu(!showMenu);
+  }
+
+  useEffect(() => {
+    if (profileData) {
+      reset({
+        username: profileData.display_name,
+        avatarUrl: profileData.avatar_url,
+      });
+    }
+  }, [profileData, reset]);
+
+  function handleReset() {
+    try {
+      reset({
+        username: initialData.displayName,
+        avatarUrl: initialData.avatarUrl,
+      });
+      setShownAvatar(profileData?.avatar_url || "");
+      setSelectedAvatar(profileData?.avatar_url || "");
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   if (loading) return <LoadingSection title="My Account" />;
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -47,16 +95,27 @@ function MyAccount() {
         profileData={profileData}
         register={register}
         setValue={setValue}
+        shownAvatar={shownAvatar}
+        setShownAvatar={setShownAvatar}
+        selectedAvatar={selectedAvatar}
+        setSelectedAvatar={setSelectedAvatar}
+        handleShowMenu={handleShowMenu}
+        showMenu={showMenu}
       />
       <FormRow label="Username">
         <input
-          defaultValue={profileData?.username}
+          id="username"
+          type="text"
           {...register("username")}
           disabled={isSubmitting}
-          className="border border-dark-sixteen rounded-sm bg-white py-3 px-[18px] w-full mt-2"
+          className="border border-dark-sixteen rounded-sm bg-white py-3 px-[18px] w-full mt-2 placeholder:text-dark"
         />
       </FormRow>
-      <FormRow label="User ID" labelPtTwo="Copy ID">
+      <FormRow
+        label="User ID"
+        labelPtTwo="Copy ID"
+        handleCopyText={handleCopyText}
+      >
         <div
           className="border border-dark-sixteen rounded-sm bg-white py-3
           px-[18px] w-full mt-2 font-paragraph placeholder:text-dark overflow-hidden relative"
@@ -78,7 +137,16 @@ function MyAccount() {
           </button>
         </div>
       </FormRow>
-      <FormBtns type="default" isSubmitting={isSubmitting} />
+      <FormBtns
+        type="default"
+        isSubmitting={isSubmitting}
+        reset={handleReset}
+        initialData={initialData}
+        setShowMenu={setShowMenu}
+        showMenu={showMenu}
+        isDirty={isDirty}
+        pfpHasChanged={pfpHasChanged}
+      />
     </form>
   );
 }

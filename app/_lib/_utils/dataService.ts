@@ -1,5 +1,6 @@
 "use client";
 // For handling data fetching from the database or external APIs.
+import { Inputs } from "@/app/_components/my-account/MyAccount";
 import { createClient } from "@/app/_lib/supabase/client";
 import toast from "react-hot-toast";
 import { HabitCompletionRecord } from "../interfaces/habits";
@@ -239,3 +240,30 @@ export async function markHabitAsComplete(
 // Fetch user comments
 
 // Fetch user likes
+
+// ----- Updates -----
+export async function updateUserProfile({ username, avatarUrl }: Inputs) {
+  const supabase = createClient();
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (username.includes(" ") || username.length === 0) {
+    toast.error("Invalid username");
+    throw new Error("User profile could not be updated");
+  }
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({ display_name: username, avatar_url: avatarUrl })
+    .eq("id", sessionData.session?.user.id)
+    .select();
+
+  if (error?.code === "23505") {
+    toast.error("Username already taken");
+  } else if (error) {
+    console.error(error);
+    toast.error("Error! Please try again");
+    throw new Error("User profile could not be updated");
+  }
+  return data;
+}

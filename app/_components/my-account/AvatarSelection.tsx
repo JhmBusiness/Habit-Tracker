@@ -1,14 +1,14 @@
 "use client";
 import { profileData } from "@/app/_lib/interfaces/profile";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { FaXmark } from "react-icons/fa6";
 
 interface changeAvatarInter {
   profileData: profileData | undefined;
   handleShowMenu: () => void;
   setShownAvatar: Dispatch<SetStateAction<string | undefined>>;
-  selectedAvatar: string;
-  setSelectedAvatar: Dispatch<SetStateAction<string>>;
+  selectedAvatar: string | undefined;
+  setSelectedAvatar: Dispatch<SetStateAction<string | undefined>>;
 }
 
 const profilePics = ["0.png", "1.png", "2.png", "3.png"];
@@ -26,7 +26,7 @@ function AvatarSelection({
   function handleChangeAvatar(newPfp: string) {
     if (newPfp === selectedAvatar) return;
     if (newPfp.length === 5) {
-      setSelectedAvatar(newPfp.slice(0, 1));
+      setSelectedAvatar(`/profile-pics/${newPfp}`);
     } else {
       setSelectedAvatar(newPfp);
     }
@@ -56,14 +56,14 @@ function AvatarSelection({
           key={pfp}
           src={`/profile-pics/${pfp}`}
           className={`h-10 w-10 rounded-full ${
-            pfp === selectedAvatar + ".png"
+            pfp === selectedAvatar?.slice(14, 15) + ".png"
               ? "border border-primary-accent border-2 cursor-auto"
               : "cursor-pointer"
           }`}
         />
       ))}
       <FaXmark
-        onClick={handleShowMenu}
+        onClick={() => handleShowMenu()}
         className="w-3 h-3 absolute top-1 right-1 text-grey cursor-pointer hover:text-like-red duration-200"
       />
     </div>

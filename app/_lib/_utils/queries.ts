@@ -1,7 +1,7 @@
 // This file is for Fns which create and manage queries.
 import { useAuth } from "@/app/_context/AuthContext";
 import { User } from "@supabase/supabase-js";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { DEFAULT_AVATAR_URL } from "../constants";
 import {
   useDailyHabitCompletionsCountInterface,
@@ -21,8 +21,11 @@ import {
   getUserPosts,
   getUserProfile,
   getUserStats,
+  updateUserProfile,
 } from "./dataService";
 import { profileData } from "../interfaces/profile";
+import { Inputs } from "@/app/_components/my-account/MyAccount";
+import toast from "react-hot-toast";
 
 // Returns avatar src, loading state, and any errors.
 export function useUserAvatar(
@@ -50,7 +53,10 @@ export function useUserAvatar(
       return url;
     } else if (url && ["0", "1", "2", "3"].includes(url)) {
       return `/profile-pics/${url}.png`;
+    } else if (["0", "1", "2", "3"].includes(url!.slice(14, 15))) {
+      return `${url}`;
     }
+    console.log(url!.slice(14, 15));
     return DEFAULT_AVATAR_URL;
   }
 
@@ -310,4 +316,23 @@ export function useUserProfile() {
   const loading = authLoading || isLoadingProfileData;
 
   return { profileData, loading, isProfileError, profileError };
+}
+
+// Updates user profile settings, invalidates profile query, and sends toast message.
+export function useUpdateUserProfile() {
+  const queryClient = useQueryClient();
+
+  const { mutate: updateSetting } = useMutation({
+    mutationFn: (data: Inputs) => updateUserProfile(data),
+    onSuccess: () => {
+      toast.success("Profile successfully updated!");
+      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+      queryClient.invalidateQueries({ queryKey: ["userAvatar"] });
+      queryClient.removeQueries({ queryKey: ["userAvatar"], exact: true });
+      queryClient.removeQueries({ queryKey: ["userProfile"], exact: true });
+    },
+    onError: (err) => console.log(err.message),
+  });
+
+  return { updateSetting };
 }

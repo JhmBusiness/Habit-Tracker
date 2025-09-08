@@ -1,6 +1,7 @@
 import { User } from "@supabase/supabase-js";
 import UtilityIcons from "../common/UtilityIcons";
 import NavAndUtilLinks from "../common/NavAndUtilLinks";
+import { useUserProfile } from "@/app/_lib/_utils/queries";
 
 interface navAuthProps {
   user: User | null;
@@ -17,10 +18,8 @@ function DesktopNav({
   user,
   logout,
 }: navAuthProps) {
-  const displayName =
-    user?.user_metadata?.full_name?.split(" ")[0] ||
-    user?.email?.split("@")[0] ||
-    "User";
+  const { profileData } = useUserProfile();
+  const displayName = profileData?.display_name.split(" ")[0] || "User";
 
   return (
     <div className="hidden xl:flex flex-col bg-bg-light h-full w-[420px] rounded-xl overflow-y-scroll no-scrollbar">

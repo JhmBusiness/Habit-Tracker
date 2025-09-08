@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { authInterface } from "@/app/_lib/interfaces/authInterface";
 import NavAndUtilLinks from "../common/NavAndUtilLinks";
 import UtilityIcons from "../common/UtilityIcons";
+import { useUserProfile } from "@/app/_lib/_utils/queries";
 
 interface DraggableNavProps extends authInterface {
   toggleMenu: () => void;
@@ -33,10 +34,8 @@ function DraggableNav({
 }: DraggableNavProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const controls = useDragControls();
-  const displayName =
-    user?.user_metadata?.full_name?.split(" ")[0] ||
-    user?.email?.split("@")[0] ||
-    "User";
+  const { profileData } = useUserProfile();
+  const displayName = profileData?.display_name.split(" ")[0] || "User";
 
   const [topHeight, setTopHeight] = useState<number>(0);
 

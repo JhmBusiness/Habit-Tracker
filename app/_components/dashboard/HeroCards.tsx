@@ -98,7 +98,7 @@ function HeroCards() {
           </div>
         )}
         {/* Circle graph */}
-        {!habitCompletionsCountLoading ? (
+        {!habitCompletionsCountLoading || !userStatsLoading ? (
           <div className="border border-dark-sixteen bg-white rounded-xl">
             <GradientRadialCard
               totalCount={activeHabits}
