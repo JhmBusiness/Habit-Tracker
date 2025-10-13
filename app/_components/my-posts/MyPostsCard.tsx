@@ -2,6 +2,7 @@ import { post } from "@/app/_lib/interfaces/posts";
 import { FaPencil, FaTrashCan } from "react-icons/fa6";
 import IconsAndStreak from "../common/IconsAndStreak";
 import LikesAndComments from "../common/LikesAndComments";
+import { useModal } from "@/app/_context/ModalContext";
 
 interface postCard {
   post: post;
@@ -16,6 +17,7 @@ function MyPostsCard({ post }: postCard) {
     likes_count,
     comments_enabled,
     milestone_streak,
+    id,
   } = post;
 
   const cardBorderColour: { [key: string]: string } = {
@@ -42,6 +44,8 @@ function MyPostsCard({ post }: postCard) {
     diet: "hover:text-diet-accent",
   };
 
+  const { openModal } = useModal();
+
   return (
     <div>
       <div
@@ -66,7 +70,12 @@ function MyPostsCard({ post }: postCard) {
           comments_count={comments_count}
           likes_count={likes_count}
         />
-        <button className="text-grey hover:scale-105 active:scale-95 duration-200 hover:cursor-pointer hover:text-like-red">
+        <button
+          onClick={() =>
+            openModal("delete-post", { postId: id, postTitle: title })
+          }
+          className="text-grey hover:scale-105 active:scale-95 duration-200 hover:cursor-pointer hover:text-like-red"
+        >
           <FaTrashCan className="w-6 h-6" />
         </button>
       </div>

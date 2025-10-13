@@ -2,7 +2,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"; // Optional: for debugging
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { childrenAndStyles } from "../_lib/interfaces/childrenAndStyles";
 
 const queryClient = new QueryClient({

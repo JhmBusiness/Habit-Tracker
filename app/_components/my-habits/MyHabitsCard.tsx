@@ -4,6 +4,7 @@ import { habitListInterface } from "@/app/_lib/interfaces/habits";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import CountDown from "../common/CountDown";
+import DeleteCross from "../common/DeleteCross";
 import IconsAndStreak from "../common/IconsAndStreak";
 import InnerCardSection from "./InnerCardSection";
 import InnerHabitMilestone from "./InnerHabitMilestone";
@@ -87,6 +88,7 @@ function MyHabitsCard({
       {/* icon and streak */}
       <InnerCardSection type={category}>
         <IconsAndStreak streak={streak} category={category} />
+        <DeleteCross handleClick={() => console.log("deleting")} />
       </InnerCardSection>
       {/* Next milestone */}
       <InnerCardSection type={category}>

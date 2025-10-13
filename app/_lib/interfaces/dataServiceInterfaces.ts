@@ -29,3 +29,11 @@ export interface useDailyHabitCompletionsCountInterface {
   isError: boolean;
   error: Error | null;
 }
+
+export interface deletePostInterface {
+  postId: string | undefined;
+}
+
+export interface DeletePostVariables {
+  postId?: string;
+}

@@ -18,7 +18,7 @@ function InnerCardSection({ children, type }: innerCardInterface) {
   };
 
   return (
-    <div className={`${cardLightBgColour[type]} p-4 rounded-sm`}>
+    <div className={`${cardLightBgColour[type]} p-4 rounded-sm relative`}>
       {children}
     </div>
   );
