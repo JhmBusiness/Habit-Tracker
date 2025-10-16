@@ -217,7 +217,7 @@ function MilestoneBar({ nearestMilestoneHabit }: milestoneInterface) {
           className={`absolute top-0 left-0 h-full rounded-full ${barShadow[habitCategory]} ${barGradientBg[habitCategory]} flex items-center`}
         >
           <div className="w-3 flex ml-auto relative justify-center mr-2">
-            {barSvgIcon[habitCategory]}
+            {currentHabitStreak !== 0 ? barSvgIcon[habitCategory] : ""}
           </div>
         </motion.div>
       </div>

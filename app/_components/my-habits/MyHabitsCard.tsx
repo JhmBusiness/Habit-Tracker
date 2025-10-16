@@ -8,6 +8,7 @@ import DeleteCross from "../common/DeleteCross";
 import IconsAndStreak from "../common/IconsAndStreak";
 import InnerCardSection from "./InnerCardSection";
 import InnerHabitMilestone from "./InnerHabitMilestone";
+import { useModal } from "@/app/_context/ModalContext";
 
 function MyHabitsCard({
   category,
@@ -20,6 +21,7 @@ function MyHabitsCard({
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [submitting, isSubmitting] = useState(false);
+  const { openModal } = useModal();
 
   const markCompleteMutation = useMutation({
     mutationFn: ({ userId, habitId }: { userId: string; habitId: string }) =>
@@ -88,7 +90,9 @@ function MyHabitsCard({
       {/* icon and streak */}
       <InnerCardSection type={category}>
         <IconsAndStreak streak={streak} category={category} />
-        <DeleteCross handleClick={() => console.log("deleting")} />
+        <DeleteCross
+          handleClick={() => openModal("delete-habit", { habitId, category })}
+        />
       </InnerCardSection>
       {/* Next milestone */}
       <InnerCardSection type={category}>

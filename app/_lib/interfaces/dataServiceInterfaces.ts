@@ -37,3 +37,11 @@ export interface deletePostInterface {
 export interface DeletePostVariables {
   postId?: string;
 }
+
+export interface deleteHabitInterface {
+  habitId: string | undefined;
+}
+
+export interface DeleteHabitVariables {
+  habitId?: string;
+}

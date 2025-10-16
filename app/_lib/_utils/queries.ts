@@ -4,6 +4,7 @@ import { User } from "@supabase/supabase-js";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { DEFAULT_AVATAR_URL } from "../constants";
 import {
+  DeleteHabitVariables,
   DeletePostVariables,
   useDailyHabitCompletionsCountInterface,
   userStats,
@@ -13,6 +14,7 @@ import {
 import { habit, HabitCompletionRecord, habitIds } from "../interfaces/habits";
 import { post } from "../interfaces/posts";
 import {
+  deleteHabit,
   deletePost,
   getAvatarUrl,
   getDailyHabitCompletionsCount,
@@ -350,6 +352,26 @@ export function useDeletePost() {
     onSuccess: (isSuccess) => {
       if (isSuccess) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation Error:", error);
+      toast.error("Deletion failed due to a connection error.");
+    },
+  });
+}
+
+// Delete user habit
+export function useDeleteHabit() {
+  const queryClient = useQueryClient();
+
+  return useMutation<boolean, Error, DeleteHabitVariables>({
+    mutationFn: ({ habitId }) => {
+      return deleteHabit({ habitId });
+    },
+    onSuccess: (isSuccess) => {
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["habits"] });
       }
     },
     onError: (error) => {

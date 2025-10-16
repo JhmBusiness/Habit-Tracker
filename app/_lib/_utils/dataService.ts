@@ -4,7 +4,10 @@ import { Inputs } from "@/app/_components/my-account/MyAccount";
 import { createClient } from "@/app/_lib/supabase/client";
 import toast from "react-hot-toast";
 import { HabitCompletionRecord } from "../interfaces/habits";
-import { deletePostInterface } from "../interfaces/dataServiceInterfaces";
+import {
+  deleteHabitInterface,
+  deletePostInterface,
+} from "../interfaces/dataServiceInterfaces";
 
 // Fetch avatar URL from supabase.
 export async function getAvatarUrl(userId: string): Promise<string | null> {
@@ -281,6 +284,25 @@ export async function deletePost({ postId }: deletePostInterface) {
       return false;
     }
     toast.success("Post deleted successfully!");
+    return true;
+  } catch (err) {
+    console.error("Network or Execution Error:", err);
+    toast.error("An unexpected error occurred. Please try again.");
+    return false;
+  }
+}
+
+export async function deleteHabit({ habitId }: deleteHabitInterface) {
+  const supabase = createClient();
+
+  try {
+    const { error } = await supabase.from("habits").delete().eq("id", habitId);
+    if (error) {
+      console.log("Supabase deletion error:", error);
+      toast.error("Failed to delete habit! Please try again.");
+      return false;
+    }
+    toast.success("Habit deleted successfully!");
     return true;
   } catch (err) {
     console.error("Network or Execution Error:", err);

@@ -1,9 +1,9 @@
 "use client";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { createPortal } from "react-dom";
-import { useDeletePost } from "../_lib/_utils/queries";
+import { useDeleteHabit, useDeletePost } from "../_lib/_utils/queries";
 
-type ModalName = "delete-post";
+type ModalName = "delete-post" | "delete-habit";
 
 type ArbitraryProps = Record<string, unknown>;
 
@@ -86,6 +86,54 @@ function DeletePostModal({ postId, postTitle }: DeletePostModalProps) {
   );
 }
 
+interface DeleteHabitModalProps {
+  habitId?: string;
+  category?: string;
+}
+
+function DeleteHabitModal({ habitId, category }: DeleteHabitModalProps) {
+  const { closeModal } = useModal();
+  const { mutate, isPending } = useDeleteHabit();
+  const handleDelete = () => {
+    mutate({ habitId });
+    closeModal();
+  };
+
+  if (!category) return;
+  let categoryStreak;
+  if (category === "bedHygiene" || category === "sleepSchedule") {
+    if (category === "sleepSchedule") categoryStreak = "Sleep";
+    if (category === "bedHygiene") categoryStreak = "M.Y.B";
+  } else {
+    categoryStreak = category.charAt(0).toUpperCase() + category.slice(1);
+  }
+
+  return (
+    <>
+      <h2 className="text-2xl mb-4">Confirm Habit Deletion</h2>
+      <p className="text-grey mb-6">
+        Are you sure you want to delete your:{" "}
+        <span className="font-semibold">{categoryStreak}</span> habit? All
+        progress will be lost.
+      </p>
+      <div className="flex gap-3">
+        <button
+          className="px-[18px] py-3 text-grey bg-transparent border border-grey rounded-full hover:bg-grey hover:text-light transition cursor-pointer"
+          onClick={closeModal}
+        >
+          Cancel
+        </button>
+        <button
+          className="px-[18px] py-3 rounded-lg text-white bg-like-red hover:brightness-105 transition cursor-pointer"
+          onClick={handleDelete}
+        >
+          {isPending ? "Deleting..." : "Delete"}
+        </button>
+      </div>
+    </>
+  );
+}
+
 // Provider that wraps around app and provides the open and close modal funcs.
 function ModalProvider({ children }: modalProviderProps) {
   const [modalState, setModalState] = useState<modalState>({
@@ -103,7 +151,7 @@ function ModalProvider({ children }: modalProviderProps) {
 
   const modalComponents = {
     // "new-habit": NewHabitModal,
-    // "delete-habit": DeleteHabitModal,
+    "delete-habit": DeleteHabitModal,
     // "new-post": NewPostModal,
     // "edit-post": EditPostModal,
     "delete-post": DeletePostModal,
