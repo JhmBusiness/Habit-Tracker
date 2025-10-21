@@ -1,7 +1,9 @@
 // This file is for Fns which create and manage queries.
+import { Inputs } from "@/app/_components/my-account/MyAccount";
 import { useAuth } from "@/app/_context/AuthContext";
 import { User } from "@supabase/supabase-js";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { DEFAULT_AVATAR_URL } from "../constants";
 import {
   DeleteHabitVariables,
@@ -13,6 +15,7 @@ import {
 } from "../interfaces/dataServiceInterfaces";
 import { habit, HabitCompletionRecord, habitIds } from "../interfaces/habits";
 import { post } from "../interfaces/posts";
+import { profileData } from "../interfaces/profile";
 import {
   deleteHabit,
   deletePost,
@@ -27,9 +30,6 @@ import {
   getUserStats,
   updateUserProfile,
 } from "./dataService";
-import { profileData } from "../interfaces/profile";
-import { Inputs } from "@/app/_components/my-account/MyAccount";
-import toast from "react-hot-toast";
 
 // Returns avatar src, loading state, and any errors.
 export function useUserAvatar(
@@ -377,6 +377,39 @@ export function useDeleteHabit() {
     onError: (error) => {
       console.error("Mutation Error:", error);
       toast.error("Deletion failed due to a connection error.");
+    },
+  });
+}
+
+// Delete UserAccount
+export function useDeleteUserAccount() {
+  const { user, session, logout } = useAuth();
+
+  return useMutation({
+    mutationFn: async () => {
+      if (!user || !session) {
+        throw new Error("User not authenticated");
+      }
+
+      const res = await fetch("/api/delete-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ userId: user.id }),
+      });
+
+      if (!res.ok) {
+        const { error } = await res.json();
+        throw new Error(error?.message || "Failed to delete account");
+      }
+
+      try {
+        await logout();
+      } catch (err) {
+        console.warn("Logout failed (user likely already deleted):", err);
+      }
     },
   });
 }

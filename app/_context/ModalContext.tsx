@@ -1,9 +1,15 @@
 "use client";
+import { User } from "@supabase/supabase-js";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { createPortal } from "react-dom";
-import { useDeleteHabit, useDeletePost } from "../_lib/_utils/queries";
+import toast from "react-hot-toast";
+import {
+  useDeleteHabit,
+  useDeletePost,
+  useDeleteUserAccount,
+} from "../_lib/_utils/queries";
 
-type ModalName = "delete-post" | "delete-habit";
+type ModalName = "delete-post" | "delete-habit" | "delete-account";
 
 type ArbitraryProps = Record<string, unknown>;
 
@@ -134,6 +140,53 @@ function DeleteHabitModal({ habitId, category }: DeleteHabitModalProps) {
   );
 }
 
+interface DeleteUserAccountProps {
+  user?: User;
+}
+
+function DeleteAccountModal({ user }: DeleteUserAccountProps) {
+  const { closeModal } = useModal();
+  const deleteUserAccount = useDeleteUserAccount();
+
+  if (!user) return null;
+
+  function handleDelete() {
+    deleteUserAccount.mutate(undefined, {
+      onSuccess: () => {
+        closeModal();
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error("Error! Please try again.");
+      },
+    });
+  }
+
+  return (
+    <>
+      <h2 className="text-2xl mb-4">Delete Account</h2>
+      <p className="text-grey mb-6">
+        Are you sure you want to delete your account? This action cannot be
+        reversed.
+      </p>
+      <div className="flex gap-3">
+        <button
+          className="px-[18px] py-3 text-grey bg-transparent border border-grey rounded-full hover:bg-grey hover:text-light transition cursor-pointer"
+          onClick={closeModal}
+        >
+          Cancel
+        </button>
+        <button
+          className="px-[18px] py-3 rounded-lg text-white bg-like-red hover:brightness-105 transition cursor-pointer"
+          onClick={() => handleDelete()}
+        >
+          Delete Account
+        </button>
+      </div>
+    </>
+  );
+}
+
 // Provider that wraps around app and provides the open and close modal funcs.
 function ModalProvider({ children }: modalProviderProps) {
   const [modalState, setModalState] = useState<modalState>({
@@ -155,10 +208,9 @@ function ModalProvider({ children }: modalProviderProps) {
     // "new-post": NewPostModal,
     // "edit-post": EditPostModal,
     "delete-post": DeletePostModal,
-    // logout: LogoutModal,
     // comments: CommentsModal,
     // "delete-friend": DeleteFriendModal,
-    // "delete-account": DeleteAccountModal,
+    "delete-account": DeleteAccountModal,
   };
 
   const ModalComponent = modalState.name

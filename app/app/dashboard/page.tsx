@@ -3,6 +3,7 @@ import DashboardContainer from "@/app/_components/ui/DashboardContainer";
 import MyHabits from "@/app/_components/my-habits/MyHabits";
 import MyPosts from "@/app/_components/my-posts/MyPosts";
 import MyAccount from "@/app/_components/my-account/MyAccount";
+import AccountManagement from "@/app/_components/account-management/AccountManagement";
 
 function page() {
   return (
@@ -12,6 +13,7 @@ function page() {
         <MyHabits />
         <MyPosts />
         <MyAccount />
+        <AccountManagement />
       </AccountContainer>
     </div>
   );

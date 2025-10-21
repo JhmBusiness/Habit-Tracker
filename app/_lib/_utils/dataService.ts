@@ -5,8 +5,9 @@ import { createClient } from "@/app/_lib/supabase/client";
 import toast from "react-hot-toast";
 import { HabitCompletionRecord } from "../interfaces/habits";
 import {
-  deleteHabitInterface,
-  deletePostInterface,
+  DeleteHabitInterface,
+  DeletePostInterface,
+  DeleteUserVariables,
 } from "../interfaces/dataServiceInterfaces";
 
 // Fetch avatar URL from supabase.
@@ -273,7 +274,7 @@ export async function updateUserProfile({ username, avatarUrl }: Inputs) {
 }
 
 // ----- Deletions -----
-export async function deletePost({ postId }: deletePostInterface) {
+export async function deletePost({ postId }: DeletePostInterface) {
   const supabase = createClient();
 
   try {
@@ -292,7 +293,7 @@ export async function deletePost({ postId }: deletePostInterface) {
   }
 }
 
-export async function deleteHabit({ habitId }: deleteHabitInterface) {
+export async function deleteHabit({ habitId }: DeleteHabitInterface) {
   const supabase = createClient();
 
   try {

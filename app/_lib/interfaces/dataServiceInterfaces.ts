@@ -30,7 +30,7 @@ export interface useDailyHabitCompletionsCountInterface {
   error: Error | null;
 }
 
-export interface deletePostInterface {
+export interface DeletePostInterface {
   postId: string | undefined;
 }
 
@@ -38,10 +38,14 @@ export interface DeletePostVariables {
   postId?: string;
 }
 
-export interface deleteHabitInterface {
+export interface DeleteHabitInterface {
   habitId: string | undefined;
 }
 
 export interface DeleteHabitVariables {
   habitId?: string;
+}
+
+export interface DeleteUserVariables {
+  id?: string;
 }
