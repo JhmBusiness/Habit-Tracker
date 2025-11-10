@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { DEFAULT_AVATAR_URL } from "../constants";
 import {
+  CreateUserHabitVariables,
   DeleteHabitVariables,
   DeletePostVariables,
   useDailyHabitCompletionsCountInterface,
@@ -17,6 +18,7 @@ import { habit, HabitCompletionRecord, habitIds } from "../interfaces/habits";
 import { post } from "../interfaces/posts";
 import { profileData } from "../interfaces/profile";
 import {
+  createUserHabit,
   deleteHabit,
   deletePost,
   getAvatarUrl,
@@ -413,3 +415,44 @@ export function useDeleteUserAccount() {
     },
   });
 }
+
+export function useCreateNewUserHabit() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const userId = user?.id
+
+  return useMutation<boolean, Error, CreateUserHabitVariables>({
+    mutationFn: async ({ category }) => {
+      return createUserHabit(category, userId)
+    },
+    onSuccess: (isSuccess) => {
+      if(isSuccess) {
+        queryClient.invalidateQueries({queryKey: ["habits"]})
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+      toast.error("Deletion failed due to a connection error.")
+    }
+  })
+}
+
+  // const { user, loading: authLoading } = useAuth();
+  // const userId = user?.id
+
+  // // Creat query for habits
+  // const {
+  //   isLoading: isCreatingHabit,
+  //   isError: isCreatingHabitError,
+  //   error: habitCreationError,
+  // } = useQuery<boolean | undefined>({
+  //   queryKey: ["habits", userId],
+  //   queryFn: () => createUserHabit(category, userId),
+  //   enabled: !!userId && !authLoading,
+  //   staleTime: 1000 * 60 * 5,
+  //   gcTime: 1000 * 60 * 10,
+  // });
+
+  // const loading = authLoading || isCreatingHabit;
+
+  // return { loading, isCreatingHabitError, habitCreationError };

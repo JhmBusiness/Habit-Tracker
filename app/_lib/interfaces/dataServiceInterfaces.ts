@@ -49,3 +49,8 @@ export interface DeleteHabitVariables {
 export interface DeleteUserVariables {
   id?: string;
 }
+
+export interface CreateUserHabitVariables {
+  category: string;
+  userId?: string;
+}

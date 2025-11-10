@@ -5,6 +5,7 @@ import { createClient } from "@/app/_lib/supabase/client";
 import toast from "react-hot-toast";
 import { HabitCompletionRecord } from "../interfaces/habits";
 import {
+  CreateUserHabitVariables,
   DeleteHabitInterface,
   DeletePostInterface,
   DeleteUserVariables,
@@ -309,5 +310,37 @@ export async function deleteHabit({ habitId }: DeleteHabitInterface) {
     console.error("Network or Execution Error:", err);
     toast.error("An unexpected error occurred. Please try again.");
     return false;
+  }
+}
+
+export async function createUserHabit(category: string, userId?: string) {
+  const supabase = createClient();
+
+  if (!userId)  {
+    console.error("No userID provided to createUserhabit.")
+    toast.error("User not authenticated. Please log in again.")
+    return false;
+  }
+
+  try {
+    const { error } = await supabase
+    .from('habits')
+    .insert([
+    { user_id: userId, category },
+    ])
+    .select()
+
+    if (error) {
+      console.log("Supabase insert error:", error);
+      toast.error("Failed to create habit! Please try again.");
+      return false;
+    }
+
+    toast.success("Habit created successfully!")
+    return true;
+  } catch (err) {
+    console.error("Network or Execution Error:", err);
+    toast.error("An unexpected error occurred. Please try again.");
+    return false
   }
 }

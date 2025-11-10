@@ -4,12 +4,20 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import toast from "react-hot-toast";
 import {
+  useCreateNewUserHabit,
   useDeleteHabit,
   useDeletePost,
   useDeleteUserAccount,
+  useUserHabits,
 } from "../_lib/_utils/queries";
+import NewHabitBtn from "../_components/modals/NewHabitBtn";
 
-type ModalName = "delete-post" | "delete-habit" | "delete-account";
+type ModalName =
+  | "delete-post"
+  | "delete-habit"
+  | "delete-account"
+  | "new-habit"
+  | "new-post";
 
 type ArbitraryProps = Record<string, unknown>;
 
@@ -187,6 +195,102 @@ function DeleteAccountModal({ user }: DeleteUserAccountProps) {
   );
 }
 
+interface NewHabitModalProps {
+  user?: User;
+}
+
+function NewHabitModal({ user }: NewHabitModalProps) {
+  const modalBtns = [
+    { label: "Fitness", category: "fitness" },
+    { label: "Sleep Hygiene", category: "sleepSchedule" },
+    { label: "Learning", category: "learning" },
+    { label: "Reading", category: "reading" },
+    { label: "Hydration", category: "hydration" },
+    { label: "Bed Hygiene", category: "bedHygiene" },
+    { label: "Eat Breakfast", category: "breakfast" },
+    { label: "Writing", category: "writing" },
+    { label: "Healthy Diet", category: "diet" },
+  ];
+
+  const { closeModal } = useModal();
+  const [habitCategory, setHabitCategory] = useState("");
+  const { habitsData } = useUserHabits();
+  const habitCategories: string[] = [];
+  habitsData?.map((el) => habitCategories.push(el.category));
+
+  const createHabit = useCreateNewUserHabit();
+
+  function handleClick() {
+    createHabit.mutate({category: habitCategory})
+    closeModal();
+  }
+
+  return (
+    <>
+      <h2 className="text-2xl mb-4">New Habit</h2>
+      <p className="text-grey mb-4">Start by selecting the habit category.</p>
+      {/* Habit category selection */}
+      <div className="gap-3 flex flex-wrap mb-6 sm:gap-4">
+        {modalBtns.map((btn) => (
+          <NewHabitBtn
+            key={btn.label}
+            label={btn.label}
+            category={btn.category}
+            setHabitCategory={setHabitCategory}
+            habitCategory={habitCategory}
+            habitCategories={habitCategories}
+          />
+        ))}
+      </div>
+      {/* Btns */}
+      <div className="flex gap-3">
+        <button
+          disabled={!habitCategory}
+          className={`px-[18px] py-3 rounded-lg text-white bg-add-green hover:brightness-105 transition cursor-pointer disabled:bg-grey disabled:cursor-not-allowed`}
+          onClick={handleClick}
+        >
+          Create Habit
+        </button>
+        <button
+          className="px-[18px] py-3 text-grey bg-transparent border border-grey rounded-full hover:bg-grey hover:text-light transition cursor-pointer"
+          onClick={closeModal}
+        >
+          Cancel
+        </button>
+      </div>
+    </>
+  );
+}
+
+// To be done
+function NewPostModal({ user }: NewHabitModalProps) {
+  const { closeModal } = useModal();
+
+  return (
+    <>
+      <h2 className="text-2xl mb-4">Delete Account</h2>
+      <p className="text-grey mb-6">
+        Are you sure you want to delete your account? This action cannot be
+        reversed.
+      </p>
+      <div className="flex gap-3">
+        <button
+          className="px-[18px] py-3 text-grey bg-transparent border border-grey rounded-full hover:bg-grey hover:text-light transition cursor-pointer"
+          onClick={closeModal}
+        >
+          Cancel
+        </button>
+        <button
+          className="px-[18px] py-3 rounded-lg text-white bg-like-red hover:brightness-105 transition cursor-pointer"
+          onClick={() => console.log("New habit modal")}
+        >
+          Delete Account
+        </button>
+      </div>
+    </>
+  );
+}
+
 // Provider that wraps around app and provides the open and close modal funcs.
 function ModalProvider({ children }: modalProviderProps) {
   const [modalState, setModalState] = useState<modalState>({
@@ -203,9 +307,9 @@ function ModalProvider({ children }: modalProviderProps) {
   }
 
   const modalComponents = {
-    // "new-habit": NewHabitModal,
+    "new-habit": NewHabitModal,
     "delete-habit": DeleteHabitModal,
-    // "new-post": NewPostModal,
+    "new-post": NewPostModal,
     // "edit-post": EditPostModal,
     "delete-post": DeletePostModal,
     // comments: CommentsModal,
