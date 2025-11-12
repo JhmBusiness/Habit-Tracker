@@ -9,7 +9,7 @@ interface AccountTitleInterface extends childrenAndStyles {
   disabled?: boolean;
 }
 
-type modalType = "new-post" | "new-habit";
+type modalType = "post-category-selection" | "new-habit";
 
 function AccountTitle({ children, category, disabled }: AccountTitleInterface) {
   const { openModal } = useModal();
@@ -22,7 +22,7 @@ function AccountTitle({ children, category, disabled }: AccountTitleInterface) {
       habitOrPostOnClickModal = "new-habit";
     } else {
       habitOrPost = "Post";
-      habitOrPostOnClickModal = "new-post";
+      habitOrPostOnClickModal = "post-category-selection";
     }
     return (
       <div className="flex items-center justify-between w-full">

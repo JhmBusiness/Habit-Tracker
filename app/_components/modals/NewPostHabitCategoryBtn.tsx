@@ -1,20 +1,20 @@
-import { Dispatch, SetStateAction } from "react";
+import { useModal } from "@/app/_context/ModalContext";
+import { useUserHabitCompletionMilestonesToday } from "@/app/_lib/_utils/queries";
 
-interface newHabitModalProps {
-  label: string;
+interface NewPostHabitCategoryBtnProps {
   category: string;
-  setHabitCategory: Dispatch<SetStateAction<string>>;
-  habitCategory: string;
-  habitCategories: string[];
+  id: string;
+  label: string;
 }
 
-function NewHabitBtn({
-  label,
+function NewPostHabitCategoryBtn({
   category,
-  setHabitCategory,
-  habitCategory,
-  habitCategories,
-}: newHabitModalProps) {
+  label,
+  id: habitId,
+}: NewPostHabitCategoryBtnProps) {
+  const { openModal } = useModal();
+  const { milestoneCompletionsToday } = useUserHabitCompletionMilestonesToday();
+
   const svgIcon: { [key: string]: React.ReactElement } = {
     fitness: (
       <svg
@@ -285,26 +285,18 @@ function NewHabitBtn({
     diet: "border-diet-accent",
   };
 
+  const completedIds: string[] = [];
+  milestoneCompletionsToday?.map((el) => completedIds.push(el.habit_id));
+
   function handleClick() {
-    if (category === habitCategory) {
-      setHabitCategory("");
-    } else {
-      setHabitCategory(category);
-    }
+    openModal("new-post", { habitId, category });
   }
 
   return (
     <button
       onClick={handleClick}
-      disabled={habitCategories.includes(category)}
-      className={`py-4 px-[12px] sm:px-5 flex gap-2 items-center justify-center border cursor-pointer disabled:cursor-not-allowed disabled:grayscale-75 disabled:border-dark-sixteen disabled:bg-dark-sixteen ${
-        habitCategory === category
-          ? `${cardLightBgColour[category]} ${cardBorderColour[category]}`
-          : "border-dark-sixteen"
-      } rounded-sm hover:${cardLightBgColour[category]} duration-200 hover:${
-        cardBorderColour[category]
-      } 
-      `}
+      disabled={!completedIds.includes(habitId)}
+      className={`py-4 px-[12px] sm:px-5 flex gap-2 items-center justify-center border rounded-sm border-dark-sixteen hover:${cardBorderColour[category]} hover:${cardLightBgColour[category]} cursor-pointer duration-200 disabled:bg-dark-sixteen disabled:border-dark-sixteen disabled:grayscale-75 disabled:cursor-not-allowed`}
     >
       <span className="w-4 h-4 sm:w-6 sm:h-6">{svgIcon[category]}</span>
       <h5>{label}</h5>
@@ -312,4 +304,4 @@ function NewHabitBtn({
   );
 }
 
-export default NewHabitBtn;
+export default NewPostHabitCategoryBtn;

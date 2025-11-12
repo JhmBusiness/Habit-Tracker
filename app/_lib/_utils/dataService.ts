@@ -79,6 +79,22 @@ export async function getUserHabits(userId: string) {
   return data;
 }
 
+// Fetch all user habits
+export async function getUserHabitCurrentStreak(habitId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("habits")
+    .select("current_streak")
+    .eq("id", habitId);
+
+  if (error) {
+    console.error("Error fetching user habits:", error.message);
+    throw new Error(`Failed to fetch user habits: ${error.message}`);
+  }
+  return data;
+}
+
 // Fetch all user posts
 export async function getUserPosts(userId: string) {
   const supabase = createClient();
@@ -316,19 +332,17 @@ export async function deleteHabit({ habitId }: DeleteHabitInterface) {
 export async function createUserHabit(category: string, userId?: string) {
   const supabase = createClient();
 
-  if (!userId)  {
-    console.error("No userID provided to createUserhabit.")
-    toast.error("User not authenticated. Please log in again.")
+  if (!userId) {
+    console.error("No userID provided to createUserhabit.");
+    toast.error("User not authenticated. Please log in again.");
     return false;
   }
 
   try {
     const { error } = await supabase
-    .from('habits')
-    .insert([
-    { user_id: userId, category },
-    ])
-    .select()
+      .from("habits")
+      .insert([{ user_id: userId, category }])
+      .select();
 
     if (error) {
       console.log("Supabase insert error:", error);
@@ -336,11 +350,11 @@ export async function createUserHabit(category: string, userId?: string) {
       return false;
     }
 
-    toast.success("Habit created successfully!")
+    toast.success("Habit created successfully!");
     return true;
   } catch (err) {
     console.error("Network or Execution Error:", err);
     toast.error("An unexpected error occurred. Please try again.");
-    return false
+    return false;
   }
 }

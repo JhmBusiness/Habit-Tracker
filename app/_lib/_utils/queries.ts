@@ -419,40 +419,20 @@ export function useDeleteUserAccount() {
 export function useCreateNewUserHabit() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  const userId = user?.id
+  const userId = user?.id;
 
   return useMutation<boolean, Error, CreateUserHabitVariables>({
     mutationFn: async ({ category }) => {
-      return createUserHabit(category, userId)
+      return createUserHabit(category, userId);
     },
     onSuccess: (isSuccess) => {
-      if(isSuccess) {
-        queryClient.invalidateQueries({queryKey: ["habits"]})
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["habits"] });
       }
     },
     onError: (error) => {
       console.error("Mutation error:", error);
-      toast.error("Deletion failed due to a connection error.")
-    }
-  })
+      toast.error("Deletion failed due to a connection error.");
+    },
+  });
 }
-
-  // const { user, loading: authLoading } = useAuth();
-  // const userId = user?.id
-
-  // // Creat query for habits
-  // const {
-  //   isLoading: isCreatingHabit,
-  //   isError: isCreatingHabitError,
-  //   error: habitCreationError,
-  // } = useQuery<boolean | undefined>({
-  //   queryKey: ["habits", userId],
-  //   queryFn: () => createUserHabit(category, userId),
-  //   enabled: !!userId && !authLoading,
-  //   staleTime: 1000 * 60 * 5,
-  //   gcTime: 1000 * 60 * 10,
-  // });
-
-  // const loading = authLoading || isCreatingHabit;
-
-  // return { loading, isCreatingHabitError, habitCreationError };
