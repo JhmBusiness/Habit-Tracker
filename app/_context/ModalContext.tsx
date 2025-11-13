@@ -1,6 +1,12 @@
 "use client";
 import { User } from "@supabase/supabase-js";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import toast from "react-hot-toast";
 import NewHabitBtn from "../_components/modals/NewHabitBtn";
@@ -14,6 +20,7 @@ import {
 } from "../_lib/_utils/queries";
 import { habit } from "../_lib/interfaces/habits";
 import { getUserHabitCurrentStreak } from "../_lib/_utils/dataService";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type ModalName =
   | "delete-post"
@@ -270,11 +277,57 @@ interface NewPostProps {
 // To be done
 function NewPostModal({ habitId, category }: NewPostProps) {
   const { closeModal } = useModal();
-  if (!category || !habitId) return;
-  // Get current habit streak using habitId.
-  const userHabitStreak = getUserHabitCurrentStreak(habitId);
-  let habitStreakData: string;
-  userHabitStreak.then((value) => (habitStreakData = value[0].current_streak));
+
+  type FormInputs = {
+    title: string;
+    content: string;
+    category: string;
+    streakMilestone: string;
+  };
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormInputs>({
+    defaultValues: {
+      title: "",
+      content: "",
+      category,
+      streakMilestone: "",
+    },
+  });
+
+  /* --------------- */
+  // Research what is actually happening here.
+
+  async function returnHabitStreakData() {
+    try {
+      const userHabitStreak = await getUserHabitCurrentStreak(habitId!);
+      const currentStreak = userHabitStreak?.[0]?.current_streak ?? "";
+
+      // ✅ Set form value once the data arrives
+      setValue("streakMilestone", String(currentStreak));
+    } catch (error) {
+      console.error("Error fetching streak:", error);
+    }
+  }
+
+  // ✅ Run once habitId changes or component mounts
+  useEffect(() => {
+    if (habitId) {
+      returnHabitStreakData();
+    }
+  }, [habitId]);
+
+  // Optional: handle form submission
+  const onSubmit = (data: FormInputs) => {
+    console.log("Form submitted:", data);
+  };
+
+  /* --------------- */
 
   const svgIcon: { [key: string]: React.ReactElement } = {
     fitness: (
@@ -522,11 +575,9 @@ function NewPostModal({ habitId, category }: NewPostProps) {
     ),
   };
 
+  if (!habitId || !category) return;
+
   // Create post with title, content, category, streak milestone, is public? comments enabled?
-  function handleClick() {
-    console.log("Creating new post");
-    console.log(habitStreakData);
-  }
 
   return (
     <>
@@ -535,10 +586,12 @@ function NewPostModal({ habitId, category }: NewPostProps) {
         Post
       </h2>
       <hr className="w-full border-t border-t-dark-eight" />
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="my-4">
           <h4 className="mb-2">Title</h4>
           <textarea
+            id="title"
+            {...register("title")}
             className="w-full min-h-20 rounded-sm border border-dark-sixteen bg-white pt-4 px-6"
             placeholder='"I made it to 30 days!"'
           />
@@ -546,15 +599,14 @@ function NewPostModal({ habitId, category }: NewPostProps) {
         <div>
           <h4 className="mb-2">Paragraph</h4>
           <textarea
+            id="content"
+            {...register("content")}
             className="w-full min-h-28 rounded-sm border border-dark-sixteen bg-white pt-4 px-6"
             placeholder="Type here (Max 240 characters)"
           />
         </div>
         <div className="flex gap-3 mt-6">
-          <button
-            className="px-[18px] py-3 rounded-lg text-white bg-primary-accent hover:brightness-105 transition cursor-pointer"
-            onClick={handleClick}
-          >
+          <button className="px-[18px] py-3 rounded-lg text-white bg-primary-accent hover:brightness-105 transition cursor-pointer">
             Create Post
           </button>
           <button
