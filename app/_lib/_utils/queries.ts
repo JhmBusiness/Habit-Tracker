@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { DEFAULT_AVATAR_URL } from "../constants";
 import {
   CreateUserHabitVariables,
+  CreateUserPostVariables,
   DeleteHabitVariables,
   DeletePostVariables,
   useDailyHabitCompletionsCountInterface,
@@ -15,10 +16,11 @@ import {
   useUserStatsInterface,
 } from "../interfaces/dataServiceInterfaces";
 import { habit, HabitCompletionRecord, habitIds } from "../interfaces/habits";
-import { post } from "../interfaces/posts";
+import { post, PostsCategoryData } from "../interfaces/posts";
 import { profileData } from "../interfaces/profile";
 import {
   createUserHabit,
+  createUserPost,
   deleteHabit,
   deletePost,
   getAvatarUrl,
@@ -26,6 +28,7 @@ import {
   getDailyHabitCompletionsIds,
   getDailyMilestoneCompletions,
   getMostRecentPost,
+  getPostCategoriesCreatedToday,
   getUserHabits,
   getUserPosts,
   getUserProfile,
@@ -354,6 +357,7 @@ export function useDeletePost() {
     onSuccess: (isSuccess) => {
       if (isSuccess) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["postCategoriesToday"] });
       }
     },
     onError: (error) => {
@@ -435,4 +439,48 @@ export function useCreateNewUserHabit() {
       toast.error("Deletion failed due to a connection error.");
     },
   });
+}
+
+export function useCreateNewPost() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const userId = user?.id;
+
+  return useMutation<boolean, Error, CreateUserPostVariables>({
+    mutationFn: async ({ title, content, category, streakMilestone }) => {
+      return createUserPost(category, userId, title, content, streakMilestone);
+    },
+    onSuccess: (isSuccess) => {
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["postCategoriesToday"] });
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+      toast.error("Deletion failed due to a connection error.");
+    },
+  });
+}
+
+export function usePostCategoriesCreatedToday() {
+  const { user, loading: authLoading } = useAuth();
+  const userId = user?.id || null;
+
+  const {
+    data: postCategoryData,
+    isLoading: isLoadingPostCategoryData,
+    isError: isPostCategoryError,
+    error: postCategoryError,
+  } = useQuery<PostsCategoryData[], Error>({
+    queryKey: ["postCategoriesToday", userId],
+    queryFn: () => getPostCategoriesCreatedToday(userId!),
+    enabled: !!userId && !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const loading = authLoading || isLoadingPostCategoryData;
+
+  return { postCategoryData, loading, isPostCategoryError, postCategoryError };
 }

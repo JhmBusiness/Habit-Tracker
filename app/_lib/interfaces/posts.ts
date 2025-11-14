@@ -10,3 +10,7 @@ export interface post {
   comments_enabled: boolean;
   milestone_streak: number;
 }
+
+export interface PostsCategoryData {
+  category: string;
+}

@@ -12,10 +12,12 @@ import toast from "react-hot-toast";
 import NewHabitBtn from "../_components/modals/NewHabitBtn";
 import NewPostHabitCategoryBtn from "../_components/modals/NewPostHabitCategoryBtn";
 import {
+  useCreateNewPost,
   useCreateNewUserHabit,
   useDeleteHabit,
   useDeletePost,
   useDeleteUserAccount,
+  usePostCategoriesCreatedToday,
   useUserHabits,
 } from "../_lib/_utils/queries";
 import { habit } from "../_lib/interfaces/habits";
@@ -289,7 +291,6 @@ function NewPostModal({ habitId, category }: NewPostProps) {
     register,
     setValue,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormInputs>({
     defaultValues: {
@@ -300,8 +301,7 @@ function NewPostModal({ habitId, category }: NewPostProps) {
     },
   });
 
-  /* --------------- */
-  // Research what is actually happening here.
+  const mutateForm = useCreateNewPost();
 
   async function returnHabitStreakData() {
     try {
@@ -315,19 +315,17 @@ function NewPostModal({ habitId, category }: NewPostProps) {
     }
   }
 
-  // ✅ Run once habitId changes or component mounts
   useEffect(() => {
     if (habitId) {
       returnHabitStreakData();
     }
   }, [habitId]);
 
-  // Optional: handle form submission
   const onSubmit = (data: FormInputs) => {
-    console.log("Form submitted:", data);
+    const { title, content, category, streakMilestone } = data;
+    mutateForm.mutate({ title, content, category, streakMilestone });
+    closeModal();
   };
-
-  /* --------------- */
 
   const svgIcon: { [key: string]: React.ReactElement } = {
     fitness: (
@@ -607,7 +605,7 @@ function NewPostModal({ habitId, category }: NewPostProps) {
         </div>
         <div className="flex gap-3 mt-6">
           <button className="px-[18px] py-3 rounded-lg text-white bg-primary-accent hover:brightness-105 transition cursor-pointer">
-            Create Post
+            {isSubmitting ? "Creating Post..." : "Create Post"}
           </button>
           <button
             className="px-[18px] py-3 text-grey bg-transparent border border-grey rounded-full hover:bg-grey hover:text-light transition cursor-pointer"
@@ -637,6 +635,10 @@ function PostCategorySelectionModal() {
     diet: "Healthy Diet",
   };
 
+  const { postCategoryData } = usePostCategoriesCreatedToday();
+  const alreadyMadePostCategories: string[] = [];
+  postCategoryData?.map((el) => alreadyMadePostCategories.push(el.category));
+
   if (!habitsData) return;
 
   return (
@@ -653,6 +655,7 @@ function PostCategorySelectionModal() {
             category={habit.category}
             id={habit.id}
             label={modalBtnLabels[habit.category]}
+            alreadyMadePostCategories={alreadyMadePostCategories}
           />
         ))}
       </div>

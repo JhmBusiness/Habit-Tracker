@@ -1,16 +1,21 @@
 import { useModal } from "@/app/_context/ModalContext";
-import { useUserHabitCompletionMilestonesToday } from "@/app/_lib/_utils/queries";
+import {
+  usePostCategoriesCreatedToday,
+  useUserHabitCompletionMilestonesToday,
+} from "@/app/_lib/_utils/queries";
 
 interface NewPostHabitCategoryBtnProps {
   category: string;
   id: string;
   label: string;
+  alreadyMadePostCategories: string[];
 }
 
 function NewPostHabitCategoryBtn({
   category,
   label,
   id: habitId,
+  alreadyMadePostCategories,
 }: NewPostHabitCategoryBtnProps) {
   const { openModal } = useModal();
   const { milestoneCompletionsToday } = useUserHabitCompletionMilestonesToday();
@@ -295,7 +300,10 @@ function NewPostHabitCategoryBtn({
   return (
     <button
       onClick={handleClick}
-      disabled={!completedIds.includes(habitId)}
+      disabled={
+        !completedIds.includes(habitId) ||
+        alreadyMadePostCategories.includes(category)
+      }
       className={`py-4 px-[12px] sm:px-5 flex gap-2 items-center justify-center border rounded-sm border-dark-sixteen hover:${cardBorderColour[category]} hover:${cardLightBgColour[category]} cursor-pointer duration-200 disabled:bg-dark-sixteen disabled:border-dark-sixteen disabled:grayscale-75 disabled:cursor-not-allowed`}
     >
       <span className="w-4 h-4 sm:w-6 sm:h-6">{svgIcon[category]}</span>

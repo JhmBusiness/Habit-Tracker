@@ -88,7 +88,7 @@ function MyPosts() {
       </div>
       {/* Post Cards */}
       {postsToDisplay?.map((el) => (
-        <MyPostsCard key={el.title} post={el} />
+        <MyPostsCard key={el.id} post={el} />
       ))}
 
       {!!postsToRender && postsToRender?.length >= 3 && (

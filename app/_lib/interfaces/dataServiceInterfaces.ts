@@ -54,3 +54,11 @@ export interface CreateUserHabitVariables {
   category: string;
   userId?: string;
 }
+
+export interface CreateUserPostVariables {
+  category: string;
+  userId?: string;
+  title: string;
+  content: string;
+  streakMilestone: string;
+}

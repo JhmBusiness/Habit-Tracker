@@ -358,3 +358,63 @@ export async function createUserHabit(category: string, userId?: string) {
     return false;
   }
 }
+
+export async function createUserPost(
+  category: string,
+  userId: string | undefined,
+  title: string,
+  content: string,
+  streakMilestone: string
+) {
+  const supabase = createClient();
+
+  if (!userId) {
+    console.error("No userID provided to createUserhabit.");
+    toast.error("User not authenticated. Please log in again.");
+    return false;
+  }
+
+  try {
+    const { error } = await supabase
+      .from("posts")
+      .insert([
+        {
+          user_id: userId,
+          title,
+          content,
+          category,
+          milestone_streak: streakMilestone,
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.log("Supabase insert error:", error);
+      toast.error("Failed to create post! Please try again.");
+      return false;
+    }
+
+    toast.success("Post created successfully!");
+    return true;
+  } catch (err) {
+    console.error("Network or Execution Error:", err);
+    toast.error("An unexpected error occurred. Please try again.");
+    return false;
+  }
+}
+
+export async function getPostCategoriesCreatedToday(userId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("posts")
+    .select("category")
+    .eq("user_id", userId)
+    .filter("created_at", "gte", new Date().toISOString().split("T")[0]);
+
+  if (error) {
+    console.error("Error fetching user posts:", error.message);
+    throw new Error(`Failed to fetch user posts: ${error.message}`);
+  }
+  return data;
+}
