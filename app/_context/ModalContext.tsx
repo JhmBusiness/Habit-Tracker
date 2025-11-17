@@ -8,9 +8,12 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaCheck } from "react-icons/fa6";
 import NewHabitBtn from "../_components/modals/NewHabitBtn";
 import NewPostHabitCategoryBtn from "../_components/modals/NewPostHabitCategoryBtn";
+import { getUserHabitCurrentStreak } from "../_lib/_utils/dataService";
 import {
   useCreateNewPost,
   useCreateNewUserHabit,
@@ -21,8 +24,6 @@ import {
   useUserHabits,
 } from "../_lib/_utils/queries";
 import { habit } from "../_lib/interfaces/habits";
-import { getUserHabitCurrentStreak } from "../_lib/_utils/dataService";
-import { SubmitHandler, useForm } from "react-hook-form";
 
 type ModalName =
   | "delete-post"
@@ -285,12 +286,15 @@ function NewPostModal({ habitId, category }: NewPostProps) {
     content: string;
     category: string;
     streakMilestone: string;
+    commentsEnabled: boolean;
+    isPublic: boolean;
   };
 
   const {
     register,
     setValue,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<FormInputs>({
     defaultValues: {
@@ -298,6 +302,8 @@ function NewPostModal({ habitId, category }: NewPostProps) {
       content: "",
       category,
       streakMilestone: "",
+      commentsEnabled: true,
+      isPublic: true,
     },
   });
 
@@ -322,8 +328,26 @@ function NewPostModal({ habitId, category }: NewPostProps) {
   }, [habitId]);
 
   const onSubmit = (data: FormInputs) => {
-    const { title, content, category, streakMilestone } = data;
-    mutateForm.mutate({ title, content, category, streakMilestone });
+    const {
+      title,
+      content,
+      category,
+      streakMilestone,
+      commentsEnabled,
+      isPublic,
+    } = data;
+    if (title.length <= 0 || content.length <= 0) {
+      toast.error("Please fill out the form.");
+      return;
+    }
+    mutateForm.mutate({
+      title,
+      content,
+      category,
+      streakMilestone,
+      commentsEnabled,
+      isPublic,
+    });
     closeModal();
   };
 
@@ -602,6 +626,41 @@ function NewPostModal({ habitId, category }: NewPostProps) {
             className="w-full min-h-28 rounded-sm border border-dark-sixteen bg-white pt-4 px-6"
             placeholder="Type here (Max 240 characters)"
           />
+        </div>
+        {/* Check boxes */}
+        <div className="my-4">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="relative">
+              <input
+                id="commentsEnabled"
+                type="checkbox"
+                {...register("commentsEnabled")}
+                className="rounded-xs w-5 h-5 bg-white border border-dark-sixteen checked:text-primary-accent hover:cursor-pointer appearance-none duration-200"
+              />
+              <FaCheck
+                className={`cursor-pointer absolute top-[2px] left-[2px] text-primary-accent duration-200 pointer-events-none ${
+                  watch("commentsEnabled") ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            </div>
+            <p className="text-xs">Comments enabled</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <input
+                id="isPublic"
+                type="checkbox"
+                {...register("isPublic")}
+                className="rounded-xs w-5 h-5 bg-white border border-dark-sixteen checked:text-primary-accent hover:cursor-pointer appearance-none duration-200"
+              />
+              <FaCheck
+                className={`cursor-pointer absolute top-[2px] left-[2px] text-primary-accent duration-200 pointer-events-none ${
+                  watch("isPublic") ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            </div>
+            <p className="text-xs">Visibility (public)</p>
+          </div>
         </div>
         <div className="flex gap-3 mt-6">
           <button className="px-[18px] py-3 rounded-lg text-white bg-primary-accent hover:brightness-105 transition cursor-pointer">

@@ -61,4 +61,6 @@ export interface CreateUserPostVariables {
   title: string;
   content: string;
   streakMilestone: string;
+  commentsEnabled: boolean;
+  isPublic: boolean;
 }

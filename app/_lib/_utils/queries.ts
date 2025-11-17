@@ -447,8 +447,23 @@ export function useCreateNewPost() {
   const userId = user?.id;
 
   return useMutation<boolean, Error, CreateUserPostVariables>({
-    mutationFn: async ({ title, content, category, streakMilestone }) => {
-      return createUserPost(category, userId, title, content, streakMilestone);
+    mutationFn: async ({
+      title,
+      content,
+      category,
+      streakMilestone,
+      commentsEnabled,
+      isPublic,
+    }) => {
+      return createUserPost(
+        category,
+        userId,
+        title,
+        content,
+        streakMilestone,
+        commentsEnabled,
+        isPublic
+      );
     },
     onSuccess: (isSuccess) => {
       if (isSuccess) {

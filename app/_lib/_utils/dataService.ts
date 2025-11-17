@@ -364,7 +364,9 @@ export async function createUserPost(
   userId: string | undefined,
   title: string,
   content: string,
-  streakMilestone: string
+  streakMilestone: string,
+  commentsEnabled: boolean,
+  isPublic: boolean
 ) {
   const supabase = createClient();
 
@@ -375,6 +377,8 @@ export async function createUserPost(
   }
 
   try {
+    console.log(commentsEnabled);
+    console.log(isPublic);
     const { error } = await supabase
       .from("posts")
       .insert([
@@ -384,6 +388,8 @@ export async function createUserPost(
           content,
           category,
           milestone_streak: streakMilestone,
+          comments_enabled: commentsEnabled,
+          is_public: isPublic,
         },
       ])
       .select();
