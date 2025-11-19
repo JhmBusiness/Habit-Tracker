@@ -10,6 +10,7 @@ import {
   CreateUserPostVariables,
   DeleteHabitVariables,
   DeletePostVariables,
+  EditUserPostVariables,
   useDailyHabitCompletionsCountInterface,
   userStats,
   useUserAvatarResult,
@@ -23,6 +24,7 @@ import {
   createUserPost,
   deleteHabit,
   deletePost,
+  editUserPost,
   getAvatarUrl,
   getDailyHabitCompletionsCount,
   getDailyHabitCompletionsIds,
@@ -498,4 +500,43 @@ export function usePostCategoriesCreatedToday() {
   const loading = authLoading || isLoadingPostCategoryData;
 
   return { postCategoryData, loading, isPostCategoryError, postCategoryError };
+}
+
+export function useUpdateUserPost() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const userId = user?.id;
+
+  return useMutation<boolean, Error, EditUserPostVariables>({
+    mutationFn: async ({
+      postId,
+      title,
+      content,
+      category,
+      streakMilestone,
+      commentsEnabled,
+      isPublic,
+    }) => {
+      return editUserPost(
+        postId,
+        category,
+        userId,
+        title,
+        content,
+        streakMilestone,
+        commentsEnabled,
+        isPublic
+      );
+    },
+    onSuccess: (isSuccess) => {
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["postCategoriesToday"] });
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+      toast.error("Deletion failed due to a connection error.");
+    },
+  });
 }

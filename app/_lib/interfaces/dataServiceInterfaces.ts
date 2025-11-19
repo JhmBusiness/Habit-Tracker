@@ -60,7 +60,18 @@ export interface CreateUserPostVariables {
   userId?: string;
   title: string;
   content: string;
-  streakMilestone: string;
+  streakMilestone: number;
+  commentsEnabled: boolean;
+  isPublic: boolean;
+}
+
+export interface EditUserPostVariables {
+  postId: string;
+  category: string;
+  userId?: string;
+  title: string;
+  content: string;
+  streakMilestone: number;
   commentsEnabled: boolean;
   isPublic: boolean;
 }

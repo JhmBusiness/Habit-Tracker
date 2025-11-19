@@ -9,6 +9,7 @@ export interface post {
   likes_count: number;
   comments_enabled: boolean;
   milestone_streak: number;
+  is_public: boolean;
 }
 
 export interface PostsCategoryData {

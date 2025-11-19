@@ -15,7 +15,6 @@ function MyPostsCard({ post }: postCard) {
     content,
     comments_count,
     likes_count,
-    comments_enabled,
     milestone_streak,
     id,
   } = post;
@@ -59,6 +58,7 @@ function MyPostsCard({ post }: postCard) {
         <h4>{title}</h4>
         <p className="text-xs pt-2 font-normal">{content}</p>
         <button
+          onClick={() => openModal("edit-post", { postId: id })}
           className={`${editBtnHoverColour[category]} absolute right-4 top-4 text-grey hover:scale-105 active:scale-95 duration-200 hover:cursor-pointer`}
         >
           <FaPencil className="w-6 h-6" />

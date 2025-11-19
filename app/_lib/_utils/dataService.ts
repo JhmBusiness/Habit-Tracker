@@ -3,13 +3,11 @@
 import { Inputs } from "@/app/_components/my-account/MyAccount";
 import { createClient } from "@/app/_lib/supabase/client";
 import toast from "react-hot-toast";
-import { HabitCompletionRecord } from "../interfaces/habits";
 import {
-  CreateUserHabitVariables,
   DeleteHabitInterface,
   DeletePostInterface,
-  DeleteUserVariables,
 } from "../interfaces/dataServiceInterfaces";
+import { HabitCompletionRecord } from "../interfaces/habits";
 
 // Fetch avatar URL from supabase.
 export async function getAvatarUrl(userId: string): Promise<string | null> {
@@ -364,14 +362,14 @@ export async function createUserPost(
   userId: string | undefined,
   title: string,
   content: string,
-  streakMilestone: string,
+  streakMilestone: number,
   commentsEnabled: boolean,
   isPublic: boolean
 ) {
   const supabase = createClient();
 
   if (!userId) {
-    console.error("No userID provided to createUserhabit.");
+    console.error("No userID provided to createUserPost.");
     toast.error("User not authenticated. Please log in again.");
     return false;
   }
@@ -423,4 +421,56 @@ export async function getPostCategoriesCreatedToday(userId: string) {
     throw new Error(`Failed to fetch user posts: ${error.message}`);
   }
   return data;
+}
+
+export async function editUserPost(
+  postId: string,
+  category: string,
+  userId: string | undefined,
+  title: string,
+  content: string,
+  streakMilestone: number,
+  commentsEnabled: boolean,
+  isPublic: boolean
+) {
+  console.log("updating from data service...");
+
+  const supabase = createClient();
+
+  if (!userId) {
+    console.error("No userID provided to editUserPost.");
+    toast.error("User not authenticated. Please log in again.");
+    return false;
+  }
+
+  try {
+    const { error } = await supabase
+      .from("posts")
+      .update([
+        {
+          user_id: userId,
+          title,
+          content,
+          category,
+          milestone_streak: streakMilestone,
+          comments_enabled: commentsEnabled,
+          is_public: isPublic,
+        },
+      ])
+      .eq("id", postId)
+      .select();
+
+    if (error) {
+      console.log("Supabase insert error:", error);
+      toast.error("Failed to edit post! Please try again.");
+      return false;
+    }
+
+    toast.success("Post successfully edited!");
+    return true;
+  } catch (err) {
+    console.error("Network or Execution Error:", err);
+    toast.error("An unexpected error occurred. Please try again.");
+    return false;
+  }
 }
