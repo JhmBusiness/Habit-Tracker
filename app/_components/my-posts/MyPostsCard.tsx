@@ -48,15 +48,17 @@ function MyPostsCard({ post }: postCard) {
   return (
     <div>
       <div
-        className={`relative p-6 bg-light rounded-md border ${cardBorderColour[category]} text-center`}
+        className={`relative p-6 bg-light rounded-md border ${cardBorderColour[category]} text-center overflow-hidden`}
       >
         <IconsAndStreak
           category={category}
           milestone_streak={milestone_streak}
         />
         <hr className="my-4 w-20 border-t border-t-dark-eight mx-auto" />
-        <h4>{title}</h4>
-        <p className="text-xs pt-2 font-normal">{content}</p>
+        <h4 className="wrap-break-word">{title}</h4>
+        <p className="text-xs pt-2 font-normal w-full hyphens-auto wrap-break-word">
+          {content}
+        </p>
         <button
           onClick={() => openModal("edit-post", { postId: id })}
           className={`${editBtnHoverColour[category]} absolute right-4 top-4 text-grey hover:scale-105 active:scale-95 duration-200 hover:cursor-pointer`}

@@ -360,6 +360,7 @@ export function useDeletePost() {
       if (isSuccess) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
         queryClient.invalidateQueries({ queryKey: ["postCategoriesToday"] });
+        queryClient.invalidateQueries({ queryKey: ["mostRecentPost"] });
       }
     },
     onError: (error) => {
@@ -471,6 +472,7 @@ export function useCreateNewPost() {
       if (isSuccess) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
         queryClient.invalidateQueries({ queryKey: ["postCategoriesToday"] });
+        queryClient.invalidateQueries({ queryKey: ["mostRecentPost"] });
       }
     },
     onError: (error) => {
@@ -532,6 +534,7 @@ export function useUpdateUserPost() {
       if (isSuccess) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
         queryClient.invalidateQueries({ queryKey: ["postCategoriesToday"] });
+        queryClient.invalidateQueries({ queryKey: ["mostRecentPost"] });
       }
     },
     onError: (error) => {
