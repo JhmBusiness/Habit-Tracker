@@ -13,7 +13,7 @@ function MilestoneCard() {
 
   if (loading)
     return (
-      <div className="border border-dark-sixteen bg-white rounded-lg sm:order-5 xl:order-3">
+      <div className="border border-dark-sixteen bg-white rounded-lg sm:order-5 xl:order-3 2xl:max-w-[452px]">
         <DashCompTitle>Next Milestone</DashCompTitle>
         <div className="flex justify-center items-center h-20">
           <Spinner />
@@ -22,7 +22,7 @@ function MilestoneCard() {
     );
 
   return (
-    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-5 xl:order-3">
+    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-5 xl:order-3 2xl:max-w-[452px]">
       <DashCompTitle>
         Next Milestone: {daysUntilNextMilestone}
         {daysUntilNextMilestone !== 1 ? " days" : " day"}

@@ -112,7 +112,7 @@ function HeroCards() {
         )}
       </div>
       {/* Seperated Cards */}
-      <div className="hidden sm:grid gap-8 grid-cols-3 order-2 xl:row-span-3 xl:flex xl:flex-col xl:w-fit xl:order-1 2xl:grid 2xl:grid-cols-2 2xl:row-span-1 2xl:w-full 2xl:auto-rows-min">
+      <div className="hidden sm:grid gap-8 grid-cols-3 order-2 xl:row-span-3 xl:flex xl:flex-col xl:w-fit xl:order-1 2xl:grid 2xl:grid-cols-2 2xl:row-span-1 2xl:w-full 2xl:auto-rows-min 2xl:max-w-[452px]">
         {/* Card 1 */}
         {!userStatsLoading ? (
           <div className="border border-dark-sixteen bg-white rounded-lg p-6 gap-6 xl:h-full xl:flex xl:items-center xl:justify-center">
