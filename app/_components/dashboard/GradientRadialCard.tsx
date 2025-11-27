@@ -252,15 +252,26 @@ function GradientRadialCard({
   });
 
   return (
-    <div className="w-full relative">
-      <Chart
-        options={chartOptions}
-        series={chartSeries}
-        type="radialBar"
-        width="100%"
-        height="200"
-      />
-    </div>
+    <>
+      <div className="w-full relative sm:hidden">
+        <Chart
+          options={chartOptions}
+          series={chartSeries}
+          type="radialBar"
+          width="100%"
+          height="200"
+        />
+      </div>
+      <div className="hidden sm:flex w-full relative justify-center items-center h-full">
+        <Chart
+          options={chartOptions}
+          series={chartSeries}
+          type="radialBar"
+          width="100%"
+          height="180"
+        />
+      </div>
+    </>
   );
 }
 

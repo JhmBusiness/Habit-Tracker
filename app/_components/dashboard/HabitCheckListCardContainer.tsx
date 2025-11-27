@@ -15,7 +15,9 @@ function HabitCheckListCardContainer({
   return (
     <div
       className={`flex flex-wrap items-center justify-center gap-4 p-6 ${
-        uncompletedHabits.length > 0 ? "border-b border-b-dark-eight" : ""
+        uncompletedHabits.length > 0
+          ? "border-b border-b-dark-eight sm:border-b-0"
+          : ""
       }`}
     >
       {uncompletedHabitsCount === 0 && (

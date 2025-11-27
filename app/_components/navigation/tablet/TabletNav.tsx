@@ -76,7 +76,7 @@ function TabletNav({
   ];
 
   return (
-    <div className="hidden md:flex xl:hidden flex-col h-dvh bg-bg-light p-4 overflow-y-scroll no-scrollbar gap-6">
+    <div className="hidden md:flex 2xl:hidden flex-col h-dvh bg-bg-light p-4 overflow-y-scroll no-scrollbar gap-6">
       {/* Top bar */}
       <div className="bg-light px-4 py-6 flex flex-col gap-4 items-center rounded-t-md rounded-b-sm">
         <Link

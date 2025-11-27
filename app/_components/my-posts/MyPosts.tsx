@@ -61,7 +61,10 @@ function MyPosts() {
   if (habitsData?.length === 0) return;
 
   return (
-    <div className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center">
+    <div
+      className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center scroll-m-6 sm:scroll-m-8"
+      id="myPosts"
+    >
       {/* Title, btn, para, filter */}
       <div>
         {milestoneCompletionsToday?.length === 0 ? (

@@ -112,7 +112,61 @@ function HeroCards() {
         )}
       </div>
       {/* Seperated Cards */}
-      <div className="hidden sm:flex"></div>
+      <div className="hidden sm:grid gap-8 grid-cols-3 order-2 xl:row-span-3 xl:flex xl:flex-col xl:w-fit xl:order-1 2xl:grid 2xl:grid-cols-2 2xl:row-span-1 2xl:w-full 2xl:auto-rows-min">
+        {/* Card 1 */}
+        {!userStatsLoading ? (
+          <div className="border border-dark-sixteen bg-white rounded-lg p-6 gap-6 xl:h-full xl:flex xl:items-center xl:justify-center">
+            <div className="flex flex-col items-center justify-center text-center">
+              {/* Flame */}
+
+              <img src="/svg/flameIcon.svg" />
+              {highestEverStreak === 1 ? (
+                <h2 className="mt-1">{highestEverStreak} Day</h2>
+              ) : (
+                <h2 className="mt-1">{highestEverStreak} Days</h2>
+              )}
+              <p className="text-xs sm:text-base">Highest Ever Streak</p>
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-center items-center min-h-[200px] border border-dark-sixteen bg-white rounded-xl p-6 gap-6">
+            <Spinner />
+          </div>
+        )}
+        {/* Card 2 */}
+        {!habitCompletionsCountLoading || !userStatsLoading ? (
+          <div className="border border-dark-sixteen bg-white rounded-lg gap-6 xl:h-full xl:flex xl:items-center">
+            <GradientRadialCard
+              totalCount={activeHabits}
+              completedCount={completedCount}
+            />
+          </div>
+        ) : (
+          <div className="flex justify-center items-center border border-dark-sixteen bg-white rounded-lg min-h-[200px]">
+            <Spinner />
+          </div>
+        )}
+        {/* Card 3 */}
+        {!userStatsLoading ? (
+          <div className="border border-dark-sixteen bg-white rounded-lg p-6 gap-6 xl:h-full xl:flex xl:items-center xl:justify-center 2xl:hidden">
+            <div className="flex flex-col items-center justify-center text-center">
+              {/* Target */}
+              <img src="/svg/targetIcon.svg" />
+              {/* Replace with actual figures */}
+              <h2>{activeHabits}</h2>
+              <p className="text-xs sm:text-base">
+                Active
+                <br />
+                Habits
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-center items-center min-h-[200px] border border-dark-sixteen bg-white rounded-xl p-6 gap-6 2xl:hidden">
+            <Spinner />
+          </div>
+        )}
+      </div>
     </>
   );
 }

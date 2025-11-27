@@ -7,7 +7,7 @@ import AccountManagement from "@/app/_components/account-management/AccountManag
 
 function page() {
   return (
-    <div className="bg-bg-light rounded-lg md:rounded-xl h-[5000px]">
+    <div className="bg-bg-light rounded-lg md:rounded-xl pb-[102px] md:pb-0">
       <DashboardContainer />
       <AccountContainer>
         <MyHabits />

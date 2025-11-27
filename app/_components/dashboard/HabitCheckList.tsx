@@ -19,9 +19,11 @@ function HabitCheckList() {
   const uncompletedHabitsCount = uncompletedHabits.length ?? 0;
 
   return (
-    <div className="border border-dark-sixteen bg-white rounded-lg">
+    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-3 xl:order-2 2xl:max-h-[261px] 2xl:overflow-y-scroll">
       {/* Title */}
-      <DashCompTitle>Today&apos;s Habits Checklist</DashCompTitle>
+      <DashCompTitle countDown={true}>
+        Today&apos;s Habits Checklist{" "}
+      </DashCompTitle>
       {/* Cards */}
       {!isLoading ? (
         <div>
@@ -41,7 +43,7 @@ function HabitCheckList() {
 
           {/* Time */}
           {uncompletedHabits.length > 0 && (
-            <div className="py-6 w-full">
+            <div className="py-6 w-full sm:hidden">
               <CountDown />
             </div>
           )}

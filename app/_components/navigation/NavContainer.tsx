@@ -13,7 +13,7 @@ function NavContainer() {
   );
 
   return (
-    <div className="md:sticky md:top-0 md:h-dvh xl:py-10 xl:pl-10">
+    <div className="md:sticky md:top-0 md:h-dvh 2xl:py-10 2xl:pl-10">
       <DesktopNav
         user={user}
         logout={logout}

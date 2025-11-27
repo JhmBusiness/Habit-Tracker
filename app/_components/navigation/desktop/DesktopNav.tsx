@@ -22,7 +22,7 @@ function DesktopNav({
   const displayName = profileData?.display_name.split(" ")[0] || "User";
 
   return (
-    <div className="hidden xl:flex flex-col bg-bg-light h-full w-[420px] rounded-xl overflow-y-scroll no-scrollbar">
+    <div className="hidden 2xl:flex flex-col bg-bg-light h-full w-[420px] rounded-xl overflow-y-scroll no-scrollbar">
       <div className="relative w-full min-h-[240px] overflow-hidden">
         {/* Top */}
         <div className="absolute w-full h-full flex justify-center">

@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-function CountDown() {
+interface CountDownProps {
+  type?: string;
+}
+
+function CountDown({ type }: CountDownProps) {
   const [timeLeft, setTimeLeft] = useState({
     hours: 0,
     minutes: 0,
@@ -50,7 +54,7 @@ function CountDown() {
       <h4 className="pb-1">
         {formattedHour + ":" + formattedMin + ":" + formattedSec}
       </h4>
-      <p className="text-xs">Time Remaining</p>
+      {type !== "small" && <p className="text-xs">Time Remaining</p>}
     </div>
   );
 }
