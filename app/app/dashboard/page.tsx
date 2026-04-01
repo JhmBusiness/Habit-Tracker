@@ -36,7 +36,7 @@ function page() {
   const size = UseWindowSize();
 
   return (
-    <div className="bg-bg-light rounded-lg md:rounded-xl pb-[102px] md:pb-0">
+    <div className="bg-bg-light rounded-lg md:rounded-xl pb-[102px] md:pb-0 scroll-m-6 sm:scroll-m-8 xl:scroll-m-10">
       <DashboardContainer size={size} />
       <AccountContainer>
         <MyHabits />

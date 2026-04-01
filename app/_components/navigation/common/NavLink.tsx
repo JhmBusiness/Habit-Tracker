@@ -11,6 +11,7 @@ interface navLinkProps {
   whenClicked?: () => void;
   closeNavAnimation?: () => void;
   toggleMenu?: () => void;
+  tempDisabled?: boolean;
 }
 
 function NavLink({
@@ -21,6 +22,7 @@ function NavLink({
   whenClicked,
   closeNavAnimation,
   toggleMenu,
+  tempDisabled,
 }: navLinkProps) {
   const Icon = icon;
 
@@ -37,11 +39,11 @@ function NavLink({
   if (type === "desktop")
     return (
       <Link
-        href={href}
+        href={tempDisabled ? "#coming-soon" : href}
         onClick={handleClick}
         className={`flex items-center gap-3 px-3 py-3 hover:text-primary-accent duration-200 ${
           name === "Log Out" && "flex-row-reverse justify-between"
-        }`}
+        } ${tempDisabled ? "opacity-40 pointer-events-none" : ""}`}
       >
         <Icon className="w-6 h-6" />
         <h3>{name}</h3>
@@ -52,9 +54,9 @@ function NavLink({
   if (type === "tablet")
     return (
       <Link
-        href={href}
+        href={tempDisabled ? "#coming-soon" : href}
         onClick={handleClick}
-        className="flex flex-col gap-1 items-center hover:text-primary-accent rounded-xs hover:cursor-pointer duration-200 w-[64px] h-[64px] justify-center"
+        className={`flex flex-col gap-1 items-center hover:text-primary-accent rounded-xs hover:cursor-pointer duration-200 w-[64px] h-[64px] justify-center ${tempDisabled ? "opacity-40 pointer-events-none" : ""}`}
       >
         <Icon className="w-8 h-8" />
         <h6>{name}</h6>
@@ -64,11 +66,11 @@ function NavLink({
   if (type === "mobile")
     return (
       <Link
-        href={href}
+        href={tempDisabled ? "#coming-soon" : href}
         onClick={handleClick}
         className={`flex items-center gap-3 px-3 py-3 hover:text-primary-accent duration-200 ${
           name === "Log Out" && "flex-row-reverse justify-between"
-        }`}
+        } ${tempDisabled ? "opacity-40 pointer-events-none" : ""}`}
       >
         <Icon className="w-6 h-6" />
         <h3>{name}</h3>
@@ -79,8 +81,8 @@ function NavLink({
   if (type === "fixed")
     return (
       <Link
-        href={href}
-        className="mt-[10px] flex flex-col gap-1 items-center hover:text-primary-accent hover:cursor-pointer duration-200 w-[56px] h-[40px]"
+        href={tempDisabled ? "#coming-soon" : href}
+        className={`mt-[10px] flex flex-col gap-1 items-center hover:text-primary-accent hover:cursor-pointer duration-200 w-[56px] h-[40px] ${tempDisabled ? "opacity-40 pointer-events-none" : ""}`}
       >
         <Icon className="w-6 h-6" />
         <h6>{name}</h6>

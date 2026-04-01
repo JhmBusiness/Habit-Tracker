@@ -29,7 +29,7 @@ function MyPosts() {
 
   const searchParams = useSearchParams();
   let postsToRender = postsData?.filter(
-    (post) => post.category === searchParams.get("filterPosts")
+    (post) => post.category === searchParams.get("filterPosts"),
   );
   if (searchParams.get("filterPosts") === "all") postsToRender = postsData;
 
@@ -62,7 +62,7 @@ function MyPosts() {
 
   return (
     <div
-      className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center scroll-m-6 sm:scroll-m-8"
+      className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center scroll-m-6 sm:scroll-m-8 xl:scroll-m-10 sm:p-8 xl:gap-8 xl:p-10"
       id="myPosts"
     >
       {/* Title, btn, para, filter */}
@@ -75,12 +75,12 @@ function MyPosts() {
           <AccountTitle category="myPosts">My Posts</AccountTitle>
         )}
         {milestoneCompletionsToday?.length === 0 ? (
-          <p className="sm:text-2xl pt-2 pb-4">
+          <p className="sm:text-xl pt-2 pb-4">
             You are able to create a new post when you reach your next
             milestone.
           </p>
         ) : (
-          <p className="sm:text-2xl pt-2 pb-4">
+          <p className="sm:text-xl pt-2 pb-4">
             Well done for reaching your milestone! You are eligible to create a
             new post.
           </p>
@@ -90,9 +90,11 @@ function MyPosts() {
         )}
       </div>
       {/* Post Cards */}
-      {postsToDisplay?.map((el) => (
-        <MyPostsCard key={el.id} post={el} />
-      ))}
+      <div className="flex flex-col gap-6 xl:gap-8 xl:grid xl:grid-cols-2 xl:flex-row xl:flex-wrap">
+        {postsToDisplay?.map((el) => (
+          <MyPostsCard key={el.id} post={el} />
+        ))}
+      </div>
 
       {!!postsToRender && postsToRender?.length >= 3 && (
         <>

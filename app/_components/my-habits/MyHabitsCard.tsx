@@ -48,7 +48,7 @@ function MyHabitsCard({
         markCompleteMutation.mutate({ userId: user.id, habitId });
       } else {
         console.warn(
-          "Cannot mark habit complete: User not logged in or habit ID missing."
+          "Cannot mark habit complete: User not logged in or habit ID missing.",
         );
       }
     } catch (err) {
@@ -85,29 +85,36 @@ function MyHabitsCard({
 
   return (
     <div
-      className={`p-4 rounded-md ${cardBgColour[category]} flex flex-col gap-4`}
+      className={`p-4 rounded-md ${cardBgColour[category]} flex flex-col gap-4 sm:grid sm:grid-cols-[auto_1fr] md:min-w-[440px] md:max-w-[600px] lg:flex-auto 2xl:max-w-[640px]`}
     >
       {/* icon and streak */}
-      <InnerCardSection type={category}>
+      <InnerCardSection type={category} position="topLeft">
         <IconsAndStreak streak={streak} category={category} />
-        <DeleteCross
-          handleClick={() => openModal("delete-habit", { habitId, category })}
-        />
+        <div className="sm:hidden">
+          <DeleteCross
+            handleClick={() => openModal("delete-habit", { habitId, category })}
+          />
+        </div>
       </InnerCardSection>
       {/* Next milestone */}
-      <InnerCardSection type={category}>
+      <InnerCardSection type={category} position="topRight">
         <InnerHabitMilestone
           category={category}
           highestStreak={highestStreak}
           habitData={habitData}
         />
+        <div className="hidden sm:flex">
+          <DeleteCross
+            handleClick={() => openModal("delete-habit", { habitId, category })}
+          />
+        </div>
       </InnerCardSection>
       {/* Finish, time remaining, and delete */}
-      <InnerCardSection type={category}>
-        <div className="flex flex-col gap-3 justify-center items-center">
+      <InnerCardSection type={category} position="bottom">
+        <div className="flex flex-col gap-3 justify-center items-center sm:flex-row-reverse sm:h-full">
           {!isCompletedToday ? <CountDown /> : <h4>Habit completed!</h4>}
           {!isCompletedToday && (
-            <div className="h-[1px] w-10 bg-dark-sixteen"></div>
+            <div className="h-[1px] w-10 bg-dark-sixteen sm:hidden"></div>
           )}
           {!isCompletedToday && (
             <button

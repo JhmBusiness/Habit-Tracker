@@ -2,9 +2,10 @@ import { childrenAndStyles } from "@/app/_lib/interfaces/childrenAndStyles";
 
 interface innerCardInterface extends childrenAndStyles {
   type: string;
+  position: string;
 }
 
-function InnerCardSection({ children, type }: innerCardInterface) {
+function InnerCardSection({ children, type, position }: innerCardInterface) {
   const cardLightBgColour: { [key: string]: string } = {
     fitness: "bg-fitness-light",
     sleepSchedule: "bg-sleepSchedule-light",
@@ -18,7 +19,9 @@ function InnerCardSection({ children, type }: innerCardInterface) {
   };
 
   return (
-    <div className={`${cardLightBgColour[type]} p-4 rounded-sm relative`}>
+    <div
+      className={`${cardLightBgColour[type]} p-4 rounded-sm relative ${position === "bottom" && "sm:col-span-2"} ${position === "topLeft" && "sm:w-fit"}`}
+    >
       {children}
     </div>
   );

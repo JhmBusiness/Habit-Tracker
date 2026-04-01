@@ -14,7 +14,7 @@ function MyHabits() {
   const { todayHabitCompletionIds, isLoading: loadingDailyHabitCompIds } =
     useDailyHabitCompletionIds();
   const habitsCompletedSet = new Set(
-    todayHabitCompletionIds?.map((comp) => comp.habit_id || [])
+    todayHabitCompletionIds?.map((comp) => comp.habit_id || []),
   );
   const habitsToRender = habitsData?.slice(0, displayCount);
 
@@ -29,7 +29,10 @@ function MyHabits() {
 
   if (loading || loadingDailyHabitCompIds)
     return (
-      <div className="p-6 bg-light rounded-md flex flex-col gap-20 justify-center items-center pb-20">
+      <div
+        className="p-6 bg-light rounded-md flex flex-col gap-20 justify-center items-center pb-20 scroll-m-6 sm:scroll-m-8 xl:scroll-m-10"
+        id="myHabits"
+      >
         <AccountTitle category="myHabits" disabled={true}>
           My Habits
         </AccountTitle>
@@ -41,11 +44,14 @@ function MyHabits() {
   if (habitsData?.length === 0) return;
 
   return (
-    <div className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center">
+    <div
+      className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center scroll-m-6 sm:scroll-m-8 xl:scroll-m-10 sm:p-8 xl:gap-8 xl:p-10"
+      id="myHabits"
+    >
       {/* Title and btn */}
       <AccountTitle category="myHabits">My Habits</AccountTitle>
       {/* Cards */}
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-6 xl:gap-8 lg:flex-row lg:flex-wrap lg:w-full">
         {habitsToRender?.map((el) => (
           <MyHabitsCard
             habitData={el}

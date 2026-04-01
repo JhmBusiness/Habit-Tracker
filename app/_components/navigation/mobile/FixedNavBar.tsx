@@ -1,6 +1,6 @@
 import { authInterface } from "@/app/_lib/interfaces/authInterface";
 import Link from "next/link";
-import MobileNavLinks from "./FixedNavLinks";
+import MobileNavLinks from "./MobileNavLinks";
 
 function FixedNavBar({
   isLoadingAvatar,
@@ -12,7 +12,7 @@ function FixedNavBar({
       <MobileNavLinks>
         {/* Profile Pic */}
         <Link
-          href="/app/dashboard#my-account"
+          href="/app/dashboard#myAccount"
           className="w-11 h-11 rounded-lg brightness-100 hover:brightness-105 duration-200"
         >
           {isLoadingAvatar || authLoading ? (

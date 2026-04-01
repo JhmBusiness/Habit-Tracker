@@ -11,7 +11,7 @@ interface mostRecentPost {
 function MostRecentPost({ usersPost, loadingPost }: mostRecentPost) {
   if (loadingPost)
     return (
-      <div className="border border-dark-sixteen bg-white rounded-lg sm:order-7 xl:order-4 2xl:order-5 2xl:max-w-[452px]">
+      <div className="border border-dark-sixteen bg-white rounded-lg sm:order-7 xl:order-4 2xl:order-5 2xl:max-w-[452px] 2xl:flex-1">
         <DashCompTitle>Most Recent Post</DashCompTitle>
         <div className="flex justify-center items-center h-[160px]">
           <Spinner />
@@ -20,7 +20,7 @@ function MostRecentPost({ usersPost, loadingPost }: mostRecentPost) {
     );
 
   return (
-    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-7 xl:order-4 2xl:order-5 2xl:max-w-[452px]">
+    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-7 xl:order-4 2xl:order-5 2xl:max-w-[452px] 2xl:flex-1 wrap-anywhere">
       <DashCompTitle>Most Recent Post</DashCompTitle>
       <MostRecentPostContent usersPost={usersPost} />
     </div>

@@ -74,7 +74,7 @@ function ModalWrapper({ children, onClose }: ModalWrapperProps) {
         {children}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }
 
@@ -1078,8 +1078,7 @@ function EditPostModal({ postId }: EditPostProps) {
   return (
     <>
       <h2 className="text-2xl mb-6 flex gap-2">
-        <span className="w-6 h-6 my-auto">{svgIcon[category]}</span>Create A
-        Post
+        <span className="w-8 h-8 my-auto">{svgIcon[category]}</span>Edit A Post
       </h2>
       <hr className="w-full border-t border-t-dark-eight" />
       <form onSubmit={handleSubmit(onSubmit)}>

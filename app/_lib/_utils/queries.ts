@@ -381,6 +381,10 @@ export function useDeleteHabit() {
     onSuccess: (isSuccess) => {
       if (isSuccess) {
         queryClient.invalidateQueries({ queryKey: ["habits"] });
+        queryClient.invalidateQueries({ queryKey: ["userStats"] });
+        queryClient.invalidateQueries({
+          queryKey: ["dailyHabitCompletionsCount"],
+        });
       }
     },
     onError: (error) => {
@@ -435,6 +439,7 @@ export function useCreateNewUserHabit() {
     onSuccess: (isSuccess) => {
       if (isSuccess) {
         queryClient.invalidateQueries({ queryKey: ["habits"] });
+        queryClient.invalidateQueries({ queryKey: ["userStats"] });
       }
     },
     onError: (error) => {

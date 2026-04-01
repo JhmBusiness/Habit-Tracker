@@ -13,7 +13,7 @@ type modalType = "post-category-selection" | "new-habit";
 
 function AccountTitle({ children, category, disabled }: AccountTitleInterface) {
   const { openModal } = useModal();
-  
+
   if (category === "myHabits" || category === "myPosts") {
     let habitOrPost;
     let habitOrPostOnClickModal: modalType;
@@ -42,7 +42,11 @@ function AccountTitle({ children, category, disabled }: AccountTitleInterface) {
             } w-full h-full  duration-200 `}
           />
         </button>
-        <button className="hidden sm:flex items-center gap-2">
+        <button
+          className={`hidden sm:flex items-center gap-2 py-3 px-[18px] rounded-full text-light ${disabled ? " bg-grey cursor-not-allowed" : "bg-add-green hover:scale-105 active:scale-95 hover:cursor-pointer w-fit h-full  duration-200"}`}
+          onClick={() => openModal(`${habitOrPostOnClickModal}`)}
+          disabled={disabled}
+        >
           <FaCirclePlus /> New {habitOrPost}
         </button>
       </div>

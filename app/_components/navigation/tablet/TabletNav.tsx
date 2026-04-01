@@ -24,12 +24,12 @@ const navLinks = [
   },
   {
     name: "Habits",
-    href: "/app/dashboard#habits",
+    href: "/app/dashboard#myHabits",
     icon: FaListCheck,
   },
   {
     name: "Posts",
-    href: "/app/dashboard#posts",
+    href: "/app/dashboard#myPosts",
     icon: FaEnvelopesBulk,
   },
   {
@@ -41,6 +41,7 @@ const navLinks = [
     name: "Friends",
     href: "/app/posts/friends",
     icon: FaUserGroup,
+    tempDisabled: true,
   },
 ];
 
@@ -61,11 +62,13 @@ function TabletNav({
       name: "Notifications",
       href: "",
       icon: FaBell,
+      tempDisabled: true,
     },
     {
       name: "Add Friends",
       href: "/app/dashboard#friends",
       icon: FaUserPlus,
+      tempDisabled: true,
     },
     {
       name: "Log Out",
@@ -80,7 +83,7 @@ function TabletNav({
       {/* Top bar */}
       <div className="bg-light px-4 py-6 flex flex-col gap-4 items-center rounded-t-md rounded-b-sm">
         <Link
-          href="/app/dashboard#account"
+          href="/app/dashboard#myAccount"
           className="w-12 h-12 rounded-lg brightness-100 hover:brightness-105 duration-200"
         >
           {isLoadingAvatar || authLoading ? (

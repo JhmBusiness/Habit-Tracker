@@ -78,7 +78,7 @@ function DraggableNav({
 
   function handleDragEnd(
     event: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo
+    info: PanInfo,
   ) {
     // 01). Check menu ref/menu exists
     if (!menuRef.current) return;
@@ -138,7 +138,9 @@ function DraggableNav({
       <div
         className="py-3 bg-white select-none hover:cursor-grab"
         onPointerDown={(event) => controls.start(event)}
-        // onPointerUp={() => controls.cancel()}
+        // onPointerUp={() => {
+        //   setTimeout(() => controls.cancel(), 800);
+        // }}
         style={{ touchAction: "none" }}
       >
         <div className="bg-grey h-1 w-30 rounded-xl mx-auto"></div>
@@ -147,7 +149,10 @@ function DraggableNav({
       <div className="relative h-[198px] overflow-hidden">
         <div className="absolute w-full h-full flex items-center justify-center">
           {/* Util icons */}
-          <UtilityIcons />
+          <UtilityIcons
+            toggleMenu={toggleMenu}
+            closeNavAnimation={closeNavAnimation}
+          />
           {/* Rounded user pic and welcome msg */}
           <div className="absolute flex flex-col gap-2 items-center justify-center z-10">
             {isLoadingAvatar || authLoading ? (

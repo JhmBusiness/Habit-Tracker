@@ -19,7 +19,7 @@ function HabitCheckList() {
   const uncompletedHabitsCount = uncompletedHabits.length ?? 0;
 
   return (
-    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-3 xl:order-2 2xl:max-h-[261px] 2xl:overflow-y-scroll">
+    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-3 xl:order-2 2xl:max-h-[262px] 2xl:overflow-y-scroll 2xl:h-full">
       {/* Title */}
       <DashCompTitle countDown={true}>
         Today&apos;s Habits Checklist{" "}

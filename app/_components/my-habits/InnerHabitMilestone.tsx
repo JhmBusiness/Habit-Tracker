@@ -80,14 +80,14 @@ function InnerHabitMilestone({
       : 0;
   const clampedPercentage = Math.min(100, Math.max(0, percentage));
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-col">
+    <div className="flex flex-col gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-1">
         {daysUntilNextMilestone !== 1 ? (
           <h4>{daysUntilNextMilestone} days</h4>
         ) : (
           <h4>{daysUntilNextMilestone} day</h4>
         )}
-        <p className="text-xs">until the next milestone</p>
+        <p className="text-xs sm:mt-1">until the next milestone</p>
       </div>
       <div className={`relative rounded-xl w-full min-h-6 ${barBg[category]}`}>
         <motion.div
@@ -97,9 +97,11 @@ function InnerHabitMilestone({
           className={`absolute top-0 left-0 h-full rounded-full ${barShadow[category]} ${barGradientBg[category]} flex items-center`}
         ></motion.div>
       </div>
-      <div className="flex gap-1 items-center">
-        <p className="text-xs mt-[2px]">Longest streak:</p>
-        <h4>{highestStreak}</h4>
+      <div className="flex gap-1 items-center sm:gap-2">
+        <p className="text-xs mt-[2px] sm:text-base">Longest streak:</p>
+        <h4>
+          {highestStreak} {highestStreak === 1 ? "day" : "days"}
+        </h4>
       </div>
     </div>
   );

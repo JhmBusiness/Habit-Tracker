@@ -112,10 +112,10 @@ function HeroCards() {
         )}
       </div>
       {/* Seperated Cards */}
-      <div className="hidden sm:grid gap-8 grid-cols-3 order-2 xl:row-span-3 xl:flex xl:flex-col xl:w-fit xl:order-1 2xl:grid 2xl:grid-cols-2 2xl:row-span-1 2xl:w-full 2xl:auto-rows-min 2xl:max-w-[452px]">
+      <div className="hidden sm:grid gap-8 grid-cols-3 order-2 xl:row-span-3 xl:flex xl:flex-col xl:w-fit xl:order-1 2xl:grid 2xl:grid-cols-2 2xl:row-span-1 2xl:w-full 2xl:max-w-[452px] 2xl:flex-1">
         {/* Card 1 */}
         {!userStatsLoading ? (
-          <div className="border border-dark-sixteen bg-white rounded-lg p-6 gap-6 xl:h-full xl:flex xl:items-center xl:justify-center">
+          <div className="border border-dark-sixteen bg-white rounded-lg p-6 gap-6 xl:h-full xl:flex xl:items-center xl:justify-center 2xl:flex-1">
             <div className="flex flex-col items-center justify-center text-center">
               {/* Flame */}
 
@@ -129,20 +129,20 @@ function HeroCards() {
             </div>
           </div>
         ) : (
-          <div className="flex justify-center items-center min-h-[200px] border border-dark-sixteen bg-white rounded-xl p-6 gap-6">
+          <div className="flex justify-center items-center min-h-[200px] border border-dark-sixteen bg-white rounded-xl p-6 gap-6 2xl:flex-1">
             <Spinner />
           </div>
         )}
         {/* Card 2 */}
         {!habitCompletionsCountLoading || !userStatsLoading ? (
-          <div className="border border-dark-sixteen bg-white rounded-lg gap-6 xl:h-full xl:flex xl:items-center">
+          <div className="border border-dark-sixteen bg-white rounded-lg gap-6 xl:h-full xl:flex xl:items-center 2xl:flex-1">
             <GradientRadialCard
               totalCount={activeHabits}
               completedCount={completedCount}
             />
           </div>
         ) : (
-          <div className="flex justify-center items-center border border-dark-sixteen bg-white rounded-lg min-h-[200px]">
+          <div className="flex justify-center items-center border border-dark-sixteen bg-white rounded-lg min-h-[200px] 2xl:flex-1">
             <Spinner />
           </div>
         )}

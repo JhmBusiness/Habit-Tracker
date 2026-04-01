@@ -1,4 +1,4 @@
-import { reactChildren } from "@/app/_lib/interfaces/childrenAndStyles";
+import { childrenAndStyles } from "@/app/_lib/interfaces/childrenAndStyles";
 import { FaEarthEurope, FaListCheck, FaUserGroup } from "react-icons/fa6";
 import { LuLayoutDashboard } from "react-icons/lu";
 import NavLink from "../common/NavLink";
@@ -11,13 +11,14 @@ const navLinks = [
   },
   {
     name: "Habits",
-    href: "/app/dashboard#habits",
+    href: "/app/dashboard#myHabits",
     icon: FaListCheck,
   },
   {
     name: "Friends",
     href: "/app/posts/friends",
     icon: FaUserGroup,
+    tempDisabled: true,
   },
   {
     name: "Explore",
@@ -26,7 +27,7 @@ const navLinks = [
   },
 ];
 
-function MobileNavLinks({ children }: reactChildren) {
+function MobileNavLinks({ children }: childrenAndStyles) {
   return (
     <div className="flex justify-between items-center">
       {navLinks.slice(0, 2).map((el) => (

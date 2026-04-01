@@ -50,8 +50,8 @@ function CountDown({ type }: CountDownProps) {
   const formattedSec = formatTime(timeLeft.seconds);
 
   return (
-    <div className="w-full text-center">
-      <h4 className="pb-1">
+    <div className="w-full text-center sm:flex sm:items-center sm:gap-1">
+      <h4 className="sm:min-w-[73px]">
         {formattedHour + ":" + formattedMin + ":" + formattedSec}
       </h4>
       {type !== "small" && <p className="text-xs">Time Remaining</p>}

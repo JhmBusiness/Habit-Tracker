@@ -27,7 +27,7 @@ function DashboardContainer({ size }: DashboardContainerProps) {
     return (
       <>
         {/* Up to xl */}
-        <div className="p-6 flex flex-col gap-4 sm:gap-6 md:gap-8 bg-light rounded-t-lg md:rounded-t-xl lg:p-8 xl:p-10 xl:grid xl:grid-cols-[1fr_auto] xl:grid-rows-[auto_auto_auto_auto_auto] 2xl:grid-cols-[1fr_2fr] 2xl:grid-rows-[auto_auto_auto_auto_auto] 2xl:hidden">
+        <div className="p-6 flex flex-col gap-4 sm:gap-6 md:gap-8 bg-light rounded-t-lg md:rounded-t-xl lg:p-8 xl:p-10 xl:grid xl:grid-cols-[1fr_auto] xl:grid-rows-[auto_auto_auto_auto_auto] 2xl:hidden">
           <h2 className="text-center pb-2 sm:order-1 sm:pt-2 md:pb-0 lg:pt-0 xl:hidden">
             Welcome to your dashboard!
           </h2>
@@ -70,7 +70,8 @@ function DashboardContainer({ size }: DashboardContainerProps) {
 
   if (size >= 1536)
     return (
-      <div className="hidden gap-8 p-10 bg-light rounded-t-lg md:rounded-t-xl 2xl:grid grid-cols-2">
+      <div className="hidden gap-8 p-10 bg-light rounded-t-lg md:rounded-t-xl 2xl:grid grid-cols-[auto_1fr] 2xl:h-[calc(100dvh-40px)] 2xl:max-h-[calc(100dvh-40px)] 2xl:overflow-y-scroll">
+        {/* Left side */}
         <div className="flex flex-col gap-8">
           {hasHabits !== 0 && (
             <>
@@ -82,7 +83,8 @@ function DashboardContainer({ size }: DashboardContainerProps) {
             <MostRecentPost usersPost={usersPost} loadingPost={loadingPost} />
           )}
         </div>
-        <div className="flex flex-col gap-8">
+        {/* Right side */}
+        <div className="flex flex-col gap-8 h-full min-h-0 overflow-hidden">
           {hasHabits !== 0 && <HabitCheckList />}
           <ButtonContainer>
             <Button onClick={() => openModal("new-habit")} type="dashboard">
@@ -102,7 +104,7 @@ function DashboardContainer({ size }: DashboardContainerProps) {
             </Button>
           </ButtonContainer>
           {hasHabits !== 0 && (
-            <div className="hidden sm:block w-full sm:order-6 xl:col-span-2">
+            <div className="hidden sm:block w-full sm:order-6 xl:col-span-2 2xl:col-span-1 min-h-0 border border-dark-sixteen bg-white rounded-lg overflow-y-scroll">
               <CurrentVsHighest />
             </div>
           )}

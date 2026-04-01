@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface postsFilterInterface {
   uniqueCategories: string[];
@@ -299,6 +299,10 @@ function PostsFilter({ uniqueCategories }: postsFilterInterface) {
   function handleSetParams(filter: string) {
     updateFilter("filterPosts", filter);
   }
+
+  useEffect(() => {
+    updateFilter("filterPosts", "all");
+  }, []);
 
   return (
     <div className="flex gap-2">

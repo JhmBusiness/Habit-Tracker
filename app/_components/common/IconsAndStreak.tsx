@@ -2,12 +2,14 @@ interface IconsAndStreak {
   category: string;
   milestone_streak?: number;
   streak?: number;
+  type?: string;
 }
 
 function IconsAndStreak({
   category,
   milestone_streak,
   streak,
+  type,
 }: IconsAndStreak) {
   if (!category) return;
 
@@ -268,15 +270,30 @@ function IconsAndStreak({
   // For my habits
   if (!milestone_streak)
     return (
-      <div className="grid grid-cols-[auto_auto_auto] gap-6 w-full items-center justify-center">
+      <div className="grid grid-cols-[auto_auto_auto] gap-6 w-full items-center justify-center sm:flex sm:flex-col sm:text-center sm:gap-2 sm:h-full">
         <div className="w-12 h-12 flex items-center justify-center">
           {svgIcon[category]}
         </div>
-        <div className="h-6 w-[1px] bg-dark-sixteen"></div>
+        <div className="h-6 w-[1px] bg-dark-sixteen sm:hidden"></div>
         <div>
           {streak !== 1 ? <h4>{streak} Days</h4> : <h4>{streak} Day</h4>}
           <p className="font-light text-xs">{categoryStreak} streak</p>
         </div>
+      </div>
+    );
+
+  // For most recent post
+  if (milestone_streak && type === "msp")
+    return (
+      <div className="flex flex-col text-center justify-center items-center">
+        <div className="max-w-12 max-h-12 w-12 h-12 flex items-center justify-center">
+          {svgIcon[category]}
+        </div>
+        <h4 className="pt-2">{milestone_streak} Days</h4>
+        <p className="font-light text-xs pt-1">
+          {categoryStreak} <br />
+          streak
+        </p>
       </div>
     );
 
@@ -288,7 +305,9 @@ function IconsAndStreak({
           {svgIcon[category]}
         </div>
         <h4 className="pt-2">{milestone_streak} Days</h4>
-        <p className="font-light text-xs">{categoryStreak} streak</p>
+        <p className="font-light text-xs pt-1 whitespace-nowrap">
+          {categoryStreak} streak
+        </p>
       </div>
     );
 }

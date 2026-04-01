@@ -32,13 +32,13 @@ function NavAndUtilLinks({
     },
     {
       name: "My Habits",
-      href: "/app/dashboard#habits",
+      href: "/app/dashboard#myHabits",
       icon: FaListCheck,
       type: type,
     },
     {
       name: "My Posts",
-      href: "/app/dashboard#posts",
+      href: "/app/dashboard#myPosts",
       icon: FaEnvelopesBulk,
       type: type,
     },
@@ -53,6 +53,7 @@ function NavAndUtilLinks({
       href: "/app/posts/friends",
       icon: FaUserGroup,
       type: type,
+      tempDisabled: true,
     },
     {
       name: "Log Out",
