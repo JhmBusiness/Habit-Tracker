@@ -19,6 +19,9 @@ function MostRecentPostContent({ usersPost }: mostRecentPostContent) {
     comments_count,
   } = usersPost;
 
+  const clipContent =
+    content.length > 160 ? content.slice(0, 160) + "..." : content;
+
   return (
     <div className="grid grid-cols-[1fr_auto_3fr] p-6 gap-4 overflow-scroll">
       <IconsAndStreak
@@ -29,7 +32,7 @@ function MostRecentPostContent({ usersPost }: mostRecentPostContent) {
       <div className="h-full w-[1px] bg-dark-sixteen"></div>
       <div className="flex flex-col">
         <h4 className="max-h-6 overflow-hidden">{title}</h4>
-        <p className="text-xs pt-2 pb-3">{content}</p>
+        <p className="text-xs pt-2 pb-3">{clipContent}</p>
         <LikesAndComments
           likes_count={likes_count}
           comments_count={comments_count}

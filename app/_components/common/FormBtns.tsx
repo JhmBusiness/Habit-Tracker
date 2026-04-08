@@ -38,7 +38,7 @@ function FormBtns({
   //   if (type === "manageFriends")
   if (type === "default")
     return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <button
           type="submit"
           onClick={() => closeMenuIfOpen()}

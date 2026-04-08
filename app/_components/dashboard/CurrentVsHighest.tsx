@@ -18,7 +18,7 @@ function CurrentVsHighest() {
     );
 
   return (
-    <div className="border border-dark-sixteen bg-white rounded-lg h-fit 2xl:overflow-y-scroll 2xl:min-h-0 2xl:border-0">
+    <div className="border border-dark-sixteen bg-white rounded-lg h-fit 2xl:min-h-0 2xl:border-0 2xl:h-full">
       <DashCompTitle>Current Streak vs Highest</DashCompTitle>
       <CurrentVsHighestGraph habits={habitsData || []} />
     </div>

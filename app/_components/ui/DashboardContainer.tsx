@@ -54,7 +54,7 @@ function DashboardContainer({ size }: DashboardContainerProps) {
               <HeroCards />
               <HabitCheckList />
               <MilestoneCard />
-              <div className="hidden sm:block w-full sm:order-6 xl:col-span-2 2xl:col-span-1 max-h-[408px] overflow-y-scroll">
+              <div className="hidden sm:block w-full sm:order-6 xl:col-span-2 2xl:col-span-1">
                 <CurrentVsHighest />
               </div>
             </>
@@ -84,7 +84,8 @@ function DashboardContainer({ size }: DashboardContainerProps) {
           )}
         </div>
         {/* Right side */}
-        <div className="flex flex-col gap-8 h-full min-h-0 overflow-hidden">
+        {/* <div className="flex flex-col gap-8 h-full min-h-0 overflow-hidden"> */}
+        <div className="grid grid-rows-[1fr_auto_1.4fr] gap-8 h-full min-h-0 overflow-hidden">
           {hasHabits !== 0 && <HabitCheckList />}
           <ButtonContainer>
             <Button onClick={() => openModal("new-habit")} type="dashboard">
@@ -104,7 +105,7 @@ function DashboardContainer({ size }: DashboardContainerProps) {
             </Button>
           </ButtonContainer>
           {hasHabits !== 0 && (
-            <div className="hidden sm:block w-full sm:order-6 xl:col-span-2 2xl:col-span-1 min-h-0 border border-dark-sixteen bg-white rounded-lg overflow-y-scroll">
+            <div className="hidden sm:block w-full sm:order-6 xl:col-span-2 2xl:col-span-1 min-h-0 border border-dark-sixteen bg-white rounded-lg 2xl:h-full">
               <CurrentVsHighest />
             </div>
           )}

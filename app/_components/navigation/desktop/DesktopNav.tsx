@@ -22,11 +22,15 @@ function DesktopNav({
   const displayName = profileData?.display_name.split(" ")[0] || "User";
 
   return (
-    <div className="hidden 2xl:flex flex-col bg-bg-light h-full w-[420px] rounded-xl overflow-y-scroll no-scrollbar">
+    <div className="hidden 2xl:flex flex-col h-full w-[420px] rounded-xl overflow-y-scroll no-scrollbar">
       <div className="relative w-full min-h-[240px] overflow-hidden">
         {/* Top */}
         <div className="absolute w-full h-full flex justify-center">
-          <UtilityIcons type="desktop" />
+          <UtilityIcons
+            type="desktop"
+            toggleMenu={() => console.log("nothing")}
+            closeNavAnimation={() => console.log("nothing")}
+          />
           {/* Rounded user pic and welcome msg */}
           <div className="absolute bottom-4 flex flex-col gap-3 items-center justify-center z-10">
             {isLoadingAvatar || authLoading ? (

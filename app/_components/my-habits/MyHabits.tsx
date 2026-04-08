@@ -45,7 +45,7 @@ function MyHabits() {
 
   return (
     <div
-      className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center scroll-m-6 sm:scroll-m-8 xl:scroll-m-10 sm:p-8 xl:gap-8 xl:p-10"
+      className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center scroll-m-6 sm:scroll-m-8 sm:p-8 xl:scroll-m-10 xl:gap-8 xl:p-10"
       id="myHabits"
     >
       {/* Title and btn */}

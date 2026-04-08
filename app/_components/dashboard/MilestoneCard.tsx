@@ -22,7 +22,7 @@ function MilestoneCard() {
     );
 
   return (
-    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-5 xl:order-3 2xl:max-w-[452px] 2xl:flex-1">
+    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-5 xl:order-3 2xl:max-w-[452px] 2xl:flex-1 2xl:grid 2xl:grid-rows-[auto_1fr]">
       <DashCompTitle>
         Next Milestone: {daysUntilNextMilestone}
         {daysUntilNextMilestone !== 1 ? " days" : " day"}

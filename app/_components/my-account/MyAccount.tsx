@@ -88,56 +88,60 @@ function MyAccount() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center scroll-m-6 sm:scroll-m-8 xl:scroll-m-10"
+      className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center scroll-m-6 sm:scroll-m-8 sm:p-8 xl:scroll-m-10 xl:gap-8 xl:p-10"
       id="myAccount"
     >
       <AccountTitle>My Account</AccountTitle>
-      <ChangeAvatar
-        profileData={profileData}
-        register={register}
-        setValue={setValue}
-        shownAvatar={shownAvatar}
-        setShownAvatar={setShownAvatar}
-        selectedAvatar={selectedAvatar}
-        setSelectedAvatar={setSelectedAvatar}
-        handleShowMenu={handleShowMenu}
-        showMenu={showMenu}
-      />
-      <FormRow label="Username">
-        <input
-          id="username"
-          type="text"
-          {...register("username")}
-          disabled={isSubmitting}
-          className="border border-dark-sixteen rounded-sm bg-white py-3 px-[18px] w-full mt-2 placeholder:text-dark"
+      <div className="flex flex-col gap-6 sm:flex-row sm:gap-8">
+        <ChangeAvatar
+          profileData={profileData}
+          register={register}
+          setValue={setValue}
+          shownAvatar={shownAvatar}
+          setShownAvatar={setShownAvatar}
+          selectedAvatar={selectedAvatar}
+          setSelectedAvatar={setSelectedAvatar}
+          handleShowMenu={handleShowMenu}
+          showMenu={showMenu}
         />
-      </FormRow>
-      <FormRow
-        label="User ID"
-        labelPtTwo="Copy ID"
-        handleCopyText={handleCopyText}
-      >
-        <div
-          className="border border-dark-sixteen rounded-sm bg-white py-3
-          px-[18px] w-full mt-2 font-paragraph placeholder:text-dark overflow-hidden relative"
-        >
-          <input
-            id="userId"
-            className="whitespace-nowrap w-full"
-            readOnly
-            value={profileData?.id}
-            ref={userIdRef}
-          />
-          <button
-            type="button"
-            onClick={handleCopyText}
-            data-copy
-            className="absolute h-full right-0 w-[52px] bg-gradient-to-r from-[#ffffffCC] to-white top-0"
+        <div className="flex flex-col gap-6 sm:flex-auto md:max-w-[480px]">
+          <FormRow label="Username">
+            <input
+              id="username"
+              type="text"
+              {...register("username")}
+              disabled={isSubmitting}
+              className="border border-dark-sixteen rounded-sm bg-white py-3 px-[18px] w-full mt-2 placeholder:text-dark"
+            />
+          </FormRow>
+          <FormRow
+            label="User ID"
+            labelPtTwo="Copy ID"
+            handleCopyText={handleCopyText}
           >
-            <FaCopy className="absolute right-[18px] h-full top-0 z-10 text-grey hover:cursor-pointer hover:text-primary-accent duration-200 hover:scale-105 active:scale-95" />
-          </button>
+            <div
+              className="border border-dark-sixteen rounded-sm bg-white py-3
+          px-[18px] w-full mt-2 font-paragraph placeholder:text-dark overflow-hidden relative"
+            >
+              <input
+                id="userId"
+                className="whitespace-nowrap w-full"
+                readOnly
+                value={profileData?.id}
+                ref={userIdRef}
+              />
+              <button
+                type="button"
+                onClick={handleCopyText}
+                data-copy
+                className="absolute h-full right-0 w-[52px] bg-gradient-to-r from-[#ffffffCC] to-white top-0"
+              >
+                <FaCopy className="absolute right-[18px] h-full top-0 z-10 text-grey hover:cursor-pointer hover:text-primary-accent duration-200 hover:scale-105 active:scale-95" />
+              </button>
+            </div>
+          </FormRow>
         </div>
-      </FormRow>
+      </div>
       <FormBtns
         type="default"
         isSubmitting={isSubmitting}

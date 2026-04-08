@@ -21,12 +21,14 @@ function HabitCheckListCardContainer({
       }`}
     >
       {uncompletedHabitsCount === 0 && (
-        <div className="text-center flex flex-col items-center">
+        <div className="text-center flex flex-col items-center lg:flex-row gap-2 lg:gap-3">
           <GiPartyPopper className="w-20 h-20" />
-          <h4 className="pt-2 pb-1">Congratulations!</h4>
-          <p className="text-xs">
-            You&apos;ve completed all of your habits for today!
-          </p>
+          <div className="flex-col flex lg:text-left">
+            <h4 className="pt-2 pb-1 lg:pt-0 lg:text-xl">Congratulations!</h4>
+            <p className="text-xs">
+              You&apos;ve completed all of your habits for today!
+            </p>
+          </div>
         </div>
       )}
       {children}

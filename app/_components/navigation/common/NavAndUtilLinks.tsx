@@ -113,7 +113,7 @@ function NavAndUtilLinks({
   if (type === "tablet") return;
   if (type === "desktop")
     return (
-      <div className="p-8 flex flex-col gap-8 h-full">
+      <div className="p-8 flex flex-col gap-8 h-full bg-bg-light">
         <ul className="px-6 py-3 bg-light rounded-md flex flex-col">
           {navLinks.slice(0, 3).map((el, index) => (
             <React.Fragment key={el.name}>

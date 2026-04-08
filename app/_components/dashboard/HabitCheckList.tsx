@@ -13,20 +13,20 @@ function HabitCheckList() {
 
   const uncompletedHabits = getUncompletedHabits(
     habitsData,
-    todayHabitCompletionIds
+    todayHabitCompletionIds,
   );
 
   const uncompletedHabitsCount = uncompletedHabits.length ?? 0;
 
   return (
-    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-3 xl:order-2 2xl:max-h-[262px] 2xl:overflow-y-scroll 2xl:h-full">
+    <div className="border border-dark-sixteen bg-white rounded-lg sm:order-3 xl:order-2 2xl:overflow-y-scroll 2xl:h-full 2xl:flex 2xl:flex-col">
       {/* Title */}
       <DashCompTitle countDown={true}>
         Today&apos;s Habits Checklist{" "}
       </DashCompTitle>
       {/* Cards */}
       {!isLoading ? (
-        <div>
+        <div className="m-auto">
           <HabitCheckListCardContainer
             uncompletedHabits={uncompletedHabits}
             uncompletedHabitsCount={uncompletedHabitsCount}

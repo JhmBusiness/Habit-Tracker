@@ -200,7 +200,7 @@ function MilestoneBar({ nearestMilestoneHabit }: milestoneInterface) {
   const clampedPercentage = Math.min(100, Math.max(0, percentage));
 
   return (
-    <div className="p-6">
+    <div className="p-6 2xl:flex 2xl:flex-col my-auto">
       {/* Days */}
       <div className="flex gap-1 items-center mb-2 ml-2">
         <h2>{currentHabitStreak}</h2>
