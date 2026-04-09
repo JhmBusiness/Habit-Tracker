@@ -36,7 +36,7 @@ function DashboardContainer({ size }: DashboardContainerProps) {
               <FaCirclePlus />
               Add Habit
             </Button>
-            <Button type="dashboard">
+            <Button type="dashboard" disabled={true}>
               <FaUserPlus />
               Add Friend
             </Button>
@@ -92,7 +92,7 @@ function DashboardContainer({ size }: DashboardContainerProps) {
               <FaCirclePlus />
               Add Habit
             </Button>
-            <Button type="dashboard">
+            <Button type="dashboard" disabled={true}>
               <FaUserPlus />
               Add Friend
             </Button>

@@ -74,7 +74,7 @@ function TabletNav({
       name: "Log Out",
       href: "",
       icon: FaArrowRightFromBracket,
-      handleClick: logout,
+      whenClicked: () => logout(),
     },
   ];
 
