@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import AppContainer from "../_components/layouts/AppLayoutContainer";
 import PondBg from "../_components/ui/PondBg";
-import "../_styles/globals.css";
 import { ModalProvider } from "../_context/ModalContext";
 
 export const metadata: Metadata = {

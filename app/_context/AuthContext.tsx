@@ -50,7 +50,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     // 02). Real-time auth change listener.
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      // Instead of the Supabase repeated else ifs, we can just use the same two lines here with an additional check for SIGNED_OUT.
       setUser(session?.user || null);
       setSession(session || null);
 

@@ -1,13 +1,19 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 interface postsFilterInterface {
   uniqueCategories: string[];
+  currentFilter: string;
+  setCurrentFilter: Dispatch<SetStateAction<string>>;
 }
 
-function PostsFilter({ uniqueCategories }: postsFilterInterface) {
+function PostsFilter({
+  uniqueCategories,
+  currentFilter,
+  setCurrentFilter,
+}: postsFilterInterface) {
   const svgIcon: { [key: string]: React.ReactElement } = {
     fitness: (
       <svg
@@ -277,7 +283,6 @@ function PostsFilter({ uniqueCategories }: postsFilterInterface) {
     diet: "hover:border-diet-accent hover:bg-diet-light",
   };
 
-  const [currentFilter, setCurrentFilter] = useState("all");
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -287,7 +292,6 @@ function PostsFilter({ uniqueCategories }: postsFilterInterface) {
 
     if (value) {
       currentParams.set(filterName, value);
-      setCurrentFilter(value);
     } else {
       currentParams.delete(filterName);
     }
@@ -301,8 +305,9 @@ function PostsFilter({ uniqueCategories }: postsFilterInterface) {
   }
 
   useEffect(() => {
-    updateFilter("filterPosts", "all");
-  }, []);
+    const filterFromUrl = searchParams.get("filterPosts");
+    setCurrentFilter(filterFromUrl || "all");
+  }, [searchParams]);
 
   return (
     <div className="flex gap-2">

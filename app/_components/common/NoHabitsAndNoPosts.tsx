@@ -4,9 +4,10 @@ import { FaCirclePlus } from "react-icons/fa6";
 
 interface AccountTitleInterface {
   category?: string;
+  onClick: () => void;
 }
 
-function NoHabitsAndNoPosts({ category }: AccountTitleInterface) {
+function NoHabitsAndNoPosts({ category, onClick }: AccountTitleInterface) {
   const { milestoneCompletionsToday } = useUserHabitCompletionMilestonesToday();
 
   let habitOrPost;
@@ -36,6 +37,7 @@ function NoHabitsAndNoPosts({ category }: AccountTitleInterface) {
         disabled={
           category === "posts" && milestoneCompletionsToday?.length === 0
         }
+        onClick={onClick}
       >
         <FaCirclePlus /> New {habitOrPost}
       </button>

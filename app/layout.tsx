@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
+import "../app/_styles/globals.css";
 import { TanstackQueryProvider } from "./_context/QueryProvider";
 
 export const metadata: Metadata = {

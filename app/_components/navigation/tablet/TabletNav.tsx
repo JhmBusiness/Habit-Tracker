@@ -55,7 +55,7 @@ function TabletNav({
   const utilityLinks = [
     {
       name: "Settings",
-      href: "/app/dashboard#account",
+      href: "/app/dashboard#myAccount",
       icon: FaCog,
     },
     {

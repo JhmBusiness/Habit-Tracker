@@ -9,9 +9,9 @@ function CurrentVsHighest() {
 
   if (loading)
     return (
-      <div className="border border-dark-sixteen bg-white rounded-lg">
+      <div className="border border-dark-sixteen bg-white rounded-lg h-fit 2xl:min-h-0 2xl:border-0 2xl:h-full">
         <DashCompTitle>Current Streak vs Highest</DashCompTitle>
-        <div className="flex justify-center items-center h-[160px]">
+        <div className="flex justify-center items-center min-h-[160px] h-[calc(100%-97px)]">
           <Spinner />
         </div>
       </div>

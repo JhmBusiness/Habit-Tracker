@@ -291,8 +291,8 @@ function IconsAndStreak({
         </div>
         <h4 className="pt-2">{milestone_streak} Days</h4>
         <p className="font-light text-xs pt-1">
-          {categoryStreak} <br />
-          streak
+          {categoryStreak}
+          {` `}streak
         </p>
       </div>
     );

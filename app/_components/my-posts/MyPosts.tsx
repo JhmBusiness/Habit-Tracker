@@ -20,6 +20,8 @@ function MyPosts() {
   const { habitsData, loading: habitsLoading } = useUserHabits();
   const { postsData, loading: postsLoading } = useUserPosts();
 
+  const [currentFilter, setCurrentFilter] = useState("all");
+
   const loading =
     milestoneCompletionsTodayLoading || postsLoading || habitsLoading;
 
@@ -31,7 +33,9 @@ function MyPosts() {
   let postsToRender = postsData?.filter(
     (post) => post.category === searchParams.get("filterPosts"),
   );
-  if (searchParams.get("filterPosts") === "all") postsToRender = postsData;
+  if (currentFilter === "all") {
+    postsToRender = postsData;
+  }
 
   const [displayCount, setDisplayCount] = useState(2);
   const postsToDisplay = postsToRender?.slice(0, displayCount);
@@ -57,12 +61,15 @@ function MyPosts() {
       </div>
     );
 
-  if (!habitsData) return;
-  if (habitsData?.length === 0) return;
+  if (!postsData) return;
+  if (postsData.length === 0) {
+    if (!habitsData) return;
+    if (habitsData?.length === 0) return;
+  }
 
   return (
     <div
-      className="p-6 bg-light rounded-md flex flex-col gap-6 justify-center scroll-m-6 sm:scroll-m-8 xl:scroll-m-10 sm:p-8 xl:gap-8 xl:p-10"
+      className={`bg-light rounded-md flex flex-col justify-center scroll-m-6 sm:scroll-m-8 ${postsData.length !== 0 ? "p-6 gap-6 sm:p-8 xl:gap-8 xl:p-10" : "p-6 pb-2 sm:p-8 sm:pb-4 xl:p-10 xl:pb-6"}`}
       id="myPosts"
     >
       {/* Title, btn, para, filter */}
@@ -85,8 +92,12 @@ function MyPosts() {
             new post.
           </p>
         )}
-        {uniqueCategories.length >= 2 && (
-          <PostsFilter uniqueCategories={uniqueCategories} />
+        {postsData && postsData.length > 0 && (
+          <PostsFilter
+            currentFilter={currentFilter}
+            setCurrentFilter={setCurrentFilter}
+            uniqueCategories={uniqueCategories}
+          />
         )}
       </div>
       {/* Post Cards */}
