@@ -297,6 +297,22 @@ function IconsAndStreak({
       </div>
     );
 
+  if (milestone_streak && type === "fyp")
+    return (
+      <div className="flex items-center justify-center text-left gap-3 sm:flex-col sm:text-center sm:gap-0 sm:px-6">
+        <div className="max-w-12 max-h-12 w-12 h-12 flex items-center justify-center sm:mb-2">
+          {svgIcon[category]}
+        </div>
+        <div>
+          <h4 className="">{milestone_streak} Days</h4>
+          <p className="font-light text-xs pt-1">
+            {categoryStreak}
+            {` `}streak
+          </p>
+        </div>
+      </div>
+    );
+
   // For posts
   if (milestone_streak)
     return (

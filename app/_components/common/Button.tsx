@@ -23,7 +23,7 @@ function Button({
         <button
           disabled={disabled}
           onClick={onClick}
-          className={`py-3 px-[18px] flex items-center gap-2 text-xs sm:text-base hover:text-primary-accent duration-200 hover:cursor-pointer rounded-full border border-dark-sixteen bg-white ${styles} md:w-full justify-center ${disabled ? "opacity-40 pointer-events-none" : ""}`}
+          className={`py-3 px-[18px] flex items-center gap-2 text-xs sm:text-base hover:text-primary-accent duration-200 hover:cursor-pointer rounded-full border border-dark-sixteen bg-white ${styles} md:w-full justify-center inset-highlight ${disabled ? "opacity-40 pointer-events-none" : ""}`}
         >
           {children}
         </button>
@@ -33,7 +33,7 @@ function Button({
     <Link
       href={href!}
       onClick={onClick}
-      className={`py-3 px-[18px] flex items-center gap-2 text-xs sm:text-base hover:text-primary-accent duration-200 hover:cursor-pointer rounded-full border border-dark-sixteen bg-white ${styles} font-semibold md:w-full justify-center ${disabled ? "opacity-40 pointer-events-none" : ""}`}
+      className={`py-3 px-[18px] flex items-center gap-2 text-xs sm:text-base hover:text-primary-accent duration-200 hover:cursor-pointer rounded-full border border-dark-sixteen bg-white inset-highlight ${styles} font-semibold md:w-full justify-center ${disabled ? "opacity-40 pointer-events-none" : ""}`}
     >
       {children}
     </Link>

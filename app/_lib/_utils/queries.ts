@@ -25,6 +25,7 @@ import {
   deleteHabit,
   deletePost,
   editUserPost,
+  getAllPublicPosts,
   getAvatarUrl,
   getDailyHabitCompletionsCount,
   getDailyHabitCompletionsIds,
@@ -41,7 +42,7 @@ import {
 // Returns avatar src, loading state, and any errors.
 export function useUserAvatar(
   user: User | null,
-  authLoading: boolean
+  authLoading: boolean,
 ): useUserAvatarResult {
   const userId = user?.id || null;
 
@@ -470,7 +471,7 @@ export function useCreateNewPost() {
         content,
         streakMilestone,
         commentsEnabled,
-        isPublic
+        isPublic,
       );
     },
     onSuccess: (isSuccess) => {
@@ -532,7 +533,7 @@ export function useUpdateUserPost() {
         content,
         streakMilestone,
         commentsEnabled,
-        isPublic
+        isPublic,
       );
     },
     onSuccess: (isSuccess) => {
@@ -547,4 +548,45 @@ export function useUpdateUserPost() {
       toast.error("Deletion failed due to a connection error.");
     },
   });
+}
+
+// Get all public posts
+export function useAllPublicPosts() {
+  const { loading: authLoading } = useAuth();
+
+  // Creat query for habits
+  const {
+    data: postsData = [],
+    isLoading: isLoadingAllPublicPosts,
+    isError: isPublicPostsError,
+    error: publicPostsError,
+  } = useQuery<post[], Error>({
+    queryKey: ["publicPosts"],
+    queryFn: getAllPublicPosts,
+    enabled: !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const loading = authLoading || isLoadingAllPublicPosts;
+
+  return { postsData, loading, isPublicPostsError, publicPostsError };
+}
+
+// Use a users profile data for posts using their id.
+export function useUserProfileById(userId: string | null) {
+  const {
+    data: profileData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<profileData, Error>({
+    queryKey: ["userProfile", userId],
+    queryFn: () => getUserProfile(userId!),
+    enabled: !!userId,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  return { profileData, isLoading, isError, error };
 }

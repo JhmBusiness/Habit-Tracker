@@ -16,6 +16,11 @@
   display: none;
 }
 
+:focus-visible {
+  outline: 2px solid #5a9dbe;
+  outline-offset: 2px;
+}
+
 @theme inline {
   /* Fonts */
   --font-title: "Quicksand", sans-serif;
@@ -29,6 +34,7 @@
   --color-dark-eight: #1d1d1d14;
   --color-grey: #4d4d4d;
   --color-light: #fafafa;
+  --color-light-fourty: #fafafa66;
   --color-bg-light: #fafafaeb;
 
   /* Colours */
@@ -193,6 +199,7 @@
 
   button {
     @apply font-[600];
+    cursor: pointer;
   }
 }
 
@@ -203,6 +210,11 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  :focus-visible.inset-highlight {
+    outline: 2px solid #5a9dbe !important;
+    outline-offset: -3px !important;
   }
 }
 

@@ -4,7 +4,7 @@ import PondBg from "../_components/ui/PondBg";
 import { ModalProvider } from "../_context/ModalContext";
 
 export const metadata: Metadata = {
-  title: "Your Dashboard",
+  title: "The Pond: Application",
   description: "Manage your habits, and track your progress.",
 };
 

@@ -155,10 +155,10 @@ export async function getDailyHabitCompletionsIds(userId: string) {
   if (error) {
     console.error(
       "Error fetching daily habit completion count:",
-      error.message
+      error.message,
     );
     throw new Error(
-      `Failed to fetch daily habit completion count: ${error.message}`
+      `Failed to fetch daily habit completion count: ${error.message}`,
     );
   }
 
@@ -167,7 +167,7 @@ export async function getDailyHabitCompletionsIds(userId: string) {
 
 // Fetch habit completions count
 export async function getDailyHabitCompletionsCount(
-  userId: string
+  userId: string,
 ): Promise<number> {
   const supabase = createClient();
 
@@ -187,10 +187,10 @@ export async function getDailyHabitCompletionsCount(
   if (error) {
     console.error(
       "Error fetching daily habit completion count:",
-      error.message
+      error.message,
     );
     throw new Error(
-      `Failed to fetch daily habit completion count: ${error.message}`
+      `Failed to fetch daily habit completion count: ${error.message}`,
     );
   }
 
@@ -199,7 +199,7 @@ export async function getDailyHabitCompletionsCount(
 
 // Fetch all milestone habit completions today
 export async function getDailyMilestoneCompletions(
-  userId: string
+  userId: string,
 ): Promise<HabitCompletionRecord[]> {
   const supabase = createClient();
 
@@ -212,8 +212,8 @@ export async function getDailyMilestoneCompletions(
       0,
       0,
       0,
-      0
-    )
+      0,
+    ),
   );
   const tomorrowUtcStart = new Date(todayUtcStart);
   tomorrowUtcStart.setUTCDate(todayUtcStart.getUTCDate() + 1);
@@ -229,7 +229,7 @@ export async function getDailyMilestoneCompletions(
   if (error) {
     console.error("Error fetching daily milestone completions:", error.message);
     throw new Error(
-      `Failed to fetch daily milestone completions: ${error.message}`
+      `Failed to fetch daily milestone completions: ${error.message}`,
     );
   }
 
@@ -239,7 +239,7 @@ export async function getDailyMilestoneCompletions(
 // Mark habit as completed
 export async function markHabitAsComplete(
   userId: string | undefined,
-  habitId: string
+  habitId: string,
 ): Promise<void> {
   const supabase = createClient();
   const { data, error } = await supabase.from("habit_completions").insert([
@@ -364,7 +364,7 @@ export async function createUserPost(
   content: string,
   streakMilestone: number,
   commentsEnabled: boolean,
-  isPublic: boolean
+  isPublic: boolean,
 ) {
   const supabase = createClient();
 
@@ -431,7 +431,7 @@ export async function editUserPost(
   content: string,
   streakMilestone: number,
   commentsEnabled: boolean,
-  isPublic: boolean
+  isPublic: boolean,
 ) {
   console.log("updating from data service...");
 
@@ -473,4 +473,21 @@ export async function editUserPost(
     toast.error("An unexpected error occurred. Please try again.");
     return false;
   }
+}
+
+// Get all posts
+export async function getAllPublicPosts() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("is_public", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching all public posts:", error.message);
+    throw new Error(`Failed to fetch all public posts: ${error.message}`);
+  }
+  return data;
 }
