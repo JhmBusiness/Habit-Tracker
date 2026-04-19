@@ -8,7 +8,7 @@ export default function Page() {
   const { postsData, loading } = useAllPublicPosts();
 
   return (
-    <div className="h-full">
+    <div className="h-full xl:w-4/5 xl:mx-auto">
       {loading ? (
         <div className="w-full h-full flex items-center justify-center">
           <div className="bg-bg-light px-20 py-15 rounded-lg md:rounded-xl">

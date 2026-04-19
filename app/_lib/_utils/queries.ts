@@ -6,12 +6,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { DEFAULT_AVATAR_URL } from "../constants";
 import {
+  CreateNewCommentVariables,
   CreateUserHabitVariables,
   CreateUserPostVariables,
   DeleteHabitVariables,
   DeletePostVariables,
   EditUserPostVariables,
   useDailyHabitCompletionsCountInterface,
+  UserLikePostVariable,
   userStats,
   useUserAvatarResult,
   useUserStatsInterface,
@@ -20,11 +22,16 @@ import { habit, HabitCompletionRecord, habitIds } from "../interfaces/habits";
 import { post, PostsCategoryData } from "../interfaces/posts";
 import { profileData } from "../interfaces/profile";
 import {
+  createPostLike,
+  createUserComment,
   createUserHabit,
   createUserPost,
   deleteHabit,
   deletePost,
+  deletePostLike,
   editUserPost,
+  getAllPostComments,
+  getAllPostLikes,
   getAllPublicPosts,
   getAvatarUrl,
   getDailyHabitCompletionsCount,
@@ -38,6 +45,9 @@ import {
   getUserStats,
   updateUserProfile,
 } from "./dataService";
+import { comment } from "../interfaces/comments";
+import { getAvatarImageSrc } from "./actions";
+import { Likes } from "../interfaces/likes";
 
 // Returns avatar src, loading state, and any errors.
 export function useUserAvatar(
@@ -59,18 +69,6 @@ export function useUserAvatar(
     gcTime: 1000 * 60 * 60 * 24,
     placeholderData: (previousData) => previousData || DEFAULT_AVATAR_URL,
   });
-
-  function getAvatarImageSrc(url: string | null | undefined): string {
-    if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
-      return url;
-    } else if (url && ["0", "1", "2", "3"].includes(url)) {
-      return `/profile-pics/${url}.png`;
-    } else if (["0", "1", "2", "3"].includes(url!.slice(14, 15))) {
-      return `${url}`;
-    }
-    console.log(url!.slice(14, 15));
-    return DEFAULT_AVATAR_URL;
-  }
 
   const finalAvatarSrc = getAvatarImageSrc(avatarUrl);
 
@@ -286,7 +284,7 @@ export function useUserPosts() {
   const { user, loading: authLoading } = useAuth();
   const userId = user?.id || null;
 
-  // Creat query for habits
+  // Create query for posts
   const {
     data: postsData,
     isLoading: isLoadingAllposts,
@@ -311,7 +309,6 @@ export function useUserProfile() {
   const { user, loading: authLoading } = useAuth();
   const userId = user?.id || null;
 
-  // Creat query for habits
   const {
     data: profileData,
     isLoading: isLoadingProfileData,
@@ -554,7 +551,7 @@ export function useUpdateUserPost() {
 export function useAllPublicPosts() {
   const { loading: authLoading } = useAuth();
 
-  // Creat query for habits
+  // Creat query for public posts
   const {
     data: postsData = [],
     isLoading: isLoadingAllPublicPosts,
@@ -589,4 +586,116 @@ export function useUserProfileById(userId: string | null) {
   });
 
   return { profileData, isLoading, isError, error };
+}
+
+// Create new comment
+export function useCreateNewComment() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const userId = user?.id;
+
+  return useMutation<boolean, Error, CreateNewCommentVariables>({
+    mutationFn: async ({ comment, postId }) => {
+      return createUserComment(comment, userId, postId);
+    },
+    onSuccess: (isSuccess) => {
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["postComments"] });
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+      toast.error("Comment creation failed due to a connection error.");
+    },
+  });
+}
+
+// Get post comments
+export function usePostComments(postId: string | undefined) {
+  const { loading: authLoading } = useAuth();
+
+  // Create query for all comments
+  const {
+    data: postsComments = [],
+    isLoading: isLoadingAllPostsComments,
+    isError: isPostsCommentsError,
+    error: postsCommentsError,
+  } = useQuery<comment[], Error>({
+    queryKey: [`postComments`, postId],
+    queryFn: () => getAllPostComments(postId!),
+    enabled: !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const loading = authLoading || isLoadingAllPostsComments;
+
+  return { postsComments, loading, isPostsCommentsError, postsCommentsError };
+}
+
+// Create new like
+export function useUserLikePost() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const userId = user?.id;
+
+  return useMutation<boolean, Error, UserLikePostVariable>({
+    mutationFn: async ({ postId }) => {
+      return createPostLike(userId, postId);
+    },
+    onSuccess: (isSuccess) => {
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["postLikes"] });
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+      toast.error("failed to like post due to a connection error.");
+    },
+  });
+}
+
+// Use all post likes
+export function usePostLikes(postId: string | undefined) {
+  const { loading: authLoading } = useAuth();
+
+  // Create query for all likes
+  const {
+    data: postsLikes = [],
+    isLoading: isLoadingAllPostLikes,
+    isError: isPostsLikesError,
+    error: postsLikesError,
+  } = useQuery<Likes[], Error>({
+    queryKey: [`postLikes`, postId],
+    queryFn: () => getAllPostLikes(postId!),
+    enabled: !authLoading,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+  });
+
+  const loading = authLoading || isLoadingAllPostLikes;
+
+  return { postsLikes, loading, isPostsLikesError, postsLikesError };
+}
+
+// Delete post like
+export function useDeletePostLike() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const userId = user?.id;
+
+  return useMutation<boolean, Error, UserLikePostVariable>({
+    mutationFn: async ({ postId }) => {
+      return deletePostLike(userId, postId);
+    },
+    onSuccess: (isSuccess) => {
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["postLikes"] });
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+      toast.error("Failed to unlike post due to a connection error.");
+    },
+  });
 }

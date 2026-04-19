@@ -3,21 +3,17 @@ import { FaPencil, FaTrashCan } from "react-icons/fa6";
 import IconsAndStreak from "../common/IconsAndStreak";
 import LikesAndComments from "../common/LikesAndComments";
 import { useModal } from "@/app/_context/ModalContext";
+import { usePostComments, usePostLikes } from "@/app/_lib/_utils/queries";
 
 interface postCard {
   post: post;
 }
 
 function MyPostsCard({ post }: postCard) {
-  const {
-    category,
-    title,
-    content,
-    comments_count,
-    likes_count,
-    milestone_streak,
-    id,
-  } = post;
+  const { category, title, content, milestone_streak, id } = post;
+
+  const { postsComments } = usePostComments(id);
+  const { postsLikes } = usePostLikes(id);
 
   const cardBorderColour: { [key: string]: string } = {
     fitness: "border-fitness-accent-sixteen",
@@ -73,8 +69,8 @@ function MyPostsCard({ post }: postCard) {
       {/* Likes, comments, & delete */}
       <div className="pt-4 px-6 flex justify-between items-center">
         <LikesAndComments
-          comments_count={comments_count}
-          likes_count={likes_count}
+          comments_count={postsComments.length}
+          likes_count={postsLikes.length}
         />
         <button
           onClick={() =>

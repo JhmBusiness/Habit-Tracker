@@ -491,3 +491,170 @@ export async function getAllPublicPosts() {
   }
   return data;
 }
+
+// Create new comment
+export async function createUserComment(
+  comment: string,
+  userId: string | undefined,
+  postId: string | undefined,
+) {
+  const supabase = createClient();
+
+  if (!userId) {
+    console.error("No userID provided to createUserComment.");
+    toast.error("User not authenticated. Please log in again.");
+    return false;
+  }
+
+  if (!postId) {
+    console.error("No postId provided to createUserComment.");
+    toast.error("No post id found. Please try again.");
+    return false;
+  }
+
+  try {
+    const { error } = await supabase
+      .from("comments")
+      .insert([
+        {
+          post_id: postId,
+          user_id: userId,
+          content: comment,
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.log("Supabase insert error:", error);
+      toast.error("Failed to create comment! Please try again.");
+      return false;
+    }
+
+    toast.success("Comment created successfully!");
+    return true;
+  } catch (err) {
+    console.error("Network or Execution Error:", err);
+    toast.error("An unexpected error occurred. Please try again.");
+    return false;
+  }
+}
+
+// Get all comments
+export async function getAllPostComments(postId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("comments")
+    .select("*")
+    .eq("post_id", postId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching all post comments:", error.message);
+    throw new Error(`Failed to fetch all post comments: ${error.message}`);
+  }
+  return data;
+}
+
+// Create new like
+export async function createPostLike(
+  userId: string | undefined,
+  postId: string | undefined,
+) {
+  const supabase = createClient();
+
+  if (!userId) {
+    console.error("No userID provided to createPostLike.");
+    toast.error("User not authenticated. Please log in again.");
+    return false;
+  }
+
+  if (!postId) {
+    console.error("No postId provided to createPostLike.");
+    toast.error("No post id found. Please try again.");
+    return false;
+  }
+
+  try {
+    const { error } = await supabase
+      .from("likes")
+      .insert([
+        {
+          post_id: postId,
+          user_id: userId,
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.log("Supabase insert error:", error);
+      toast.error("Failed to like post! Please try again.");
+      return false;
+    }
+
+    toast.success("Liked post 🤩");
+    return true;
+  } catch (err) {
+    console.error("Network or Execution Error:", err);
+    toast.error("An unexpected error occurred. Please try again.");
+    return false;
+  }
+}
+
+// Get all comments
+export async function getAllPostLikes(postId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("likes")
+    .select("*")
+    .eq("post_id", postId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching all post likes:", error.message);
+    throw new Error(`Failed to fetch all post likes: ${error.message}`);
+  }
+  return data;
+}
+
+// Delete post like
+export async function deletePostLike(
+  userId: string | undefined,
+  postId: string | undefined,
+) {
+  const supabase = createClient();
+
+  if (!userId) {
+    console.error("No userID provided to deletePostLike.");
+    toast.error("User not authenticated. Please log in again.");
+    return false;
+  }
+
+  if (!postId) {
+    console.error("No postId provided to deletePostLike.");
+    toast.error("No post id found. Please try again.");
+    return false;
+  }
+
+  try {
+    const { error } = await supabase
+      .from("likes")
+      .delete()
+      .eq("post_id", postId)
+      .eq("user_id", userId);
+
+    if (error) {
+      console.log("Supabase delete error:", error);
+      toast.error("Failed to unlike post! Please try again.");
+      return false;
+    }
+
+    toast.success("Unliked post 😭");
+    return true;
+  } catch (err) {
+    console.error("Network or Execution Error:", err);
+    toast.error("An unexpected error occurred. Please try again.");
+    return false;
+  }
+}

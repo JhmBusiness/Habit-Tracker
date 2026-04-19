@@ -1,7 +1,7 @@
-import { User } from "@supabase/supabase-js";
-import UtilityIcons from "../common/UtilityIcons";
-import NavAndUtilLinks from "../common/NavAndUtilLinks";
 import { useUserProfile } from "@/app/_lib/_utils/queries";
+import { User } from "@supabase/supabase-js";
+import NavAndUtilLinks from "../common/NavAndUtilLinks";
+import UtilityIcons from "../common/UtilityIcons";
 
 interface navAuthProps {
   user: User | null;

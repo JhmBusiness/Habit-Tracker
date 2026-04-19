@@ -75,3 +75,14 @@ export interface EditUserPostVariables {
   commentsEnabled: boolean;
   isPublic: boolean;
 }
+
+export interface CreateNewCommentVariables {
+  comment: string;
+  userId?: string;
+  postId?: string;
+}
+
+export interface UserLikePostVariable {
+  userId?: string;
+  postId?: string;
+}

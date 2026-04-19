@@ -11,16 +11,19 @@ import { createPortal } from "react-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaCheck } from "react-icons/fa6";
+import PreviousComments from "../_components/fyp/PreviousComments";
 import NewHabitBtn from "../_components/modals/NewHabitBtn";
 import NewPostHabitCategoryBtn from "../_components/modals/NewPostHabitCategoryBtn";
 import { getUserHabitCurrentStreak } from "../_lib/_utils/dataService";
 import {
+  useCreateNewComment,
   useCreateNewPost,
   useCreateNewUserHabit,
   useDeleteHabit,
   useDeletePost,
   useDeleteUserAccount,
   usePostCategoriesCreatedToday,
+  usePostComments,
   useUpdateUserPost,
   useUserHabits,
   useUserPosts,
@@ -34,7 +37,8 @@ type ModalName =
   | "new-habit"
   | "new-post"
   | "post-category-selection"
-  | "edit-post";
+  | "edit-post"
+  | "comments";
 
 type ArbitraryProps = Record<string, unknown>;
 
@@ -1153,6 +1157,101 @@ function EditPostModal({ postId }: EditPostProps) {
   return null;
 }
 
+interface CommentsModalProps {
+  postId?: string;
+}
+
+function CommentsModal({ postId }: CommentsModalProps) {
+  const { closeModal } = useModal();
+
+  const { postsComments, loading, isPostsCommentsError, postsCommentsError } =
+    usePostComments(postId);
+
+  type FormInputs = {
+    comment: string;
+    postId: string;
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isDirty, errors, isSubmitting },
+  } = useForm<FormInputs>({
+    defaultValues: {
+      comment: "",
+      postId: postId,
+    },
+  });
+
+  const mutateForm = useCreateNewComment();
+
+  const onSubmit = (data: FormInputs) => {
+    const { comment } = data;
+    if (comment.length > 240) {
+      toast.error("Comment is too long.");
+      return;
+    }
+    if (comment.length <= 0) {
+      toast.error("Please write your comment 📝");
+      return;
+    }
+    mutateForm.mutate({
+      comment,
+      postId,
+    });
+    reset();
+  };
+
+  return (
+    <div className="flex flex-col h-full max-h-[80dvh]">
+      <h2 className="text-2xl mb-6 flex gap-2">Comments</h2>
+      <hr className="w-full border-t border-t-dark-eight" />
+      {/* Current comments */}
+      {postsComments.length !== 0 ? (
+        <div className="relative mt-6 overflow-scroll">
+          <div className="px-4 flex flex-col gap-6">
+            {postsComments.map((com) => (
+              <PreviousComments
+                key={com.id}
+                content={com.content}
+                created_at={com.created_at}
+                userId={com.user_id}
+              />
+            ))}
+          </div>
+          <div className="pointer-events-none sticky bottom-0 left-0 w-full h-6 bg-gradient-to-t from-white to-transparent sm:h-10" />
+        </div>
+      ) : (
+        <div className="relative mt-6 px-4 py-6">
+          <p className="text-center">No comments found 😔</p>
+        </div>
+      )}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="my-4 sm:mt-6">
+          <textarea
+            id="comment"
+            {...register("comment")}
+            className="w-full min-h-30 rounded-sm border border-dark-sixteen bg-white pt-4 px-6"
+            placeholder="Enter comment (Max 240 characters)"
+          ></textarea>
+          <div className="flex gap-3 mt-3">
+            <button className="px-[18px] py-3 rounded-lg text-white bg-primary-accent hover:brightness-105 transition cursor-pointer">
+              {isSubmitting ? "Posting Comment..." : "Post Comment"}
+            </button>
+            <button
+              className="px-[18px] py-3 text-grey bg-transparent border border-grey rounded-full hover:bg-grey hover:text-light transition cursor-pointer"
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 // Provider that wraps around app and provides the open and close modal funcs.
 function ModalProvider({ children }: modalProviderProps) {
   const [modalState, setModalState] = useState<modalState>({
@@ -1174,7 +1273,7 @@ function ModalProvider({ children }: modalProviderProps) {
     "new-post": NewPostModal,
     "edit-post": EditPostModal,
     "delete-post": DeletePostModal,
-    // comments: CommentsModal,
+    comments: CommentsModal,
     // "delete-friend": DeleteFriendModal,
     "delete-account": DeleteAccountModal,
     "post-category-selection": PostCategorySelectionModal,
