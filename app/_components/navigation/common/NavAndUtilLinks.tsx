@@ -137,7 +137,7 @@ function NavAndUtilLinks({
         {/* Log out */}
         <ul className="px-6 py-3 bg-light rounded-md flex flex-col mt-auto">
           {navLinks.slice(5, 6).map((el) => (
-            <NavLink key={el.name} {...el} />
+            <NavLink key={el.name} {...el} type="desktop" />
           ))}
         </ul>
       </div>

@@ -70,7 +70,7 @@ function DesktopNav({
         </div>
       </div>
       {/* Nav Links */}
-      <NavAndUtilLinks handleLogOut={logout} type="desktop" />
+      <NavAndUtilLinks handleLogOut={() => logout()} type="desktop" />
     </div>
   );
 }

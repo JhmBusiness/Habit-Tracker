@@ -26,7 +26,7 @@ function HabitCheckList() {
       </DashCompTitle>
       {/* Cards */}
       {!isLoading ? (
-        <div className="m-auto">
+        <div className="m-auto h-[calc(100%-97px)]">
           <HabitCheckListCardContainer
             uncompletedHabits={uncompletedHabits}
             uncompletedHabitsCount={uncompletedHabitsCount}

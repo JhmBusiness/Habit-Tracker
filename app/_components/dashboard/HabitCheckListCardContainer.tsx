@@ -14,7 +14,7 @@ function HabitCheckListCardContainer({
 }: checkListCardContainer) {
   return (
     <div
-      className={`flex flex-wrap items-center justify-center gap-4 p-6 ${
+      className={`flex flex-wrap items-center justify-center gap-4 p-6 lg:h-full ${
         uncompletedHabits.length > 0
           ? "border-b border-b-dark-eight sm:border-b-0"
           : ""
