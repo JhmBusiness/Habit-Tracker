@@ -18,6 +18,7 @@ import Spinner from "../common/Spinner";
 import DashCompTitle from "../dashboard/DashCompTitle";
 import MostRecentPostLg from "../dashboard/MostRecentPostLg";
 import DashboardSkeleton from "../dashboard/DashboardSkeleton";
+import { useEffect } from "react";
 
 interface DashboardContainerProps {
   size: number | null;
