@@ -26,23 +26,6 @@ export default function page() {
 
   const size = UseWindowSize();
 
-  function ScrollToSection() {
-    useEffect(() => {
-      if (window.location.hash) {
-        const id = window.location.hash.replace("#", "");
-        const el = document.getElementById(id);
-
-        if (el) {
-          setTimeout(() => {
-            el.scrollIntoView({ behavior: "smooth" });
-          }, 100);
-        }
-      }
-    }, []);
-  }
-
-  ScrollToSection();
-
   return (
     <div className="bg-bg-light rounded-lg md:rounded-xl pb-[102px] md:pb-0 scroll-m-6 sm:scroll-m-8 xl:scroll-m-10">
       <DashboardContainer size={size} />
