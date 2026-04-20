@@ -7,7 +7,7 @@ import AccountContainer from "@/app/_components/ui/AccountContainer";
 import DashboardContainer from "@/app/_components/ui/DashboardContainer";
 import { useEffect, useState } from "react";
 
-export default function page() {
+export default function Page() {
   function UseWindowSize() {
     const [windowWidthSize, setWindowWidthSize] = useState<number | null>(null);
 
@@ -25,6 +25,32 @@ export default function page() {
   }
 
   const size = UseWindowSize();
+
+  // Fix hashtag
+  useEffect(() => {
+    const scrollToHash = () => {
+      const hash = window.location.hash;
+      if (!hash) return;
+
+      const el = document.querySelector(hash);
+      if (!el) {
+        setTimeout(scrollToHash, 100);
+        return;
+      }
+
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    };
+
+    scrollToHash();
+
+    window.addEventListener("hashchange", scrollToHash);
+
+    return () => {
+      window.removeEventListener("hashchange", scrollToHash);
+    };
+  }, []);
 
   return (
     <div className="bg-bg-light rounded-lg md:rounded-xl pb-[102px] md:pb-0 scroll-m-6 sm:scroll-m-8 xl:scroll-m-10">
